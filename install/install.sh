@@ -11,7 +11,7 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --agent) AGENTS+=("$2"); shift 2 ;;
     --scope) SCOPE="$2"; shift 2 ;;
-    --project) PROJECT="$(cd "$2" && pwd)"; SCOPE=project; shift 2 ;;
+    --project) mkdir -p "$2"; PROJECT="$(cd "$2" && pwd)"; SCOPE=project; shift 2 ;;
     --copy) MODE=copy; shift ;;
     --uninstall) UNINSTALL=1; shift ;;
     --skills) ONLY="$2"; shift 2 ;;
