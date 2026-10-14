@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python tools/sync_shared.py --check
+      - run: python tools/validate_skills.py
+      - run: python tools/trigger_check.py
+      - run: bash install/install.sh --project "$RUNNER_TEMP/p" --agent all --copy
+
+  blender-tests:
+    runs-on: ubuntu-latest
+    env:
+      BLENDER_VERSION: "5.2.2"
+      BAS_SKIP_GPU: "1"   # no GPU on hosted runners: render tests are skipped
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: ~/blender
+          key: blender-${{ env.BLENDER_VERSION }}
+      - name: Download Blender
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/blender
+          curl -sL "https://download.blender.org/release/Blender${BLENDER_VERSION%.*}/blender-${BLENDER_VERSION}-linux-x64.tar.xz" \
+            | tar -xJ -C ~/blender --strip-components=1
+      - name: System libs
+        run: sudo apt-get update && sudo apt-get install -y libxi6 libxkbcommon0 libxxf86vm1 libxfixes3 libxrender1 libgl1 libegl1 libsm6
+      - name: Run tests
+        run: BLENDER_EXE=~/blender/blender python3 tools/run_tests.py

@@ -1,0 +1,10 @@
+{
+  "name": "blender-agent-skills",
+  "version": "0.1.0",
+  "description": "Professional Blender 5.2 workflows for AI agents: modeling, retopo/UV, PBR, baking, rigging, animation, optimization, export (Roblox/Unity/Unreal/Godot/web), rendering, simulation, QA.",
+  "author": { "name": "EL4CTEO" },
+  "homepage": "https://github.com/EL4CTEO/blender-skills",
+  "repository": "https://github.com/EL4CTEO/blender-skills",
+  "license": "MIT",
+  "keywords": ["blender", "bpy", "3d", "game-assets", "rigging", "pbr", "roblox", "unity", "unreal", "godot"]
+}

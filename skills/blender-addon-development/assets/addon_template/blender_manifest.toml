@@ -1,0 +1,29 @@
+schema_version = "1.0.0"
+
+# Unique, lowercase, underscores only. Never change it after publishing.
+id = "my_tool"
+version = "1.0.0"
+name = "My Tool"
+tagline = "Short description without a trailing period"
+maintainer = "Your Name <you@example.com>"
+type = "add-on"
+
+# website = "https://example.com/my_tool"
+tags = ["Mesh", "Object"]
+
+blender_version_min = "4.2.0"
+# blender_version_max = "6.0.0"
+
+license = ["SPDX:GPL-3.0-or-later"]
+# copyright = ["2026 Your Name"]
+
+# platforms = ["windows-x64", "macos-arm64", "linux-x64"]   # only with platform-specific wheels
+# wheels = ["./wheels/somepkg-1.0-py3-none-any.whl"]
+
+# Declare only what you use; each needs a short reason.
+# [permissions]
+# files = "Import/export files"
+# network = "Download assets"
+
+[build]
+paths_exclude_pattern = ["__pycache__/", "/.git/", "/tests/", "*.zip"]

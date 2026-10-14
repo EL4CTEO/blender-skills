@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.blend1
+*.blend2
+dist/
+render/
+export/
+textures/
+.DS_Store
+.claude/settings.local.json
