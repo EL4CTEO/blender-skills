@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 330 2000 590" width="800" height="236" role="img" aria-label="Blender Agent Skills">
+  <!-- white sticker outline -->
+  <g fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <g fill="none" stroke-width="150">
+      <line x1="180" y1="519" x2="400" y2="519"/>
+      <line x1="365" y1="418" x2="580" y2="572"/>
+      <line x1="100" y1="735" x2="330" y2="565"/>
+    </g>
+    <circle cx="443" cy="654" r="243" stroke="none"/>
+    <rect x="560" y="498" width="1430" height="317" rx="158" stroke="none"/>
+  </g>
+  <!-- orange arms -->
+  <g fill="none" stroke="#e87d0d" stroke-width="58" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="180" y1="519" x2="400" y2="519"/>
+    <line x1="365" y1="418" x2="580" y2="572"/>
+    <line x1="100" y1="735" x2="330" y2="565"/>
+  </g>
+  <!-- ring and eye -->
+  <circle cx="443" cy="654" r="198" fill="#e87d0d"/>
+  <circle cx="443" cy="654" r="121" fill="#fff"/>
+  <ellipse cx="445" cy="653" rx="77" ry="70" fill="#265787"/>
+  <!-- wordmark -->
+  <text x="700" y="745" font-family="Helvetica, Arial, sans-serif" font-weight="800" font-size="215" fill="#265787" textLength="1160" lengthAdjust="spacingAndGlyphs">agent skills</text>
+</svg>

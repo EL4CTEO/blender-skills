@@ -1,4 +1,6 @@
-# Blender Agent Skills
+<p align="center"><img src="assets/banner.png" width="420" alt="Blender Agent Skills"></p>
+
+<h1 align="center">Blender Agent Skills</h1>
 
 Professional Blender workflows packaged as **Agent Skills** for AI coding agents: Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot and Cursor.
 
