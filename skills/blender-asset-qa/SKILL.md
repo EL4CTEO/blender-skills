@@ -4,7 +4,7 @@ description: Mandatory review gate for any mesh or asset created or edited in Bl
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Asset QA (review gate)

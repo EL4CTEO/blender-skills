@@ -1,10 +1,10 @@
 ---
 name: blender-workflow-recipes
-description: End-to-end Blender 5.2 playbooks chaining the blender-* skills with QA gates - game props (mid-poly, high-to-low), game characters (sculpt/AI mesh to rigged, animated export), Roblox props/accessories/avatars, AI or downloaded asset cleanup, procedural environments, web/AR assets, product turntables. Use for complete multi-stage asset requests.
+description: End-to-end Blender 5.2 playbooks chaining the blender-* skills with QA gates - game props (mid-poly, high-to-low), game characters (sculpt/AI mesh to rigged, animated export), Roblox props/accessories/avatars, AI or downloaded asset cleanup, procedural environments, web/AR assets, product turntables, mood/weather shots (night, rain, snow, fog). Use for complete multi-stage asset requests.
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Workflow Recipes
@@ -66,3 +66,9 @@ Recipe 1 or 2 with budgets `--budget web` (≤30k tris, 1–2 materials, 2k text
 2. Set the render resolution, then `turntable.py --objects Product --rig studio --backdrop --frames 120 --lens 85`
 3. `render_batch.py --preset preview --frames 1` → review → `--preset product --frames 1-120 --format PNG` → encode, or `--format MP4`.
 4. Gate: no fireflies or clipped highlights (AgX / Khronos PBR Neutral), and the product sits on the backdrop (contact shadow).
+
+## 9. Mood / weather shot (rainy night, snowy morning, foggy dawn)
+1. Scene at real scale with a camera. QA the hero assets first (wet reflections and snow expose z-fighting and gaps).
+2. `scene_mood.py --time night --fog-visibility 250` (or `--mood cyberpunk|horror|underwater|desert`). Add practical lights (street, windows, neon) at real color temperatures.
+3. Weather: `precipitation.py --type rain --intensity heavy --ground <ground/roofs>` → `surface_weather.py --objects <surfaces> --wetness 0.7 --puddles 0.4 --ripples 1 --streaks 0.5` → `lightning.py --flashes 2`. Snow: `--type snow` + `--snow 0.8 --snow-depth 0.06`.
+4. Gate: `render_batch.py --preset preview --frames <mid>,<flash>` at the final aspect ratio. Rain must read (backlit), puddles must reflect a light, the night must keep contrast. Then render the full loop (frame range = the precipitation loop).

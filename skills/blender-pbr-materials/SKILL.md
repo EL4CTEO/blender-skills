@@ -4,7 +4,7 @@ description: Physically based materials in Blender 5.2 - metal/roughness rules, 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # PBR Materials

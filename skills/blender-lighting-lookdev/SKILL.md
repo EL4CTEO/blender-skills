@@ -4,12 +4,12 @@ description: Lighting, cameras and look-dev in Blender 5.2 - studio 3-point and 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Lighting & Look-dev
 
-The execution model is in `blender-core`. Render settings are in `blender-rendering`.
+The execution model is in `blender-core`. Render settings are in `blender-rendering`. Full time-of-day, night and fog environments are in `blender-time-of-day`.
 
 ## One call: presentation scene
 ```

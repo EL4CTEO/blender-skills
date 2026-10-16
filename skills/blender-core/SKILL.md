@@ -5,7 +5,7 @@ license: MIT
 compatibility: Blender 5.2 LTS or newer. Optional blender-mcp server for live sessions.
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Blender Core (5.2 LTS+)
@@ -27,6 +27,8 @@ metadata:
 | Export: glTF/FBX/USD to Roblox, Unity, Unreal, Godot, web | `blender-export-pipelines` |
 | Cycles/EEVEE settings, compositor, batch render | `blender-rendering` |
 | Lighting, HDRI, camera, turntable | `blender-lighting-lookdev` |
+| Time of day, night, sunset, fog, mood (cyberpunk, horror...) | `blender-time-of-day` |
+| Rain, snow, wet surfaces, puddles, lightning, dust/embers | `blender-weather-fx` |
 | Cloth, rigid body, fluids, hair, GN physics | `blender-simulation` |
 | Writing add-ons / extensions | `blender-addon-development` |
 | Batch/headless pipelines, file conversion | `blender-pipeline-automation` |

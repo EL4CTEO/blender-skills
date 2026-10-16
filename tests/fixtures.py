@@ -64,6 +64,27 @@ def unwrap(ob):
     return ob
 
 
+def street():
+    """Ground slab (top at z=0), two buildings, a grey sphere, each with a Principled material, and a
+    camera looking down the street. Returns the object names."""
+    def mat(ob, rgb):
+        m = bpy.data.materials.new("M_" + ob.name)
+        b = next(n for n in m.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
+        b.inputs["Base Color"].default_value = (*rgb, 1)
+        ob.data.materials.append(m)
+        return ob
+    mat(cube("Ground", size=1, location=(0, 0, -0.05)), (0.18, 0.18, 0.18)).scale = (30, 30, 0.1)
+    mat(cube("BldA", size=1, location=(-5, 6, 4)), (0.45, 0.4, 0.35)).scale = (4, 4, 8)
+    mat(cube("BldB", size=1, location=(5, 8, 5)), (0.3, 0.32, 0.35)).scale = (4, 4, 10)
+    mat(uv_sphere("Ball", radius=1, location=(0, 0, 1)), (0.18, 0.18, 0.18))
+    cam = bpy.data.objects.new("Cam", bpy.data.cameras.new("Cam"))
+    bpy.context.scene.collection.objects.link(cam)
+    cam.location, cam.rotation_euler = (0, -14, 3), (1.48, 0, 0)
+    bpy.context.scene.camera = cam
+    bpy.context.view_layer.update()
+    return ["Ground", "BldA", "BldB", "Ball"]
+
+
 def simple_character():
     """Capsule-ish mesh + 3-bone chain armature, auto-weighted. Returns (mesh, armature)."""
     def build(bm):

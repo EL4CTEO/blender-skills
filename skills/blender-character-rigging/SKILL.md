@@ -4,7 +4,7 @@ description: Character rigging in Blender 5.2 - Rigify metarig fit/generate, bon
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Character Rigging

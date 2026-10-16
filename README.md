@@ -4,7 +4,7 @@
 
 Professional Blender workflows packaged as **Agent Skills** for AI coding agents: Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot and Cursor.
 
-There are 20 skills covering the full 3D pipeline (modeling, UVs, PBR, baking, rigging, animation, optimization, export, rendering, simulation and QA), built for **Blender 5.2 LTS+**. Every script is tested in a real Blender.
+There are 22 skills covering the full 3D pipeline (modeling, UVs, PBR, baking, rigging, animation, optimization, export, rendering, time of day, weather, simulation and QA), built for **Blender 5.2 LTS+**. Every script is tested in a real Blender.
 
 ## Install
 
@@ -44,22 +44,31 @@ The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/sk
 | `blender-rendering` | Cycles and EEVEE, batch rendering |
 | `blender-lighting-lookdev` | Studio lighting, HDRI, turntables |
 | `blender-simulation` | Rigid bodies, cloth, fluids |
+| `blender-time-of-day` | Golden hour, night, fog and mood lighting |
+| `blender-weather-fx` | Rain, snow, wet streets, puddles, lightning |
 | `blender-addon-development` | Blender extensions |
 | `blender-pipeline-automation` | Batch jobs and file conversion |
 | `blender-asset-qa` | Catches z-fighting, floating parts, bad normals and weights |
 | `blender-workflow-recipes` | Complete asset playbooks |
+
+## With vs without skills
+
+Same model, same prompts, outputs with the skills vs without them: **[see the comparison](https://el4cteo.github.io/blender-skills/comparison/)**.
+
+<a href="https://el4cteo.github.io/blender-skills/comparison/"><img src="docs/comparison/media/preview.jpg" alt="Concrete wall: without skills (left) vs with skills (right)"></a>
 
 ## Try it
 
 > "Make a game-ready crate for Unreal with baked normals and LODs."
 > "Rig this character with Rigify and export it to Unity with a walk cycle."
 > "Check this model for z-fighting and floating parts, then export it for Roblox."
+> "Make this street a rainy night with puddles and lightning."
 
 ## Development
 
 ```bash
 python tools/validate_skills.py   # spec + token budget checks
-python tools/run_tests.py         # 43 headless Blender tests (BLENDER_EXE to override)
+python tools/run_tests.py         # 50 headless Blender tests (BLENDER_EXE to override)
 ```
 
 MIT License

@@ -34,6 +34,10 @@ CASES = [
     ("make a complete game-ready character from an AI generated mesh", "blender-workflow-recipes"),
     ("run bpy code in blender headless via the cli", "blender-core"),
     ("roblox layered clothing cage and R15 export", "blender-export-pipelines"),
+    ("golden hour sunset lighting with volumetric fog", "blender-time-of-day"),
+    ("make it a moonlit night scene with stars", "blender-time-of-day"),
+    ("rainy street with puddles, wet surfaces and lightning", "blender-weather-fx"),
+    ("snow falling and snow cover on the roofs", "blender-weather-fx"),
 ]
 
 

@@ -4,7 +4,7 @@ description: Automate Blender 5.2 at scale - headless CLI flags, batch convert/i
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Pipeline Automation

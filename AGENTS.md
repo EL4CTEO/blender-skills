@@ -26,6 +26,8 @@ This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format
 | blender-rendering | Cycles/EEVEE, color management, batch |
 | blender-lighting-lookdev | lights, HDRI, cameras, turntables |
 | blender-simulation | rigid body, cloth (classic + 5.2 nodes), fluids |
+| blender-time-of-day | sky/sun/moon by time, night, fog, moods |
+| blender-weather-fx | rain, snow, wetness, puddles, lightning |
 | blender-addon-development | extensions, operators, UI |
 | blender-pipeline-automation | headless batch, conversion, CI |
 | blender-asset-qa | review gate: z-fighting, floating parts, normals, UVs, weights |

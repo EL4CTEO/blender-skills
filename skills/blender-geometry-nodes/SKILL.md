@@ -4,7 +4,7 @@ description: Geometry Nodes in Blender 5.2 - fields, domains, attributes, instan
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "0.1.0"
+  version: "1.1.0"
 ---
 
 # Geometry Nodes
