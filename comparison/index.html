@@ -70,7 +70,7 @@
       <span class="chip">Model: Opus 5.5 (medium)</span>
       <span class="chip">Blender 5.2</span>
       <span class="chip">One shot, no retries</span>
-      <span class="chip">3 tasks</span>
+      <span class="chip">4 tasks</span>
     </div>
   </header>
 
@@ -130,6 +130,24 @@
     </div>
   </section>
 
+  <!-- 4. Soldier -->
+  <section id="soldier">
+    <h2>4. RTS soldier <span>/ character + rig + walk cycle</span></h2>
+    <div class="prompts">
+      <div class="prompt no"><b>Without skills</b><q>Create me a Blender soldier game character asset for my RTS army game, fully rig it then create and render a walking animation with the soldier holding the gun, don't use any skills and don't sneak peek in other folders, isolated environment.</q></div>
+      <div class="prompt yes"><b>With skills</b><q>Create me a soldier game character asset for my RTS army game, fully rig it then create and render a walking animation with the soldier holding the gun, use any of the existing 20+ Blender skills before proceeding. don't sneak peek in other folders, isolated environment.</q></div>
+    </div>
+    <div class="pair wide">
+      <figure><video src="media/soldier-noskill.mp4" poster="media/soldier-noskill-poster.webp" muted loop playsinline preload="auto"></video><span class="tag no">Without</span></figure>
+      <figure><video src="media/soldier-skill.mp4" poster="media/soldier-skill-poster.webp" muted loop playsinline preload="auto"></video><span class="tag yes">With skills</span></figure>
+    </div>
+    <div class="controls"><button class="play">Pause</button><button class="restart">Restart both</button></div>
+    <div class="notes">
+      <div class="note no"><b>Without skills produced</b><ul><li>56-frame walk GIF, 640 x 360, 24 fps</li><li>FBX export, review shots</li></ul></div>
+      <div class="note yes"><b>With skills produced</b><ul><li>128-frame walk GIF, 640 x 360, 30 fps</li><li>Rig built from a metarig, skinning stress poses</li><li>Game exports: FBX and GLB (SK_Soldier)</li><li>Multi-angle QA renders (wireframe, materials, grip, feet)</li></ul></div>
+    </div>
+  </section>
+
   <footer>Get the skills: <a href="https://github.com/EL4CTEO/blender-skills">github.com/EL4CTEO/blender-skills</a></footer>
 </main>
 <script>
@@ -150,8 +168,10 @@
       if (vids[0].paused) { playAll(); } else { vids.forEach(function (v) { v.pause(); }); playBtn.textContent = 'Play'; }
     });
     controls.querySelector('.restart').addEventListener('click', restart);
-    // keep both clips in step: when the first loops, restart the second
-    vids[0].addEventListener('seeked', function () { if (vids[0].currentTime < 0.1) vids[1].currentTime = 0; });
+    // keep clips of similar length in step: when the first loops, restart the second
+    vids[0].addEventListener('seeked', function () {
+      if (vids[0].currentTime < 0.1 && Math.abs(vids[0].duration - vids[1].duration) < 0.5) vids[1].currentTime = 0;
+    });
     restart();
   });
 </script>
