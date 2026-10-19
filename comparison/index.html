@@ -53,6 +53,14 @@
   .note b { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; }
   .note.no b { color: var(--no); } .note.yes b { color: var(--yes); }
   .note ul { margin: 6px 0 0; padding-left: 18px; color: var(--muted); }
+  .table-wrap { overflow-x: auto; margin-top: 16px; border: 1px solid var(--line); border-radius: 10px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--line); }
+  tr:last-child td { border-bottom: 0; }
+  th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 600; background: var(--panel); }
+  th.no { color: var(--no); } th.yes { color: var(--yes); }
+  td.bad { color: var(--no); } td.good { color: var(--yes); }
+  .legend { display: inline-block; width: 10px; height: 10px; border-radius: 2px; background: #ff2a10; margin-right: 6px; vertical-align: middle; }
   footer { margin-top: 72px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); padding-top: 20px; }
 
   @media (max-width: 700px) {
@@ -70,7 +78,7 @@
       <span class="chip">Model: Opus 5.5 (medium)</span>
       <span class="chip">Blender 5.2</span>
       <span class="chip">One shot, no retries</span>
-      <span class="chip">4 tasks</span>
+      <span class="chip">5 tasks</span>
     </div>
   </header>
 
@@ -146,6 +154,37 @@
       <div class="note no"><b>Without skills produced</b><ul><li>56-frame walk GIF, 640 x 360, 24 fps</li><li>FBX export, review shots</li></ul></div>
       <div class="note yes"><b>With skills produced</b><ul><li>128-frame walk GIF, 640 x 360, 30 fps</li><li>Rig built from a metarig, skinning stress poses</li><li>Game exports: FBX and GLB (SK_Soldier)</li><li>Multi-angle QA renders (wireframe, materials, grip, feet)</li></ul></div>
     </div>
+  </section>
+
+  <!-- 5. Nova low poly -->
+  <section id="nova">
+    <h2>5. Low poly rebuild <span>/ existing asset, half the triangles</span></h2>
+    <div class="prompts">
+      <div class="prompt no"><b>Without skills</b><q>Rebuild the asset Nova.blend into a game-ready low poly version at half its current triangle count, keep the silhouette, bake the high poly detail into normal maps, export it for Unity, render a side-by-side of the original and the low poly at the end, don't use any skills and don't sneak peek in other folders, isolated environment.</q></div>
+      <div class="prompt yes"><b>With skills</b><q>Rebuild the asset Nova.blend into a game-ready low poly version at half its current triangle count, keep the silhouette, bake the high poly detail into normal maps, export it for Unity, render a side-by-side of the original and the low poly at the end, use any of the existing 22 Blender skills before proceeding. don't sneak peek in other folders, isolated environment.</q></div>
+    </div>
+    <h3>The original: Nova.blend, 5,370 triangles</h3>
+    <div class="slider"><img src="media/nova-original-wire.webp" alt="Original with wireframe"><img class="top" src="media/nova-original-color.webp" alt="Original in color"><div class="bar"></div><span class="tag no" style="background:var(--muted)">Color</span><span class="tag yes" style="background:var(--muted)">Wireframe</span><input type="range" min="0" max="100" value="50" aria-label="Compare"></div>
+    <h3>The two low poly results, <span class="legend"></span>red = z-fighting faces</h3>
+    <div class="pair wide">
+      <figure><video src="media/nova-noskill-turntable.mp4" poster="media/nova-noskill-turntable-poster.webp" muted loop playsinline preload="auto"></video><span class="tag no">Without</span></figure>
+      <figure><video src="media/nova-skill-turntable.mp4" poster="media/nova-skill-turntable-poster.webp" muted loop playsinline preload="auto"></video><span class="tag yes">With skills</span></figure>
+    </div>
+    <div class="controls"><button class="play">Pause</button><button class="restart">Restart both</button></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Checked with blender-asset-qa</th><th class="no">Without skills</th><th class="yes">With skills</th></tr></thead>
+        <tbody>
+          <tr><td>Triangles (target 2,685)</td><td>2,685</td><td>2,665</td></tr>
+          <tr><td>Z-fighting (overlapping triangle pairs)</td><td class="bad">22</td><td class="good">0</td></tr>
+          <tr><td>Flipped / broken edges</td><td class="bad">1 / 1</td><td class="good">0 / 0</td></tr>
+          <tr><td>UV overlap (breaks the normal bake)</td><td class="bad">34%</td><td class="good">0.02%</td></tr>
+          <tr><td>Baked maps</td><td>Normal</td><td>Normal, AO, curvature, ID</td></tr>
+          <tr><td>Overall mesh check</td><td class="bad">Fail</td><td class="good">Pass</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint">Neither result kept the colors: the color texture lives outside the isolated folder, so neither run could load it. Both kept the color UV map, so the colors can be reconnected without rework. Turntables are shown in neutral clay with a wireframe overlay.</p>
   </section>
 
   <footer>Get the skills: <a href="https://github.com/EL4CTEO/blender-skills">github.com/EL4CTEO/blender-skills</a></footer>
