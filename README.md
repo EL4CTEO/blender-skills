@@ -4,7 +4,7 @@
 
 Professional Blender workflows packaged as **Agent Skills** for AI coding agents: Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot and Cursor.
 
-There are 22 skills covering the full 3D pipeline (modeling, UVs, PBR, baking, rigging, animation, optimization, export, rendering, time of day, weather, simulation and QA), built for **Blender 5.2 LTS+**. Every script is tested in a real Blender.
+There are 28 skills covering the full 3D pipeline (modeling, UVs, texturing, baking, rigging, animation, clothing, hair, environments, stylized looks, optimization, export, rendering, video, weather, simulation and QA), built for **Blender 5.2 LTS+**. Every script is tested in a real Blender.
 
 ## Install
 
@@ -34,21 +34,27 @@ The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/sk
 | `blender-sculpting` | Organic sculpting workflow |
 | `blender-retopology-uv` | Retopology, UVs, texel density |
 | `blender-pbr-materials` | Correct PBR materials from textures |
+| `blender-texturing` | Edge wear, grime, dust, decals, trim sheets |
 | `blender-texture-baking` | Normal, AO and curvature maps, ORM |
 | `blender-geometry-nodes` | Procedural modeling from simple JSON |
 | `blender-character-rigging` | Rigify, skinning, game skeletons |
 | `blender-facial-shapekeys` | ARKit 52 blendshapes, visemes |
-| `blender-animation` | Actions, NLA, mocap, root motion |
+| `blender-animation` | Actions, mocap retargeting, loop checks, root motion |
+| `blender-clothing` | Clothes that follow the body without clipping |
+| `blender-hair-grooming` | Hair, fur and game hair cards |
 | `blender-game-optimization` | Budgets, LODs, draw calls |
 | `blender-export-pipelines` | Roblox, Unity, Unreal, Godot, web, USD |
 | `blender-rendering` | Cycles and EEVEE, batch rendering |
 | `blender-lighting-lookdev` | Studio lighting, HDRI, turntables |
+| `blender-stylized-npr` | Toon/anime shading and outlines |
+| `blender-environment-kits` | Terrain, forests, modular level kits |
+| `blender-video-editing` | Edit videos, track cameras |
 | `blender-simulation` | Rigid bodies, cloth, fluids |
 | `blender-time-of-day` | Golden hour, night, fog and mood lighting |
 | `blender-weather-fx` | Rain, snow, wet streets, puddles, lightning |
 | `blender-addon-development` | Blender extensions |
 | `blender-pipeline-automation` | Batch jobs and file conversion |
-| `blender-asset-qa` | Catches z-fighting, floating parts, bad normals and weights |
+| `blender-asset-qa` | Catches z-fighting, floating parts, bad normals, weights and textures |
 | `blender-workflow-recipes` | Complete asset playbooks |
 
 ## With vs without skills
@@ -63,12 +69,13 @@ Same model, same prompts, outputs with the skills vs without them: **[see the co
 > "Rig this character with Rigify and export it to Unity with a walk cycle."
 > "Check this model for z-fighting and floating parts, then export it for Roblox."
 > "Make this street a rainy night with puddles and lightning."
+> "Give my character a shirt and hair cards, then retarget this Mixamo run onto it."
 
 ## Development
 
 ```bash
 python tools/validate_skills.py   # spec + token budget checks
-python tools/run_tests.py         # 50 headless Blender tests (BLENDER_EXE to override)
+python tools/run_tests.py         # 67 headless Blender tests (BLENDER_EXE to override)
 ```
 
 MIT License

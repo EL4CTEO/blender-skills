@@ -97,3 +97,38 @@ def test_review_shots_renders_sheet():
     r = skill_module("blender-asset-qa", "review_shots").run(out=str(TMP / "qa.png"), res=128, mode="wire")
     assert os.path.getsize(r["sheet"]) > 1000 and len(r["views"]) == 4
     assert "QA_Cam" not in bpy.data.objects and len(bpy.data.objects) == 1
+
+
+def test_material_and_texture_delivery_checks():
+    ob = fx.unwrap(fx.cube("Crate"))
+    good, bad = bpy.data.materials.new("M_Good"), bpy.data.materials.new("M_Bad")
+    ob.data.materials.append(good)
+    ob.data.materials.append(bad)
+    ob.data.materials.append(None)  # unused empty slot
+    for p in ob.data.polygons:
+        p.material_index = 0 if p.index < 3 else 1
+    nt = bad.node_tree
+    bsdf = next(n for n in nt.nodes if n.type == "BSDF_PRINCIPLED")
+    rough = nt.nodes.new("ShaderNodeTexImage")
+    rough.image = bpy.data.images.new("T_Crate_R", 8, 8)  # generated image, default sRGB
+    nt.links.new(rough.outputs["Color"], bsdf.inputs["Roughness"])
+    nrm, nmap = nt.nodes.new("ShaderNodeTexImage"), nt.nodes.new("ShaderNodeNormalMap")
+    nrm.image = bpy.data.images.load(__file__)  # any existing file, then point it at a missing one
+    nrm.image.filepath = "//textures/T_Crate_N_missing.png"
+    nrm.image.colorspace_settings.is_data = True
+    nt.links.new(nrm.outputs["Color"], nmap.inputs["Color"])
+    nt.links.new(nmap.outputs["Normal"], bsdf.inputs["Normal"])
+    qa = skill_module("blender-asset-qa", "qa_check")
+    r = qa.run(objects=["Crate"])
+    errs, warns = " | ".join(r["errors"]), " | ".join(r["warnings"])
+    assert "T_Crate_R feeds ['Roughness'] but is sRGB" in errs, errs
+    assert "missing texture file" in errs and "unused material slot" in warns, (errs, warns)
+    rough.image.colorspace_settings.is_data = True
+    nt.nodes.remove(nrm)
+    ob.data.materials.pop(index=2)
+    r = qa.run(objects=["Crate"])
+    assert not any("M_" in e or "slot" in e for e in r["errors"] + r["warnings"]), r
+    ob.data.polygons[0].material_index = 1
+    ob.data.materials[1] = None
+    r = qa.run(objects=["Crate"])
+    assert any("empty/missing material slot" in e for e in r["errors"]), r["errors"]

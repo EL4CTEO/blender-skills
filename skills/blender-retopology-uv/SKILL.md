@@ -4,7 +4,7 @@ description: Retopology and UVs in Blender 5.2 - auto retopo (Quadriflow, Decima
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Retopology & UVs

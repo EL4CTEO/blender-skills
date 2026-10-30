@@ -1,4 +1,5 @@
-"""Mesh/asset QA: z-fighting, detached parts, normals, topology, transforms, UVs, weights.
+"""Mesh/asset QA: z-fighting, detached parts, normals, topology, transforms, UVs, weights, materials
+(faces on empty slots, unused slots, missing texture files, data maps set to sRGB).
 
 Pass the objects of ONE asset (they are checked together: islands far from all others = floating).
 Usage:
@@ -23,13 +24,67 @@ import _bpyx as bx  # noqa: E402
 
 # check -> severity per profile ("e" error, "w" warning, None skip)
 PROFILES = {
-    #               zfight floating inverted inconsist nonmanif boundary degen dupes ngons scale uv  weights
-    "game":   dict(zf="e", fl="e", inv="e", inc="e", nm="w", bd=None, dg="e", dup="w", ng="w", sc="e", uv="e", wt="e"),
-    "render": dict(zf="e", fl="e", inv="w", inc="w", nm=None, bd=None, dg="w", dup="w", ng=None, sc="w", uv="w", wt="w"),
-    "print":  dict(zf="e", fl="e", inv="e", inc="e", nm="e", bd="e", dg="e", dup="e", ng=None, sc="w", uv=None, wt=None),
-    "roblox": dict(zf="e", fl="e", inv="e", inc="e", nm="w", bd="w", dg="e", dup="w", ng="e", sc="e", uv="e", wt="e"),
+    #               zfight floating inverted inconsist nonmanif boundary degen dupes ngons scale uv  weights materials
+    "game":   dict(zf="e", fl="e", inv="e", inc="e", nm="w", bd=None, dg="e", dup="w", ng="w", sc="e", uv="e", wt="e", mt="e"),
+    "render": dict(zf="e", fl="e", inv="w", inc="w", nm=None, bd=None, dg="w", dup="w", ng=None, sc="w", uv="w", wt="w", mt="e"),
+    "print":  dict(zf="e", fl="e", inv="e", inc="e", nm="e", bd="e", dg="e", dup="e", ng=None, sc="w", uv=None, wt=None, mt=None),
+    "roblox": dict(zf="e", fl="e", inv="e", inc="e", nm="w", bd="w", dg="e", dup="w", ng="e", sc="e", uv="e", wt="e", mt="e"),
 }
 TRI_LIMIT = {"roblox": 20000}
+
+
+DATA_INPUTS = {"Roughness", "Metallic", "Normal", "Alpha", "Specular IOR Level", "Coat Weight", "Coat Roughness",
+               "Transmission Weight", "Subsurface Weight", "Anisotropic", "Sheen Weight", "IOR"}
+DATA_NODES = {"NORMAL_MAP", "BUMP", "DISPLACEMENT", "VECTOR_DISPLACEMENT"}
+
+
+def _feeds(sock, depth=4):
+    """(node type, input name) pairs a socket reaches through up to `depth` nodes."""
+    out = set()
+    for lk in sock.links:
+        n = lk.to_node
+        out.add((n.type, lk.to_socket.name))
+        if depth and n.type not in DATA_NODES and n.type != "BSDF_PRINCIPLED":
+            for o in n.outputs:
+                out |= _feeds(o, depth - 1)
+    return out
+
+
+def _material_issues(ob):
+    """[(severity_is_error, message)] for slots, faces and image textures."""
+    me, slots, out = ob.data, ob.material_slots, []
+    idx = [0] * len(me.polygons)
+    me.polygons.foreach_get("material_index", idx)
+    used = set(idx)
+    bad = sorted(i for i in used if i >= len(slots) or slots[i].material is None)
+    if bad or not slots:
+        out.append((True, f"{ob.name}: faces use empty/missing material slot(s) {bad or [0]} (grey in engines)"))
+    unused = [s.name or str(i) for i, s in enumerate(slots) if i not in used]
+    if unused:
+        out.append((False, f"{ob.name}: unused material slot(s) {unused} (extra draw calls in some exporters)"))
+    for i in sorted(used):
+        mat = slots[i].material if i < len(slots) else None
+        if mat is None or not mat.node_tree:
+            continue
+        for n in mat.node_tree.nodes:
+            if n.type != "TEX_IMAGE":
+                continue
+            img = n.image
+            if img is None:
+                if n.outputs["Color"].is_linked or n.outputs["Alpha"].is_linked:
+                    out.append((False, f"{mat.name}: image node {n.name!r} has no image"))
+                continue
+            if img.source == "FILE" and not img.packed_file and not os.path.exists(bpy.path.abspath(img.filepath)):
+                out.append((True, f"{mat.name}: missing texture file {img.filepath!r}"))
+            reach = _feeds(n.outputs["Color"])
+            data_use = sorted({s for t, s in reach if t == "BSDF_PRINCIPLED" and s in DATA_INPUTS}
+                              | {t.lower() for t, _s in reach if t in DATA_NODES})
+            if data_use and not img.colorspace_settings.is_data:
+                out.append((True, f"{mat.name}: {img.name} feeds {data_use} but is {img.colorspace_settings.name} "
+                                  "(must be Non-Color)"))
+            if img.colorspace_settings.is_data and ("BSDF_PRINCIPLED", "Base Color") in reach:
+                out.append((False, f"{mat.name}: {img.name} is Non-Color but drives Base Color (looks washed out)"))
+    return out
 
 
 def _mesh_world(ob, use_mods):
@@ -193,8 +248,11 @@ def run(objects=None, profile="game", eps=0.001, tol=0.002, no_modifiers=False, 
             errors.append(f"{ob.name}: negative scale (flips normals on export)")
         # materials
         m["materials"] = len(ob.material_slots)
-        if any(sl.material is None for sl in ob.material_slots) or not ob.material_slots:
-            warnings.append(f"{ob.name}: missing/empty material slot")
+        for is_err, msg in _material_issues(ob):
+            if is_err:
+                flag("mt", msg)
+            else:
+                warnings.append(msg)
         # weights
         arm_mod = next((md for md in ob.modifiers if md.type == "ARMATURE" and md.object), None)
         if arm_mod and ob.vertex_groups:

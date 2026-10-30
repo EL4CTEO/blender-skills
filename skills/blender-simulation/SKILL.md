@@ -4,7 +4,7 @@ description: Physics in Blender 5.2 - rigid bodies (density mass, shapes, bake t
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Simulation

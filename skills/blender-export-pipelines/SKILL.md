@@ -4,7 +4,7 @@ description: Export from Blender 5.2 with verified presets - Roblox (FBX/glTF, c
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Export Pipelines

@@ -4,7 +4,7 @@ description: Lighting, cameras and look-dev in Blender 5.2 - studio 3-point and 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Lighting & Look-dev

@@ -16,15 +16,21 @@ This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format
 | blender-sculpting | organic forms, multires, procedural sculpt ops |
 | blender-retopology-uv | retopo, UVs, texel density |
 | blender-pbr-materials | Principled BSDF, texture sets, color spaces |
+| blender-texturing | wear/grime/dust layers, decals, trims, painting |
 | blender-texture-baking | normal/AO/curvature/ID bakes, ORM |
 | blender-geometry-nodes | procedural modeling, JSON node-tree builder |
 | blender-character-rigging | Rigify, skinning, game skeletons |
 | blender-facial-shapekeys | ARKit 52, visemes, correctives |
-| blender-animation | actions/slots, NLA, mocap, bake, root motion |
+| blender-animation | actions/slots, NLA, mocap retarget, loops, bake, root motion |
+| blender-clothing | garments, weights, body masking, morphs, poke check |
+| blender-hair-grooming | hair curves, node assets, hair cards |
 | blender-game-optimization | budgets, LODs, draw calls |
 | blender-export-pipelines | Roblox, Unity, Unreal, Godot, web, USD |
 | blender-rendering | Cycles/EEVEE, color management, batch |
 | blender-lighting-lookdev | lights, HDRI, cameras, turntables |
+| blender-stylized-npr | toon shading, outlines, Line Art, Grease Pencil |
+| blender-environment-kits | terrain, scatter, modular kit checks |
+| blender-video-editing | VSE edits, motion tracking |
 | blender-simulation | rigid body, cloth (classic + 5.2 nodes), fluids |
 | blender-time-of-day | sky/sun/moon by time, night, fog, moods |
 | blender-weather-fx | rain, snow, wetness, puddles, lightning |

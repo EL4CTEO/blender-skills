@@ -21,7 +21,7 @@ jobs:
   blender-tests:
     runs-on: ubuntu-latest
     env:
-      BLENDER_VERSION: "5.2.2"
+      BLENDER_VERSION: "5.2.3"
       BAS_SKIP_GPU: "1"   # no GPU on hosted runners: render tests are skipped
     steps:
       - uses: actions/checkout@v4

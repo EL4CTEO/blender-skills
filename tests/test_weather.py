@@ -43,8 +43,11 @@ def test_surface_weather_roundtrip_restores_materials():
     r = sw.run(objects=names, wetness=0.6, puddles=0.4, ripples=1, streaks=0.5, snow=0.3)
     assert "M_Ground" in r["materials"], r
     assert bsdf.inputs["Coat Weight"].is_linked and bsdf.inputs["Base Color"].links[0].from_node.name.startswith("ENV_W_")
-    sw.run(objects=names, wetness=0.9)  # re-run updates in place, no second group
+    sw.run(objects=names, wetness=0.9)  # re-run updates in place, no second group, links intact
     assert len([n for n in nt.nodes if n.name.startswith("ENV_W_") and n.type == "GROUP"]) == 1
+    gn = bsdf.inputs["Coat Weight"].links[0].from_node
+    assert gn.name.startswith("ENV_W_") and gn.inputs["Base Color"].links[0].from_node == tex
+    assert abs(gn.inputs["Wetness"].default_value - 0.9) < 1e-6 and gn.inputs["Normal"].is_linked
     sw.run(objects=names, remove=True)
     after = sorted((lk.from_node.name, lk.to_socket.identifier) for lk in nt.links)
     assert after == before and abs(bsdf.inputs["Roughness"].default_value - 0.42) < 1e-6

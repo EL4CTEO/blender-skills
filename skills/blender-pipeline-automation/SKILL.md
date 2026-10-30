@@ -4,7 +4,7 @@ description: Automate Blender 5.2 at scale - headless CLI flags, batch convert/i
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Pipeline Automation
@@ -57,4 +57,4 @@ Environment variables: `BLENDER_USER_SCRIPTS`, `BLENDER_USER_EXTENSIONS`, `BLEND
 - GPU in containers: Cycles CUDA/OptiX needs the NVIDIA container runtime. Otherwise use CPU. EEVEE needs a GPU/EGL even headless.
 
 ## CI recipe (GitHub Actions)
-Download the Linux tarball (`https://download.blender.org/release/Blender5.2/blender-5.2.2-linux-x64.tar.xz`), cache it, then `blender -b --factory-startup --python-exit-code 1 -P tests/run_all.py`. This repo's `.github/workflows/ci.yml` is a working example.
+Download the Linux tarball (`https://download.blender.org/release/Blender5.2/blender-5.2.3-linux-x64.tar.xz`), cache it, then `blender -b --factory-startup --python-exit-code 1 -P tests/run_all.py`. This repo's `.github/workflows/ci.yml` is a working example.

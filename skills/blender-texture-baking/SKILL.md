@@ -4,7 +4,7 @@ description: Bake texture maps in Blender 5.2 Cycles - high-to-low normal maps w
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Texture Baking (Cycles)

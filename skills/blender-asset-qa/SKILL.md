@@ -1,10 +1,10 @@
 ---
 name: blender-asset-qa
-description: Mandatory review gate for any mesh or asset created or edited in Blender. Detects z-fighting (coplanar overlaps), floating/detached parts, inverted or inconsistent normals, non-manifold/open geometry, degenerate faces, duplicate verts, n-gons, unapplied scale, UV problems, bad skin weights, and renders multi-angle review sheets. Use before calling any modeling, export or delivery task done.
+description: Mandatory review gate for any mesh or asset created or edited in Blender. Detects z-fighting, floating/detached parts, inverted or inconsistent normals, non-manifold/open geometry, degenerate faces, duplicate verts, n-gons, unapplied scale, UV problems, bad skin weights, material/texture errors, and renders multi-angle review sheets. Use before calling any modeling, export or delivery task done.
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Asset QA (review gate)
@@ -37,8 +37,12 @@ Never assume a generated or edited mesh is correct. Check it with numbers, then 
 | `ngons` | faces with >4 sides | triangulate/quadrangulate locally; n-gons are fine only on flat hard-surface faces that never deform |
 | unapplied/negative scale | object transform | `transform_apply(rotation=True, scale=True)`; negative scale flips normals on export |
 | `uv_maps: 0` / zero-area UV / overlap | missing or bad unwrap | `blender-retopology-uv` |
-| unweighted / >4 influences | skinning | `blender-character-rigging` (`weights_check.py`) |
+| unweighted / >4 influences | skinning | `blender-character-rigging` (`rig_check.py`) |
 | `ground_z` ≠ 0 | asset floats or sinks | move the origin to the bottom and set z = 0 (props) |
+| faces on empty/missing slot | material removed or index out of range | assign a material; engines show grey/magenta |
+| `feeds [...] but is sRGB` | normal/roughness/metal/AO map tagged as color | `image.colorspace_settings.is_data = True` (Non-Color) |
+| missing texture file | broken path, unpacked | relink (`blender-scene-setup` path cleanup) or pack |
+| unused slot / Non-Color base color | leftovers, wrong tag | remove the slot; base color and emission are sRGB |
 
 ## Manual checks the script can't fully judge
 - **Silhouette and proportions** at the target camera distance. Compare with references and real-world size (`ob.dimensions`).
@@ -46,7 +50,7 @@ Never assume a generated or edited mesh is correct. Check it with numbers, then 
 - **Intersections that look wrong** (a leg clipping a seat), even though they're "attached".
 - **Interior/hidden geometry** that wastes tris (use `xray`).
 - **Deformation**: pose the rig at extremes (elbow 140°, knee 150°, shoulder raised) and look for collapsing volume.
-- **Material assignment**: every face has the intended material, with no default grey slots.
+- **Material assignment**: slots and color spaces are checked automatically. Still look at whether each part got the *intended* material.
 
 ## Tuning
 - `--eps` is the z-fight distance. Raise it to 0.005 for large environment scenes, and lower it to 0.0002 for tiny jewelry.

@@ -2,7 +2,7 @@
 """Lint skills against the Agent Skills spec + this repo's token budgets.
 
 Checks: frontmatter (name/description rules, name == dir), SKILL.md <= 500 lines and
-token budget, relative links resolve, scripts compile, Blender scripts expose run()
+token budget, relative links and mentioned *.py scripts resolve, scripts compile, Blender scripts expose run()
 and a Usage docstring, _bpyx copies in sync.
 Usage: python tools/validate_skills.py [--strict]   (--strict: warnings fail too)
 """
@@ -16,6 +16,9 @@ NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 DESC_TARGET, DESC_MAX = 400, 1024
 TOK_WARN, TOK_MAX, LINES_MAX = 3000, 5000, 500
 LINK_RE = re.compile(r"\]\(([^)#\s]+)(?:#[^)]*)?\)")
+SCRIPT_RE = re.compile(r"\b([a-z][a-z0-9_]*\.py)\b")
+# file names used as examples (add-on layout, generic CLI placeholders, this repo's test runner)
+PLACEHOLDER_PY = {"__init__.py", "operators.py", "ui.py", "script.py", "x.py", "run_all.py"}
 
 
 def tokens(text):
@@ -38,6 +41,11 @@ def frontmatter(text):
         elif key and line.startswith(" ") and fm.get(key) is not None and key != "metadata":
             fm[key] = (fm[key] + " " + line.strip()).strip()
     return fm, body
+
+
+def known_py():
+    """Script names a SKILL.md or reference may mention (any skill's scripts, repo tools)."""
+    return {p.name for p in (*ROOT.glob("skills/*/scripts/*.py"), *ROOT.glob("tools/*.py"))}
 
 
 def check_skill(d, errs, warns):
@@ -76,6 +84,9 @@ def check_skill(d, errs, warns):
                 continue
             if not (f.parent / link).resolve().exists():
                 errs.append(f"{f.relative_to(ROOT)}: broken link {link}")
+        for name in sorted(set(SCRIPT_RE.findall(f.read_text("utf-8"))) - PLACEHOLDER_PY - known_py()):
+            if not name.startswith("test_"):
+                errs.append(f"{f.relative_to(ROOT)}: mentions {name}, which no skill ships")
     for py in d.glob("scripts/*.py"):
         src = py.read_text("utf-8")
         try:

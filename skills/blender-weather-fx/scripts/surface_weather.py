@@ -197,26 +197,26 @@ def _apply_mat(mat, ng, vals):
     for bsdf in [n for n in nt.nodes if n.type == "BSDF_PRINCIPLED"]:
         gname = TAG + bsdf.name
         gn = nt.nodes.get(gname)
-        if gn is None:  # first application: remember and rewire
+        if gn is None:  # first application: remember the originals
             record[bsdf.name] = {k: _src(bsdf.inputs[k]) for k in WRAPPED}
             gn = nt.nodes.new("ShaderNodeGroup")
             gn.name, gn.label, gn.node_tree = gname, "ENV Weather", ng
             gn.location = bsdf.location.x - 260, bsdf.location.y
-            for k in ("Base Color", "Roughness", "Coat Weight", "Coat Roughness"):
-                s = bsdf.inputs[k]
-                if s.is_linked:
-                    nt.links.new(s.links[0].from_socket, gn.inputs[k])
-                else:
-                    gn.inputs[k].default_value = s.default_value
-            if bsdf.inputs["Normal"].is_linked:
-                nt.links.new(bsdf.inputs["Normal"].links[0].from_socket, gn.inputs["Normal"])
-            else:  # unlinked = shading normal; an unlinked group vector would be (0,0,0)
-                geo = nt.nodes.new("ShaderNodeNewGeometry")
+        # (re)wire on every run: re-running rebuilds the group, which recreates its sockets and drops links
+        for k, src in record[bsdf.name].items():
+            if k == "Coat Normal":  # restore-only; the group derives it
+                continue
+            if "node" in src and src["node"] in nt.nodes:
+                nt.links.new(nt.nodes[src["node"]].outputs[src["out"]], gn.inputs[k])
+            elif k == "Normal":  # unlinked = shading normal; an unlinked group vector would be (0,0,0)
+                geo = nt.nodes.get(TAG + "geo_" + bsdf.name) or nt.nodes.new("ShaderNodeNewGeometry")
                 geo.name = TAG + "geo_" + bsdf.name
                 geo.location = gn.location.x - 200, gn.location.y - 300
                 nt.links.new(geo.outputs["Normal"], gn.inputs["Normal"])
-            for k in WRAPPED:
-                nt.links.new(gn.outputs[k], bsdf.inputs[k])
+            else:
+                gn.inputs[k].default_value = src["value"]
+        for k in WRAPPED:
+            nt.links.new(gn.outputs[k], bsdf.inputs[k])
         for k, v in vals.items():
             gn.inputs[k].default_value = v
     mat[KEY] = json.dumps(record)

@@ -4,7 +4,7 @@ description: Time of day and atmosphere in Blender 5.2 - measured sky + sun for 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Time of Day & Atmosphere

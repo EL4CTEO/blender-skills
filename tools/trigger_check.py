@@ -20,7 +20,8 @@ CASES = [
     ("make LODs and reduce draw calls for mobile", "blender-game-optimization"),
     ("unwrap the uvs and set texel density to 512 px/m", "blender-retopology-uv"),
     ("set up a PBR material from these texture maps, metal roughness", "blender-pbr-materials"),
-    ("scatter rocks on the terrain procedurally with geometry nodes", "blender-geometry-nodes"),
+    ("scatter rocks on the terrain by slope and height", "blender-environment-kits"),
+    ("build a procedural geometry nodes tool with a repeat zone", "blender-geometry-nodes"),
     ("create ARKit blendshapes for lip-sync visemes", "blender-facial-shapekeys"),
     ("bake the walk cycle with root motion and export clips", "blender-animation"),
     ("render a turntable with studio lighting and an HDRI", "blender-lighting-lookdev"),
@@ -38,6 +39,17 @@ CASES = [
     ("make it a moonlit night scene with stars", "blender-time-of-day"),
     ("rainy street with puddles, wet surfaces and lightning", "blender-weather-fx"),
     ("snow falling and snow cover on the roofs", "blender-weather-fx"),
+    ("add edge wear, grime and dust to this crate material", "blender-texturing"),
+    ("place a decal sticker on the wall", "blender-texturing"),
+    ("anime cel shading with outlines for my character", "blender-stylized-npr"),
+    ("groom hair on the head and make hair cards for the game", "blender-hair-grooming"),
+    ("generate a mountain terrain heightmap for unreal", "blender-environment-kits"),
+    ("check my modular wall kit pieces snap to the grid", "blender-environment-kits"),
+    ("make a shirt for my character that doesn't clip through the body", "blender-clothing"),
+    ("edit the rendered shots together with crossfades and music into an mp4", "blender-video-editing"),
+    ("track the camera from this footage and solve it", "blender-video-editing"),
+    ("retarget mixamo mocap onto my rig", "blender-animation"),
+    ("check the walk cycle loops without a pop", "blender-animation"),
 ]
 
 

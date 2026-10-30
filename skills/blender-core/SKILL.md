@@ -5,7 +5,7 @@ license: MIT
 compatibility: Blender 5.2 LTS or newer. Optional blender-mcp server for live sessions.
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Blender Core (5.2 LTS+)
@@ -18,15 +18,21 @@ metadata:
 | Sculpting, multires, remesh | `blender-sculpting` |
 | Retopology, UV unwrap, texel density | `blender-retopology-uv` |
 | PBR materials, color spaces, texture sets | `blender-pbr-materials` |
+| Wear, grime, dust, decals, trim sheets, texture painting | `blender-texturing` |
 | Baking high→low maps (normal, AO, curvature, ...) | `blender-texture-baking` |
 | Geometry Nodes, procedural modeling | `blender-geometry-nodes` |
 | Body rigging, Rigify, weight painting | `blender-character-rigging` |
 | Face rig, shape keys, ARKit, visemes | `blender-facial-shapekeys` |
-| Keyframes, actions, NLA, baking, root motion | `blender-animation` |
+| Keyframes, actions, NLA, mocap retarget, loops, root motion | `blender-animation` |
+| Garments, layered clothing, body poke-through | `blender-clothing` |
+| Hair, fur, grooming, hair cards | `blender-hair-grooming` |
 | Poly budgets, LODs, draw calls, cleanup | `blender-game-optimization` |
 | Export: glTF/FBX/USD to Roblox, Unity, Unreal, Godot, web | `blender-export-pipelines` |
 | Cycles/EEVEE settings, compositor, batch render | `blender-rendering` |
 | Lighting, HDRI, camera, turntable | `blender-lighting-lookdev` |
+| Toon/cel/anime shading, outlines, Line Art, Grease Pencil | `blender-stylized-npr` |
+| Terrain, biome scatter, modular kits | `blender-environment-kits` |
+| Video editing (VSE), motion tracking, camera solve | `blender-video-editing` |
 | Time of day, night, sunset, fog, mood (cyberpunk, horror...) | `blender-time-of-day` |
 | Rain, snow, wet surfaces, puddles, lightning, dust/embers | `blender-weather-fx` |
 | Cloth, rigid body, fluids, hair, GN physics | `blender-simulation` |

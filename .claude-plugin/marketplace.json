@@ -6,7 +6,7 @@
     {
       "name": "blender-agent-skills",
       "source": "./",
-      "description": "22 tested Blender skills: model, UV, texture, bake, rig, animate, optimize, export, render, time of day, weather, QA"
+      "description": "28 tested Blender skills: model, UV, texture, bake, rig, animate, clothe, groom, build environments, toon, optimize, export, render, edit video, weather, QA"
     }
   ]
 }

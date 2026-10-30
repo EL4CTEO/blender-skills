@@ -1,6 +1,6 @@
 # bpy migration: 4.x → 5.2 (what LLM memory / old tutorials get wrong)
 
-Each row was verified against Blender 5.2.2. Format: **old → new** (version).
+Each row was verified against Blender 5.2.3. Format: **old → new** (version).
 
 ## Core / properties
 | Old | New |

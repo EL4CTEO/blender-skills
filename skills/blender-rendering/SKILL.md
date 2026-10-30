@@ -4,7 +4,7 @@ description: Render with Blender 5.2 Cycles/EEVEE/Workbench - quality presets, G
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Rendering
