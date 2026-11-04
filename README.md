@@ -24,6 +24,8 @@ The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/sk
 
 **Requirements:** Blender 5.2+. Optional: a Blender MCP server lets agents work in your open Blender. Without one, agents run Blender in the background.
 
+Korean reference translations: [Core](skills/blender-core/SKILL.ko.md) · [Clothing](skills/blender-clothing/SKILL.ko.md).
+
 ## Skills
 
 | Skill | What it does |
