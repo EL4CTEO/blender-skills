@@ -5,7 +5,7 @@ Default ratios halve the triangles per level: 1.0, 0.5, 0.25, 0.125. LOD0 is the
 Usage:
   blender -b f.blend -P make_lods.py -- --objects SM_Crate [--ratios 0.5 0.25 0.125]
       [--symmetry] [--cleanup] [--rename] [--collection LODs] [--save out.blend]
-  MCP: import make_lods; print(make_lods.run(objects=["SM_Crate"], ratios=[0.5, 0.2]))
+  MCP: import make_lods; result = make_lods.run(objects=["SM_Crate"], ratios=[0.5, 0.2])
 """
 import os
 import sys

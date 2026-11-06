@@ -6,7 +6,7 @@ The result is shrinkwrapped back onto the source and named <source>_low.
 Usage:
   blender -b f.blend -P auto_retopo.py -- --objects Sculpt [--method quadriflow|decimate|planar]
       [--tris 10000] [--voxel 0] [--symmetry] [--save out.blend]
-  MCP: import auto_retopo; print(auto_retopo.run(objects=["Sculpt"], tris=8000))
+  MCP: import auto_retopo; result = auto_retopo.run(objects=["Sculpt"], tris=8000)
 --tris is the triangle budget (quadriflow targets tris/2 quads).
 """
 import math

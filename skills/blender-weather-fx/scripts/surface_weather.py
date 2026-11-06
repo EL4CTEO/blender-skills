@@ -10,7 +10,7 @@ Usage:
       [--ripples 1] [--streaks 0.5] [--snow 0.7] [--snow-depth 0.06] [--porosity 0.6]
       [--scale 3.0] [--vertex-mask] [--save out.blend]
   blender -b f.blend -P surface_weather.py -- --objects Street Car --remove
-  MCP: import surface_weather as sw; print(sw.run(objects=["Street"], wetness=0.7, puddles=0.4))
+  MCP: import surface_weather as sw; result = sw.run(objects=["Street"], wetness=0.7, puddles=0.4)
 """
 import json
 import math

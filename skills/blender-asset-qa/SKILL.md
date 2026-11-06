@@ -4,7 +4,7 @@ description: Mandatory review gate for any mesh or asset created or edited in Bl
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Asset QA (review gate)
@@ -17,7 +17,7 @@ Never assume a generated or edited mesh is correct. Check it with numbers, then 
    Profiles: `game` (default), `render` (lenient), `print` (watertight required), `roblox` (20k tris/mesh, watertight, no n-gons, ≤4 influences).
 2. **Fix every `errors` entry** (table below), then re-run until `"pass": true`. Each warning must be either fixed or explicitly accepted, with the reason reported to the user.
 3. **Visual check, always**:
-   - Live: MCP `look` with `mode="angles"` on the targets, once in `material`/`solid` shading and once in `wireframe`. Use `xray` for internals.
+   - Live (official Blender MCP): import `scripts/review_shots.py` via `execute_blender_code` and assign `result = review_shots.run(objects=[...], mode="solid")`, then again with `mode="wire"` (and `"texture"` when textured). Use `mode="xray"` for internals. Open `result["sheet"]` with your image reader.
    - Headless: `scripts/review_shots.py -- --objects ... --mode random` (one color per object, which makes detached pieces obvious), then `--mode wire` for topology. Open the returned PNG.
 4. Report: tris per object, issues fixed, and remaining accepted warnings.
 

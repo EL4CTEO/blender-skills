@@ -7,7 +7,7 @@ Usage:
   blender -b f.blend -P uv_pack.py -- [--objects A B] [--method smart|seams|min_stretch]
       [--angle 66] [--seams-from-sharp 60] [--res 2048] [--margin-px 8] [--lightmap]
       [--shape AABB|CONVEX|CONCAVE] [--save out.blend]
-  MCP: import uv_pack; print(uv_pack.run(objects=["SM_Crate"], method="seams", seams_from_sharp=60))
+  MCP: import uv_pack; result = uv_pack.run(objects=["SM_Crate"], method="seams", seams_from_sharp=60)
 """
 import math
 import os

@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.3.0] - 2026-11-06
+- Official Blender MCP (Blender Lab add-on) support: MCP examples return data with `result = ...` instead of `print()`, new `blender-core/references/official-mcp.md` maps the server's tools.
+- `look` tool references replaced: `review_shots.py` now covers it with `--frames`/`--frame-count` (animation, stress poses, sims) and new `texture` and `xray` modes; bones and overlays use the MCP viewport screenshot.
+- Lighting: Poly Haven HDRIs are downloaded and loaded with bpy (the official server has no asset importer).
+
 ## [1.2.0] - 2026-10-30
 - New skills: `blender-texturing` (wear/grime/dust, decals), `blender-stylized-npr` (toon shading, outlines), `blender-hair-grooming` (hair, fur, hair cards), `blender-environment-kits` (terrain, scatter, modular kits), `blender-clothing` (garments, no clipping), `blender-video-editing` (VSE edits, camera tracking).
 - Animation: mocap retargeting with auto bone maps (`retarget.py`), loop pop/hitch checker (`loop_check.py`).

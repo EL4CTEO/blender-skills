@@ -2,7 +2,7 @@
 
 Usage:
   blender -b [file.blend] -P env_report.py
-  MCP: import env_report; print(env_report.run())
+  MCP: import env_report; result = env_report.run()
 """
 import os
 import sys

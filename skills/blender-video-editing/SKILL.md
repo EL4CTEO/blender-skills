@@ -4,7 +4,7 @@ description: Video in Blender 5.2 - Video Sequencer edits from Python (clips, im
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Video editing and tracking
@@ -17,7 +17,7 @@ scripts/vse_edit.py -- --clips //renders/sh010/ //renders/sh020/ //logo.png --cr
 scripts/vse_edit.py -- --clips a.mp4 b.mp4 c.mp4 --crossfade 0 --fps 24 --out //review/f_#### --render   # hard cuts to PNG
 ```
 ```python
-import track_camera; print(track_camera.run(clip="C:/shots/sh010.mp4", focal=35, sensor=36))  # live/MCP only
+import track_camera; result = track_camera.run(clip="C:/shots/sh010.mp4", focal=35, sensor=36)  # live/MCP only
 ```
 
 ## vse_edit.py

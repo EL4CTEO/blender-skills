@@ -10,7 +10,7 @@ Usage:
       [--scale 80] [--octaves 6] [--seed 0] [--heightmap hm.png] [--erosion 20] [--terrace 0]
       [--flatten 0 0 15] [--material] [--export-heightmap //T_Height.png|.raw] [--export-splat //T_Splat.png]
       [--name Terrain] [--save out.blend]
-  MCP: import terrain; print(terrain.run(size=200, height=30, type="ridged", erosion=20, material=True))
+  MCP: import terrain; result = terrain.run(size=200, height=30, type="ridged", erosion=20, material=True)
 """
 import math
 import os

@@ -15,7 +15,7 @@ Usage:
       [--redness 0.1] [--roughness 0.3] [--seed 0] [--name Hair] [--save out.blend]
   blender -b f.blend -P groom.py -- --cards Hair [--card-count 120] [--card-width 0.012]
       [--atlas-columns 8] [--atlas-res 1024] [--out //textures] [--save out.blend]
-  MCP: import groom; print(groom.run(surface="Head", density=20000, length=0.12))
+  MCP: import groom; result = groom.run(surface="Head", density=20000, length=0.12)
 """
 import os
 import random

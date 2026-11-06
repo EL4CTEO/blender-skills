@@ -7,7 +7,7 @@ plain objects too (object transform). Engines drop the duplicate last frame on i
 Usage:
   blender -b f.blend -P loop_check.py -- --object GAME_RIG [--action Walk] [--frames 1 25]
       [--tol-deg 0.5] [--tol-m 0.001] [--root-motion root] [--fix] [--save out.blend]
-  MCP: import loop_check; print(loop_check.run(object="GAME_RIG", action="Walk", fix=True))
+  MCP: import loop_check; result = loop_check.run(object="GAME_RIG", action="Walk", fix=True)
 """
 import math
 import os

@@ -4,7 +4,7 @@ description: Facial rigs and shape keys in Blender 5.2 - ARKit 52 blendshapes, v
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Facial Rig & Shape Keys
@@ -26,7 +26,7 @@ The execution model is in `blender-core`. The body rig is in `blender-character-
 4. `--mirror browDownLeft` builds `browDownRight` (topology-independent mirror).
 5. `--report` lists unsculpted keys, the max offset per key, and missing ARKit names. A shape is done only when every key moves and nothing is left over.
 6. Optional: `--drivers FaceCtrl` adds a controller with 0–1 custom properties driving each key, for keyframing in Blender.
-7. Check the extremes and **combinations** (jawOpen + mouthSmile, eyeBlink + eyeSquint) with `look`. Fix them with corrective combination keys driven by the product of two keys.
+7. Check the extremes and **combinations** (jawOpen + mouthSmile, eyeBlink + eyeSquint) with `blender-asset-qa/scripts/review_shots.py` (`--frames` after keying each combination on its own frame) or an MCP viewport screenshot. Fix them with corrective combination keys driven by the product of two keys.
 
 ## Shape key rules
 - Shapes are **deltas from Basis**. Never change the Basis topology after creating keys (adding or removing verts destroys every key).

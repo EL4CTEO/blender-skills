@@ -4,7 +4,7 @@ description: Texture authoring in Blender 5.2 - smart-material layers (edge wear
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Texturing
@@ -39,7 +39,7 @@ Pure curvature looks procedural and even. Always multiply in noise so wear is he
 - Colors are sRGB 0–1. Defaults: steel under paint (0.56, 0.57, 0.58, metallic 1, roughness 0.35). For wood under paint, use `--under-color 0.45 0.32 0.2 --under-metallic 0 --under-roughness 0.7`.
 
 ## To game engines
-Engines don't run Blender node trees. Bake the result into a texture set: `bake_maps.py -- --low SM_Crate --maps basecolor roughness metallic normal --pack-orm` (self-bake, no `--high`). Then `build_pbr_material.py --textures` and export. Check the result with `blender-asset-qa` and a lit `look`.
+Engines don't run Blender node trees. Bake the result into a texture set: `bake_maps.py -- --low SM_Crate --maps basecolor roughness metallic normal --pack-orm` (self-bake, no `--high`). Then `build_pbr_material.py --textures` and export. Check the result with `blender-asset-qa` and `review_shots.py --mode texture` (or a lit render).
 
 ## Decals (decal.py)
 - Places a subdivided plane at the closest surface point to `--at`, oriented to the normal and spun by `--rotation`. A Shrinkwrap (project, above surface) keeps it `--offset` (2 mm) off the surface. It's parented, has no shadow, uses Dithered alpha, and its height follows the image aspect.

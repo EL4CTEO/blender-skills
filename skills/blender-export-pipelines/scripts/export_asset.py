@@ -7,7 +7,7 @@ Selection: --objects (children included) or --collection; default = selected/vis
 Usage:
   blender -b f.blend -P export_asset.py -- --preset unreal --objects SM_Crate --out //export/SM_Crate.fbx
       [--collection Export] [--batch] [--no-anim] [--draco] [--set key=value ...]
-  MCP: import export_asset; print(export_asset.run(preset="godot", objects=["Hero"], out="//export/Hero.glb"))
+  MCP: import export_asset; result = export_asset.run(preset="godot", objects=["Hero"], out="//export/Hero.glb")
 GLB results include a parsed summary (meshes, materials, images, animations, skins, extensions).
 """
 import json

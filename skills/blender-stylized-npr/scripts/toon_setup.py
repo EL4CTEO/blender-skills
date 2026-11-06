@@ -11,7 +11,7 @@ Usage:
       [--outline 0.004] [--outline-color 0.05 0.04 0.06] [--outline-group LineWidth]
       [--smooth-normals] [--line-art] [--line-radius 0.002] [--save out.blend]
   blender -b f.blend -P toon_setup.py -- --objects Hero Sword --remove
-  MCP: import toon_setup as t; print(t.run(objects=["Hero"], bands=3, outline=0.004, rim=0.4))
+  MCP: import toon_setup as t; result = t.run(objects=["Hero"], bands=3, outline=0.004, rim=0.4)
 """
 import json
 import os

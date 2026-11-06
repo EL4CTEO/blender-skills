@@ -4,7 +4,7 @@ description: End-to-end Blender 5.2 playbooks chaining the blender-* skills with
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Workflow Recipes
@@ -16,7 +16,7 @@ metadata:
 2. UV the blockout **before** beveling (the Bevel/Boolean modifiers carry UVs): `uv_pack.py --objects SM_X --method seams --seams-from-sharp 60` → `texel_density.py --res 2048 --set 512`
 3. `apply_stack.py --objects SM_X --preset midpoly [--cutters ...]` (keep it live; `--apply --triangulate` only on the export copy)
 4. Materials: `build_pbr_material.py --preset ...` or tiling/trim textures.
-5. Gate: `qa_check.py --objects SM_X --profile game` passes, plus `look` (angles, material + wireframe).
+5. Gate: `qa_check.py --objects SM_X --profile game` passes, plus `review_shots.py` (`--mode material`, then `--mode wire`).
 6. `mesh_stats.py --budget <platform>` → `make_lods.py --objects SM_X --rename`
 7. `export_asset.py --preset <engine> --objects SM_X_LOD0 SM_X_LOD1 ...` Gate: re-import dims / GLB summary.
 
@@ -27,14 +27,14 @@ metadata:
 4. Gate: `qa_check.py` on `SM_X` (game) **and** `X_high` (render profile, no inverted parts).
 5. `bake_maps.py --low SM_X --high X_high --maps normal ao curvature id --pack-orm [--directx for Unreal]`
 6. `build_pbr_material.py --name M_X --textures //textures --objects SM_X`. Wear/grime: `smart_material.py --curvature-map //textures/T_X_CURV.png --ao-map //textures/T_X_AO.png --wear 0.4 --grime 0.4`, then self-bake (`bake_maps.py --low SM_X --maps basecolor roughness metallic`) (`blender-texturing`).
-7. Gate: `look` in material shading (no seams/waviness), then steps 6–7 of recipe 1.
+7. Gate: `review_shots.py --mode material` (no seams/waviness), then steps 6–7 of recipe 1.
 
 ## 3. Game character (sculpt or AI mesh → animated export)
 1. Source mesh (sculpt / `generate_3d` / scan) at real height, facing -Y, feet on Z=0. Run `qa_check.py --profile render`.
 2. `auto_retopo.py --method quadriflow --tris 20000` (or manual retopo for heroes, keeping the edge flow rules). `uv_pack.py --method min_stretch`.
 3. `bake_maps.py --low Body --high Body_src --maps normal ao basecolor` (basecolor via emission override if the source has colors/materials).
 4. `rigify_build.py --add basic_human --fit Body` → place joints (look xray) → `--metarig META_Body --generate`
-5. `bind_mesh.py --armature RIG_Body --meshes Body` → `stress_poses.py --armature RIG_Body` → `look(mode="frames")`. Gate: no collapse at the elbows/knees/shoulders. Fix weights.
+5. `bind_mesh.py --armature RIG_Body --meshes Body` → `stress_poses.py --armature RIG_Body` → `review_shots.py --objects Body --frames 1 10 20 30 40 50`. Gate: no collapse at the elbows/knees/shoulders. Fix weights.
 6. `rigify_build.py --rig RIG_Body --game-skeleton` → `rig_check.py --armature GAME_RIG_Body --profile unity|unreal`
 6b. Clothes and hair: `garment.py --body Body --group Torso --name Shirt --hide-body --morphs` (`blender-clothing`), `groom.py --surface Head --mask Scalp` → `--cards Hair` for engines (`blender-hair-grooming`). Gate: `garment.py --check` in every stress pose.
 7. Animate on RIG_Body, or retarget mocap: `retarget.py --source Mocap --target RIG_Body --show-map` → run (`blender-animation`). Then `bake_action.py --source RIG_Body --target GAME_RIG_Body [--root-motion xy --hips spine]` and `loop_check.py --fix` on cycles.
@@ -52,12 +52,12 @@ metadata:
 2. `scene_audit.py --fix purge scale` → `qa_check.py --profile game`. Typical findings: non-manifold, duplicate verts, inverted islands, floating debris, z-fighting shells.
 3. Fix: `make_lods.py --cleanup` (merge/degenerate/loose), recalc normals, delete floating debris (or `remesh` via `sculpt_ops.py` for garbage topology), then `auto_retopo.py --method decimate` to budget.
 4. Re-UV if the UVs are fragmented (`uv_pack.py`) and re-bake from the original (`bake_maps.py --high original`).
-5. Gate: QA passes + `look`. Never ship generated meshes unreviewed.
+5. Gate: QA passes + `review_shots.py`. Never ship generated meshes unreviewed.
 
 ## 6. Procedural environment
 1. `terrain.py --size 400 --res 513 --type ridged --erosion 30 --material` (or `--heightmap`), then one `scatter.py` layer per biome element (trees by slope/height, rocks aligned, grass masked) (`blender-environment-kits`). Custom scatter logic: `gn_builder.py` (recipes in `blender-geometry-nodes/references/recipes.md`). Modular buildings: `kit_check.py --grid 0.5 --fix` on every kit piece.
 2. Assets to scatter: optimized props with LODs (recipe 1). Keep instances (don't realize) for engines that support instancing (`export_gpu_instances`).
-3. Gate: `mesh_stats.py` on the evaluated result, plus `look` from the gameplay camera height.
+3. Gate: `mesh_stats.py` on the evaluated result, plus a render or `review_shots.py` from the gameplay camera height.
 
 ## 7. Web / AR asset
 Recipe 1 or 2 with budgets `--budget web` (≤30k tris, 1–2 materials, 2k textures) → `export_asset.py --preset web` (meshopt + WebP) → optional `gltf-transform optimize --texture-compress ktx2`. USDZ for iOS AR: `--preset usd --out x.usdz`. Gate: GLB summary (size < 5 MB) and Khronos PBR Neutral look-dev match.

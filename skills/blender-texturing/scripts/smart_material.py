@@ -12,7 +12,7 @@ Usage:
       [--under-roughness 0.35] [--grime-color R G B] [--dust-color R G B] [--curvature-map T_CURV.png]
       [--ao-map T_AO.png] [--uv UVMap] [--save out.blend]
   blender -b f.blend -P smart_material.py -- --objects Crate --remove
-  MCP: import smart_material as sm; print(sm.run(objects=["Crate"], wear=0.6, grime=0.4))
+  MCP: import smart_material as sm; result = sm.run(objects=["Crate"], wear=0.6, grime=0.4)
 """
 import json
 import os

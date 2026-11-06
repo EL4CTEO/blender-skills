@@ -3,7 +3,7 @@
 This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format) for **Blender 5.2 LTS+**. Codex, OpenCode, Gemini CLI, Copilot and Cursor read them from `.agents/skills`; Claude Code reads them from `.claude/skills` (see `install/`).
 
 ## Using the skills
-- Start any Blender task with `skills/blender-core/SKILL.md`. It routes to the specialized skill and defines how to run code: live through the blender-mcp `execute_blender_code`, or headless with `python skills/blender-core/scripts/run_in_blender.py <script.py> -- <args>`.
+- Start any Blender task with `skills/blender-core/SKILL.md`. It routes to the specialized skill and defines how to run code: live through the official Blender MCP `execute_blender_code` (return data via `result = ...`; tool map in `skills/blender-core/references/official-mcp.md`), or headless with `python skills/blender-core/scripts/run_in_blender.py <script.py> -- <args>`.
 - Run scripts; don't read them. Every `skills/*/scripts/*.py` documents its flags in its docstring and prints one compact JSON result.
 - Load a skill's `references/*.md` only when the SKILL.md points you there.
 - Always finish geometry work with `skills/blender-asset-qa` (numbers + a visual check).

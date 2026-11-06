@@ -22,7 +22,7 @@ git clone https://github.com/EL4CTEO/blender-skills
 ```
 The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/skills` is read by Codex, OpenCode, Gemini CLI, Copilot and Cursor. Options: `--agent claude|codex|opencode|gemini|copilot|cursor|all`, `--project DIR` for a single project, `--uninstall`.
 
-**Requirements:** Blender 5.2+. Optional: a Blender MCP server lets agents work in your open Blender. Without one, agents run Blender in the background.
+**Requirements:** Blender 5.2+. Optional: the official Blender MCP server (Blender Lab add-on) lets agents work in your open Blender; see `skills/blender-core/references/official-mcp.md`. Without one, agents run Blender in the background.
 
 ## Skills
 

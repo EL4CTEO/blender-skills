@@ -9,7 +9,7 @@ Usage:
       [--extrusion 0.02] [--cage Crate_cage] [--directx] [--out //textures] [--name Crate]
       [--pack-orm] [--device GPU|CPU] [--save out.blend]
   Self-bake (no --high): bakes the low object's own materials (procedurals -> textures).
-  MCP: import bake_maps; print(bake_maps.run(low="SM_Crate", high=["Crate_high"], maps=["normal","ao"]))
+  MCP: import bake_maps; result = bake_maps.run(low="SM_Crate", high=["Crate_high"], maps=["normal","ao"])
 """
 import hashlib
 import os

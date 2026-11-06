@@ -9,8 +9,8 @@ Steps (combine freely):
                   Copy Transforms to the control rig; re-targets skinned meshes to it.
 Usage:
   blender -b f.blend -P rigify_build.py -- --add basic_human --fit Body --generate --game-skeleton [--save out.blend]
-  MCP: import rigify_build as r; print(r.run(add="basic_human", fit="Body", generate=True))
-After --add/--fit: place joints (edit bones) to the mesh, check with look (xray), then --generate.
+  MCP: import rigify_build as r; result = r.run(add="basic_human", fit="Body", generate=True)
+After --add/--fit: place joints (edit bones) to the mesh, check with an X-ray viewport screenshot (MCP get_screenshot_of_area_as_image), then --generate.
 """
 import os
 import sys

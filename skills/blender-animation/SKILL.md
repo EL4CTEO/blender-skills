@@ -4,7 +4,7 @@ description: Animation in Blender 5.2 - slotted/layered actions and the channelb
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Animation
@@ -22,7 +22,7 @@ The execution model is in `blender-core` (its `references/bpy-patterns.md` has v
 2. **Breakdowns**: add in-betweens that define arcs and spacing.
 3. **Spline**: switch to `BEZIER`, fix spacing in the Graph Editor, and clean overshoot. Auto-clamped handles avoid overshoot.
 4. **Polish**: offsets/overlap (follow-through on hair, tails, cloth bones), arcs, moving holds (never a perfectly frozen character), and contact stability (feet locked with IK).
-5. **Review**: MCP `look(mode="frames", frame_count=8)` or a Workbench playblast (`blender-rendering`).
+5. **Review**: `blender-asset-qa/scripts/review_shots.py` `--objects Body --frame-count 8` or a Workbench playblast (`blender-rendering`).
 
 ## Game animation rules
 - **One action per clip**, named `<Rig>_<Clip>` or just `<Clip>`, with a fake user so it survives saving.

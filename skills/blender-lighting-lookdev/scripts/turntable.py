@@ -4,7 +4,7 @@ cyclorama backdrop and a looping turntable (camera + lights orbit; the asset is 
 Usage:
   blender -b f.blend -P turntable.py -- --objects Hero [--rig studio|hdri|both] [--hdri path.exr]
       [--hdri-strength 1] [--frames 120] [--lens 85] [--backdrop] [--elevation 15] [--save out.blend]
-  MCP: import turntable; print(turntable.run(objects=["Hero"], rig="studio", frames=120))
+  MCP: import turntable; result = turntable.run(objects=["Hero"], rig="studio", frames=120)
 Then render with blender-rendering/render_batch.py (e.g. --frames 1-120 --format MP4).
 """
 import math

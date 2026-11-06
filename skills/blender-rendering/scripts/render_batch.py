@@ -7,7 +7,7 @@ Usage:
       [--preset preview|final|product] [--res 1920 1080] [--percent 100] [--samples N]
       [--out //render/shot_####] [--format PNG] [--frames 1-120 | 1,12,24] [--cameras CamA CamB]
       [--view AgX|"Khronos PBR Neutral"|Standard] [--look "AgX - Punchy"] [--transparent] [--device GPU|CPU]
-  MCP: import render_batch as r; print(r.run(preset="preview", frames="1"))
+  MCP: import render_batch as r; result = r.run(preset="preview", frames="1")
 Returns written files and seconds per image.
 """
 import os

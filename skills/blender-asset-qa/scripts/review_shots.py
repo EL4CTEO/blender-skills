@@ -1,12 +1,19 @@
 """Render a multi-angle review contact sheet (headless-safe Workbench) for visual QA.
 
 Modes: solid (studio light + cavity), random (color per object/part -> spot detached
-parts), wire (black wireframe over solid -> topology), material (texture/material colors).
+parts), wire (black wireframe over solid -> topology), material (material base colors),
+texture (image textures), xray (see-through solid -> internals, hidden faces).
+Frames: --frames 1 10 20 or --frame-count 8 renders each view at each frame (animation,
+rig stress poses, simulations); the scene frame is restored afterwards.
 Usage:
   blender -b f.blend -P review_shots.py -- [--objects A B] [--out //review.png]
-      [--views front right back left top three_quarter] [--mode solid|random|wire|material] [--res 512]
-  MCP: prefer the `look` tool; this script is for agents without live viewport access.
-Returns {"sheet": path, "views": [paths]} - open the PNG with your image reader.
+      [--views front right back left top three_quarter] [--res 512]
+      [--mode solid|random|wire|material|texture|xray] [--frames F ...] [--frame-count N]
+  MCP (official Blender MCP, live): this is the multi-angle "look" -
+      import review_shots; result = review_shots.run(objects=["Chair"], mode="wire")
+  then open result["sheet"] with your image reader (e.g. the Read tool).
+Returns {"sheet": path, "views": [paths], "order": [labels]}. Armatures/bones and
+overlays are not rendered; for those use the MCP viewport screenshot instead.
 """
 import math
 import os
@@ -32,13 +39,18 @@ def _bounds(obs):
     return (lo + hi) / 2, max((hi - lo).length / 2, 1e-3)
 
 
-def run(objects=None, out="", views=None, mode="solid", res=512, **_):
+def run(objects=None, out="", views=None, mode="solid", res=512, frames=None, frame_count=0, **_):
     bx.object_mode()
     obs = bx.objects(objects, types=("MESH", "CURVE", "FONT", "SURFACE", "CURVES", "VOLUME"))
     if not obs:
         raise ValueError("nothing to render")
-    views = views or ["front", "right", "top", "three_quarter"]
     sc = bpy.context.scene
+    if frame_count and not frames:
+        f0, f1 = sc.frame_start, sc.frame_end
+        n = max(1, int(frame_count))
+        frames = sorted({round(f0 + (f1 - f0) * i / max(n - 1, 1)) for i in range(n)})
+    frames = [int(f) for f in frames] if frames else None
+    views = views or (["three_quarter"] if frames else ["front", "right", "top", "three_quarter"])
     out = bpy.path.abspath(out) if out else os.path.join(
         os.path.dirname(bpy.data.filepath) or tempfile.gettempdir(), "review_sheet.png")
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
@@ -47,7 +59,8 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
     r, sh = sc.render, sc.display.shading
     saved = dict(engine=r.engine, rx=r.resolution_x, ry=r.resolution_y, pct=r.resolution_percentage,
                  fp=r.filepath, cam=sc.camera, light=sh.light, color=sh.color_type,
-                 cavity=sh.show_cavity, outline=sh.show_object_outline, transp=r.film_transparent)
+                 cavity=sh.show_cavity, outline=sh.show_object_outline, transp=r.film_transparent,
+                 xray=sh.show_xray, xray_alpha=sh.xray_alpha, frame=sc.frame_current)
     hidden = {o: o.hide_render for o in sc.objects}
     temp = []
     try:
@@ -62,7 +75,11 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
         sh.light = "STUDIO"
         sh.show_cavity = mode in ("solid", "wire")
         sh.show_object_outline = True
-        sh.color_type = {"random": "RANDOM", "material": "MATERIAL", "wire": "OBJECT"}.get(mode, "SINGLE")
+        sh.color_type = {"random": "RANDOM", "material": "MATERIAL", "texture": "TEXTURE",
+                         "wire": "OBJECT"}.get(mode, "SINGLE")
+        sh.show_xray = mode == "xray"
+        if mode == "xray":
+            sh.xray_alpha = 0.4
         if mode == "wire":
             wire_t = _bounds(obs)[1] * 0.006
             for o in obs:
@@ -87,15 +104,21 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
         dist = radius / math.sin(fov / 2) * 1.05
         cam_data.clip_end = dist * 4
         cam_data.clip_start = dist / 1000
-        paths = []
-        for v in views:
-            d = Vector(DIRS[v] if isinstance(v, str) else v).normalized()
-            cam.location = center + d * dist
-            cam.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler()
-            p = os.path.splitext(out)[0] + f"_{v}.png"
-            r.filepath = p
-            bpy.ops.render.render(write_still=True)
-            paths.append(p)
+        paths, order = [], []
+        for f in (frames or [None]):
+            if f is not None:
+                sc.frame_set(f)
+                center, radius = _bounds(obs)  # follow animated objects
+            for v in views:
+                d = Vector(DIRS[v] if isinstance(v, str) else v).normalized()
+                cam.location = center + d * dist
+                cam.rotation_euler = (-d).to_track_quat("-Z", "Y").to_euler()
+                label = f"{v}" if f is None else f"f{f}_{v}"
+                p = os.path.splitext(out)[0] + f"_{label}.png"
+                r.filepath = p
+                bpy.ops.render.render(write_still=True)
+                paths.append(p)
+                order.append(label)
 
         # tile into a contact sheet
         imgs = []
@@ -105,7 +128,7 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
             im.pixels.foreach_get(a)
             imgs.append(a.reshape(res, res, 4))
             bpy.data.images.remove(im)
-        cols = 2 if len(imgs) <= 4 else 3
+        cols = 2 if len(imgs) <= 4 else 3 if len(imgs) <= 9 else math.ceil(math.sqrt(len(imgs)))
         rows = math.ceil(len(imgs) / cols)
         sheet = np.ones((rows * res, cols * res, 4), dtype=np.float32)
         for i, a in enumerate(imgs):
@@ -130,13 +153,18 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
         r.film_transparent = saved["transp"]
         sh.light, sh.color_type, sh.show_cavity = saved["light"], saved["color"], saved["cavity"]
         sh.show_object_outline = saved["outline"]
-    return {"ok": True, "sheet": out, "views": paths, "layout": f"{cols}x{rows}", "order": views}
+        sh.show_xray, sh.xray_alpha = saved["xray"], saved["xray_alpha"]
+        if sc.frame_current != saved["frame"]:
+            sc.frame_set(saved["frame"])
+    return {"ok": True, "sheet": out, "views": paths, "layout": f"{cols}x{rows}", "order": order}
 
 
 if __name__ == "__main__":
     p = bx.add_common(bx.parser(__doc__), save=False)
     p.add_argument("--out", default="")
     p.add_argument("--views", nargs="*", default=None, choices=list(DIRS))
-    p.add_argument("--mode", default="solid", choices=["solid", "random", "wire", "material"])
+    p.add_argument("--mode", default="solid", choices=["solid", "random", "wire", "material", "texture", "xray"])
     p.add_argument("--res", type=int, default=512)
+    p.add_argument("--frames", type=int, nargs="*", default=None)
+    p.add_argument("--frame-count", type=int, default=0)
     bx.cli(run, p)

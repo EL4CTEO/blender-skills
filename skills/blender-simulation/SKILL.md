@@ -4,7 +4,7 @@ description: Physics in Blender 5.2 - rigid bodies (density mass, shapes, bake t
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Simulation
@@ -58,7 +58,7 @@ Domain object (`FLUID` modifier `fluid_type="DOMAIN"`, `domain_type="LIQUID"|"GA
 - Always bake before rendering/exporting, and never rely on viewport playback order.
 - GN simulation zones: bake per modifier (`mod.bakes`, `object.geometry_node_bake_single`), or step frames sequentially (script) in background.
 - Point caches in background: stepping frames from `frame_start` fills the cache. `ptcache.bake_all(bake=True)` needs a valid context.
-- Verify with `look(mode="frames")` plus the numbers (`min_z` ≈ the collider top = contact, no tunnelling).
+- Verify with `blender-asset-qa/scripts/review_shots.py` `--frames ...` plus the numbers (`min_z` ≈ the collider top = contact, no tunnelling).
 
 ## Gotchas
 - Objects tunnelling through colliders: thin colliders, too few substeps, or too-fast motion. Thicken, raise substeps/quality, or use a bigger collision distance.

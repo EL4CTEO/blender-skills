@@ -5,7 +5,7 @@ Pass the objects of ONE asset (they are checked together: islands far from all o
 Usage:
   blender -b f.blend -P qa_check.py -- [--objects A B] [--profile game|render|print|roblox]
       [--eps 0.001] [--tol 0.002] [--no-modifiers] [--max-tris 300000]
-  MCP: import qa_check; print(qa_check.run(objects=["Chair"], profile="game"))
+  MCP: import qa_check; result = qa_check.run(objects=["Chair"], profile="game")
 Returns {"pass": bool, "errors": [...], "warnings": [...], "objects": {name: metrics}}.
 """
 import math

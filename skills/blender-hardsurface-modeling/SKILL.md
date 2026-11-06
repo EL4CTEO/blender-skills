@@ -4,7 +4,7 @@ description: Hard-surface and prop modeling in Blender 5.2 - blockout-to-detail 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Hard-Surface Modeling
@@ -23,7 +23,7 @@ The execution model is in `blender-core`. Run `blender-asset-qa` after every mod
 2. **Apply scale** (`transform_apply(scale=True)`) before bevels, booleans or solidify, because modifier distances use object space.
 3. **Primary → secondary → tertiary** forms. Booleans for cuts and panels, then bevels. Small tertiary details go in normal maps/decals, or into the high-poly as "floaters" for baking.
 4. **UV the base mesh now** (mid-poly). Bevel/Boolean modifiers propagate UVs, but after bevels no edge is sharp enough to auto-seam. Then **build the stack** with `scripts/apply_stack.py -- --objects Body --preset midpoly --cutters Cut1 Cut2`. Order: Mirror → Booleans → Bevel → Weighted Normal → (Triangulate at export).
-5. **Shading check**: smooth shading + Weighted Normal (keep sharp). There must be no gradients across flat faces. View with a matcap or `look` in `solid` shading.
+5. **Shading check**: smooth shading + Weighted Normal (keep sharp). There must be no gradients across flat faces. View with a matcap, or `blender-asset-qa/scripts/review_shots.py` `--mode solid`.
 6. **QA** with `blender-asset-qa`, then apply the stack only on an export copy (`--apply`), keeping the editable source.
 
 ## Stack rules

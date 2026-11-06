@@ -2,11 +2,11 @@
 both ways, drop short tracks, solve (keyframes auto-picked), drop high-error tracks, re-solve, and set
 up the 3D scene (camera with Camera Solver, footage as background, frame range).
 
-Motion-tracking operators need a Clip Editor, so this runs in a live session with a window (blender-mcp
-or the UI); it borrows the largest area as a Clip Editor and restores it. Background mode (-b) returns
+Motion-tracking operators need a Clip Editor, so this runs in a live session with a window (official Blender
+MCP execute_blender_code, or the UI); it borrows the largest area as a Clip Editor and restores it. Background mode (-b) returns
 an error. Give the real focal length and sensor width when known: the solve is far more stable.
 Usage (live/MCP only):
-  import track_camera; print(track_camera.run(clip="C:/shots/sh010.mp4", focal=35, sensor=36))
+  import track_camera; result = track_camera.run(clip="C:/shots/sh010.mp4", focal=35, sensor=36)
   track_camera.run(clip=..., tripod=True)               # nodal pans: rotation-only solve
   run(clip, focal=None, sensor=None, threshold=0.3, min_distance=60, min_frames=10, max_error=2.0,
       tripod=False, setup_scene=True) -> {"solve_error_px", "tracks", "bundles", ...}
@@ -23,7 +23,7 @@ import _bpyx as bx  # noqa: E402
 def _clip_area():
     win = bpy.context.window or (bpy.context.window_manager.windows[0] if bpy.context.window_manager.windows else None)
     if win is None:
-        raise RuntimeError("motion tracking needs a window: run in a live session (blender-mcp/UI), not -b")
+        raise RuntimeError("motion tracking needs a window: run in a live session (Blender MCP/UI), not -b")
     area = max(win.screen.areas, key=lambda a: a.width * a.height)
     return win, area
 
@@ -38,7 +38,7 @@ def _solve(ctx, clip):
 def run(clip=None, focal=None, sensor=None, threshold=0.3, min_distance=60, min_frames=10, max_error=2.0,
         tripod=False, setup_scene=True, **_):
     if bpy.app.background:
-        raise RuntimeError("motion tracking operators need a Clip Editor: run in a live session (blender-mcp)")
+        raise RuntimeError("motion tracking operators need a Clip Editor: run in a live session (Blender MCP)")
     if not clip:
         raise ValueError("clip is required")
     mc = bpy.data.movieclips.load(bpy.path.abspath(clip), check_existing=True)
@@ -100,4 +100,4 @@ def run(clip=None, focal=None, sensor=None, threshold=0.3, min_distance=60, min_
 
 
 if __name__ == "__main__":
-    bx.emit({"ok": False, "error": "track_camera needs a live session with a window (import it via blender-mcp)"})
+    bx.emit({"ok": False, "error": "track_camera needs a live session with a window (import it via Blender MCP execute_blender_code)"})

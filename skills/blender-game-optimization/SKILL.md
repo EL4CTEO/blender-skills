@@ -4,7 +4,7 @@ description: Optimize Blender assets for real-time engines - triangle/material/t
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Game Optimization
@@ -16,7 +16,7 @@ The execution model is in `blender-core`. Always re-run `blender-asset-qa` after
 2. **Clean**: `make_lods.py --cleanup` (merge by distance 0.1 mm, dissolve degenerate, delete loose). Remove hidden faces: back-to-back faces and faces under other parts (`qa_check` → `back_to_back`, plus manual xray).
 3. **Reduce in this order** (cheapest visual loss first): hidden/interior geometry → unnecessary edge loops on flat areas (Limited Dissolve 1–5°) → over-segmented cylinders → Decimate → bake detail to normals (`blender-texture-baking`).
 4. **Materials**: merge to 1–2 per asset (atlas / trim sheet / shared tiling material). Each material slot per mesh is roughly one draw call.
-5. **LODs**: `scripts/make_lods.py -- --objects SM_X --rename` creates `_LOD1.._LOD3` at 50/25/12.5%. Check every LOD silhouette with `look`/`review_shots`.
+5. **LODs**: `scripts/make_lods.py -- --objects SM_X --rename` creates `_LOD1.._LOD3` at 50/25/12.5%. Check every LOD silhouette with `review_shots.py`.
 6. **Re-measure**, then QA, then export (`blender-export-pipelines`).
 
 ## Budgets (guidance per asset, 2026)

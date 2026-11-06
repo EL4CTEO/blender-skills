@@ -2,7 +2,7 @@
 
 Usage:
   blender -b f.blend -P mesh_stats.py -- [--objects A B] [--budget mobile|roblox|console|pc|vr|web]
-  MCP: import mesh_stats; print(mesh_stats.run(budget="mobile"))
+  MCP: import mesh_stats; result = mesh_stats.run(budget="mobile")
 """
 import os
 import sys

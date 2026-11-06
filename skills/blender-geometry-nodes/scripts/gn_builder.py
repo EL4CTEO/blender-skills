@@ -16,7 +16,7 @@ Socket refs: node.SocketName or node.<index>; "in"/"out" = group input/output.
 Usage:
   blender -b f.blend -P gn_builder.py -- --spec tree.json [--apply Plane] [--set Density=20] [--save out.blend]
   blender -b -P gn_builder.py -- --describe GeometryNodeDistributePointsOnFaces [ShaderNodeMix ...]
-  MCP: import gn_builder as g; print(g.run(spec={...}, apply="Plane", set=["Density=20"]))
+  MCP: import gn_builder as g; result = g.run(spec={...}, apply="Plane", set=["Density=20"])
 """
 import json
 import os

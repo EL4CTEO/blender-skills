@@ -4,7 +4,7 @@ description: Geometry Nodes in Blender 5.2 - fields, domains, attributes, instan
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Geometry Nodes
@@ -40,7 +40,7 @@ Zones need `input.pair_with_output(output)` (spec key `pairs`), plus items on th
 1. Sketch the data flow: source geometry → selection/masks (fields) → generate/instance → transform/randomize → realize/merge → set materials/shading → output.
 2. `--describe` every node type you'll use, then write the spec and build. Check `node_warnings` and the evaluated counts.
 3. Expose only meaningful inputs (density, seed, scale range, materials), with min/max set.
-4. Look at it (`look`), check `blender-asset-qa` if the result will be exported (realized geometry), and check `blender-game-optimization` for instance counts and tris.
+4. Look at it (`blender-asset-qa/scripts/review_shots.py`), check `blender-asset-qa` if the result will be exported (realized geometry), and check `blender-game-optimization` for instance counts and tris.
 5. Ship: either keep it procedural (the .blend/asset library), or apply the modifier / `visual_geometry_to_objects` for exporters.
 
 ## Rules

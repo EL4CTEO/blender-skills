@@ -10,7 +10,7 @@ Usage:
       [--intensity light|moderate|heavy|storm] [--density N_per_m3] [--wind X Y]
       [--ground Street Roof ...] [--distance 18] [--loop-frames 96] [--seed 0] [--no-splash]
       [--max-count 400000] [--save out.blend]
-  MCP: import precipitation; print(precipitation.run(type="rain", intensity="heavy", ground=["Street"]))
+  MCP: import precipitation; result = precipitation.run(type="rain", intensity="heavy", ground=["Street"])
 """
 import math
 import os

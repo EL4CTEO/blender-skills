@@ -5,7 +5,7 @@ Reports per-object area-weighted mean, min/max over islands, and spread (max/min
 without rescaling; reports overflow if it no longer fits in 0-1.
 Usage:
   blender -b f.blend -P texel_density.py -- [--objects A B] [--res 2048] [--set 512] [--margin-px 8] [--save out.blend]
-  MCP: import texel_density; print(texel_density.run(objects=["SM_Crate"], res=2048))
+  MCP: import texel_density; result = texel_density.run(objects=["SM_Crate"], res=2048)
 """
 import math
 import os

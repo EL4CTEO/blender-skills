@@ -4,7 +4,7 @@ description: Stylized / NPR looks in Blender 5.2 - toon and cel shading (bands, 
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Stylized / NPR

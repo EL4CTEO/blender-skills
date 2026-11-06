@@ -8,7 +8,7 @@ groups without bones, L/R weight asymmetry.
 Usage:
   blender -b f.blend -P rig_check.py -- --armature RIG [--meshes Body] [--profile game|roblox|unity|unreal]
       [--fix] [--limit 4] [--save out.blend]
-  MCP: import rig_check; print(rig_check.run(armature="GAME_rig", profile="unity"))
+  MCP: import rig_check; result = rig_check.run(armature="GAME_rig", profile="unity")
 """
 import os
 import re

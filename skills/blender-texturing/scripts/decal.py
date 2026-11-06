@@ -7,7 +7,7 @@ Usage:
   blender -b f.blend -P decal.py -- --target Wall --at 0 -0.1 1.5 --image //decals/logo.png
       [--size 0.5] [--rotation 0] [--offset 0.002] [--subdiv 16 (auto-doubles to 128)] [--name DC_Logo] [--save out.blend]
   blender -b f.blend -P decal.py -- --target Wall --at 0 -0.1 1.5 --color 0.8 0.1 0.1 --size 0.3
-  MCP: import decal; print(decal.run(target="Wall", at=(0, -0.1, 1.5), image="C:/decals/logo.png"))
+  MCP: import decal; result = decal.run(target="Wall", at=(0, -0.1, 1.5), image="C:/decals/logo.png")
 """
 import math
 import os

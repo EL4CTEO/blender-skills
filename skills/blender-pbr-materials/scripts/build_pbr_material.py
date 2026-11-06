@@ -11,7 +11,7 @@ Usage:
   blender -b f.blend -P build_pbr_material.py -- --name M_Crate --textures //tex/crate [--objects A B]
       [--tile 1] [--alpha clip|blend] [--displacement bump|both] [--save out.blend]
   blender -b f.blend -P build_pbr_material.py -- --name M_Gold --preset gold --objects Ring
-  MCP: import build_pbr_material as b; print(b.run(name="M_Crate", textures="C:/tex/crate", objects=["SM_Crate"]))
+  MCP: import build_pbr_material as b; result = b.run(name="M_Crate", textures="C:/tex/crate", objects=["SM_Crate"])
 """
 import os
 import re

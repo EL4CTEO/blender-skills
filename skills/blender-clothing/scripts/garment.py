@@ -12,7 +12,7 @@ Usage:
       [--offset 0.008] [--thickness 0.003] [--subdiv 0] [--max-influences 4] [--hide-body]
       [--drape 0] [--morphs] [--save out.blend]
   blender -b f.blend -P garment.py -- --check Shirt --body Body
-  MCP: import garment; print(garment.run(body="Body", zmin=1.0, zmax=1.5, name="Shirt", hide_body=True))
+  MCP: import garment; result = garment.run(body="Body", zmin=1.0, zmax=1.5, name="Shirt", hide_body=True)
 """
 import os
 import sys

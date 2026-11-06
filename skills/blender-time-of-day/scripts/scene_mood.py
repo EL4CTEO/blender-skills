@@ -10,7 +10,7 @@ Usage:
       [--elevation DEG] [--heading DEG] [--overcast 0-1] [--fog-visibility M] [--fog-height M]
       [--fog-color R G B] [--fog-anisotropy 0.6] [--no-grade] [--use-exposure] [--keep-view]
       [--moon-elevation 35] [--city-glow 0-1] [--stars 0-1] [--save out.blend]
-  MCP: import scene_mood; print(scene_mood.run(time="golden", fog_visibility=300))
+  MCP: import scene_mood; result = scene_mood.run(time="golden", fog_visibility=300)
 """
 import math
 import os

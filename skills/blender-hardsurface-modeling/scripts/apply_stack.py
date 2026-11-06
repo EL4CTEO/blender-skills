@@ -9,7 +9,7 @@ Usage:
   blender -b f.blend -P apply_stack.py -- --objects Body [--preset midpoly] [--width 0.01]
       [--segments 3] [--angle 30] [--cutters CutA CutB] [--solver EXACT|MANIFOLD|FLOAT]
       [--triangulate] [--apply] [--save out.blend]
-  MCP: import apply_stack; print(apply_stack.run(objects=["Body"], cutters=["Hole"]))
+  MCP: import apply_stack; result = apply_stack.run(objects=["Body"], cutters=["Hole"])
 """
 import math
 import os

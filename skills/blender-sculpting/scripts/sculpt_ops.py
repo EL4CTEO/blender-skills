@@ -10,7 +10,7 @@ Ops run in the order given:
   apply              apply all modifiers except Multires
 Usage:
   blender -b f.blend -P sculpt_ops.py -- --objects Blob --ops remesh=0.02 symmetrize=+X multires=3 [--save out.blend]
-  MCP: import sculpt_ops; print(sculpt_ops.run(objects=["Blob"], ops=["remesh=0.02", "smooth=5"]))
+  MCP: import sculpt_ops; result = sculpt_ops.run(objects=["Blob"], ops=["remesh=0.02", "smooth=5"])
 """
 import os
 import sys

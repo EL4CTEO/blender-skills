@@ -99,6 +99,26 @@ def test_review_shots_renders_sheet():
     assert "QA_Cam" not in bpy.data.objects and len(bpy.data.objects) == 1
 
 
+def test_review_shots_frames_and_xray_restore_scene():
+    requires_gpu()
+    c = fx.cube("SM_Box", location=(0, 0, 1))
+    c.keyframe_insert("location", frame=1)
+    c.location.x = 3
+    c.keyframe_insert("location", frame=20)
+    sc = bpy.context.scene
+    sc.frame_start, sc.frame_end, sc.frame_current = 1, 20, 7
+    sh = sc.display.shading
+    r = skill_module("blender-asset-qa", "review_shots").run(out=str(TMP / "qa_f.png"), res=96, mode="xray",
+                                                             frame_count=3)
+    assert r["order"] == ["f1_three_quarter", "f10_three_quarter", "f20_three_quarter"], r["order"]
+    assert os.path.getsize(r["sheet"]) > 1000
+    assert sc.frame_current == 7 and not sh.show_xray
+    r = skill_module("blender-asset-qa", "review_shots").run(out=str(TMP / "qa_t.png"), res=96, mode="texture",
+                                                             frames=[5], views=["front", "top"])
+    assert r["order"] == ["f5_front", "f5_top"] and sc.frame_current == 7
+    assert "QA_Cam" not in bpy.data.objects and len(bpy.data.objects) == 1
+
+
 def test_material_and_texture_delivery_checks():
     ob = fx.unwrap(fx.cube("Crate"))
     good, bad = bpy.data.materials.new("M_Good"), bpy.data.materials.new("M_Bad")

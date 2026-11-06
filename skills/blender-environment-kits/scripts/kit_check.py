@@ -8,7 +8,7 @@ Usage:
   blender -b f.blend -P kit_check.py -- [--objects SM_Wall_4m SM_Floor_4m] [--grid 0.5]
       [--pivot corner|bottom-center|center] [--texture 2048] [--tol 0.001] [--prefix SM_] [--fix]
       [--save out.blend]
-  MCP: import kit_check; print(kit_check.run(objects=["SM_Wall_4m"], grid=0.5, fix=True))
+  MCP: import kit_check; result = kit_check.run(objects=["SM_Wall_4m"], grid=0.5, fix=True)
 """
 import math
 import os

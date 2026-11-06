@@ -10,7 +10,7 @@ Usage:
       [--min-distance 4] [--max-slope 25] [--height-min -1e9] [--height-max 1e9] [--mask VG|ATTR]
       [--scale 0.8 1.2] [--align 0.0] [--seed 0] [--realize] [--name ENV_Trees]
       [--export-points //trees.json] [--save out.blend]
-  MCP: import scatter; print(scatter.run(target="Terrain", collection="Rocks", density=0.1, max_slope=60))
+  MCP: import scatter; result = scatter.run(target="Terrain", collection="Rocks", density=0.1, max_slope=60)
 """
 import json
 import math

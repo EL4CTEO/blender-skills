@@ -10,7 +10,7 @@ Usage:
   blender -b f.blend -P retarget.py -- --source Mocap --target GAME_RIG [--map auto|map.json]
       [--frames 1 120] [--in-place] [--name Walk] [--save out.blend]
   blender -b f.blend -P retarget.py -- --source Mocap --target GAME_RIG --show-map
-  MCP: import retarget; print(retarget.run(source="Armature", target="GAME_RIG", name="Walk"))
+  MCP: import retarget; result = retarget.run(source="Armature", target="GAME_RIG", name="Walk")
 """
 import json
 import math

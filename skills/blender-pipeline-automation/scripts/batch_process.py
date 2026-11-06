@@ -8,7 +8,7 @@ Usage:
   blender -b -P batch_process.py -- --in "src/*.blend" --op script --script skills/blender-asset-qa/scripts/qa_check.py
       --kwargs '{"profile":"game"}' [--save-to out/]
   parallel: run N processes with --shard 0/4, 1/4, 2/4, 3/4
-  MCP (careful: replaces the open file): import batch_process; batch_process.run(inp="C:/assets", op="report")
+  MCP (careful: replaces the open file): import batch_process; result = batch_process.run(inp="C:/assets", op="report")
 Prints one JSON line per file (@@JSON@@ when run via run_in_blender.py) and a summary.
 """
 import glob

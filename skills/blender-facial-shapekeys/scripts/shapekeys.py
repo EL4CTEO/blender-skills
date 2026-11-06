@@ -7,7 +7,7 @@ Usage:
   blender -b f.blend -P shapekeys.py -- --mesh Head --mirror browDownLeft
   blender -b f.blend -P shapekeys.py -- --mesh Head --report
   blender -b f.blend -P shapekeys.py -- --mesh Head --drivers FaceCtrl   (custom props 0..1 per key)
-  MCP: import shapekeys; print(shapekeys.run(mesh="Head", create="arkit"))
+  MCP: import shapekeys; result = shapekeys.run(mesh="Head", create="arkit")
 """
 import os
 import sys

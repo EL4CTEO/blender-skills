@@ -9,7 +9,7 @@ Usage:
   blender -b f.blend -P bake_action.py -- --source RIG_Body --target GAME_RIG_Body
       [--actions Walk Run] [--root-motion xy|xyz] [--hips spine] [--step 1] [--no-clean] [--save out.blend]
   blender -b f.blend -P bake_action.py -- --target GAME_RIG_Body --follow
-  MCP: import bake_action; print(bake_action.run(source="RIG_Body", target="GAME_RIG_Body", root_motion="xy"))
+  MCP: import bake_action; result = bake_action.run(source="RIG_Body", target="GAME_RIG_Body", root_motion="xy")
 Self-bake (constraints/IK/drivers -> keys on the same rig): --source X --target X.
 """
 import os

@@ -3,7 +3,7 @@
 Optional safe fixes: purge orphans, apply rot/scale on single-user meshes, make paths relative.
 Usage:
   blender -b f.blend -P scene_audit.py -- [--objects A B] [--fix purge scale paths] [--save out.blend]
-  MCP: import scene_audit; print(scene_audit.run(fix=["purge"]))
+  MCP: import scene_audit; result = scene_audit.run(fix=["purge"])
 """
 import os
 import re

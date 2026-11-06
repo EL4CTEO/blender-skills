@@ -6,7 +6,7 @@ Usage:
       [--density 500] [--frames 1 120] [--bake] [--to-keys] [--save out.blend]
   blender -b f.blend -P sim_setup.py -- --cloth Flag --preset cotton --pin PinGroup --colliders Pole [--bake]
   blender -b f.blend -P sim_setup.py -- --gn-cloth Sheet --colliders Table --set Bendiness=0.5 [--bake]
-  MCP: import sim_setup as s; print(s.run(rigid=True, active=["Crate"], passive=["Floor"], bake=True))
+  MCP: import sim_setup as s; result = s.run(rigid=True, active=["Crate"], passive=["Floor"], bake=True)
 Returns per-object settings and, after baking, the final world positions / evaluated bounds.
 """
 import os

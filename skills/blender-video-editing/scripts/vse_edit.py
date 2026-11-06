@@ -12,7 +12,7 @@ Usage:
       [--resolution 1920 1080] [--crossfade 12] [--still-seconds 3] [--title "My Film"]
       [--title-seconds 3] [--audio music.wav] [--audio-fade 1.0] [--out //edit.mp4] [--render]
       [--scene Edit] [--save out.blend]
-  MCP: import vse_edit; print(vse_edit.run(clips=["a.mp4", "b.mp4"], crossfade=12, out="//edit.mp4", render=True))
+  MCP: import vse_edit; result = vse_edit.run(clips=["a.mp4", "b.mp4"], crossfade=12, out="//edit.mp4", render=True)
 """
 import glob
 import os

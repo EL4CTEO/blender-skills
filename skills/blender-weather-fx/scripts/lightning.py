@@ -6,7 +6,7 @@ Usage:
   blender -b f.blend -P lightning.py -- [--flashes 2] [--frames 30 80] [--strokes 3]
       [--at X Y] [--distance 300] [--height 450] [--strength 1.0] [--no-bolt] [--no-sky]
       [--seed 0] [--save out.blend]
-  MCP: import lightning; print(lightning.run(flashes=2, strength=1.5))
+  MCP: import lightning; result = lightning.run(flashes=2, strength=1.5)
 """
 import math
 import os

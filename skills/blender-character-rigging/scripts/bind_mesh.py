@@ -7,7 +7,7 @@ Cleanup: remove weights < --clean, limit to --limit influences, normalize.
 Usage:
   blender -b f.blend -P bind_mesh.py -- --armature RIG --meshes Body Head [--method auto|proxy|envelope|empty]
       [--limit 4] [--clean 0.01] [--save out.blend]
-  MCP: import bind_mesh; print(bind_mesh.run(armature="rig", meshes=["Body"]))
+  MCP: import bind_mesh; result = bind_mesh.run(armature="rig", meshes=["Body"])
 """
 import os
 import sys

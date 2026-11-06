@@ -2,10 +2,10 @@
 name: blender-core
 description: Foundation for any Blender 5.2+ task an agent drives - running bpy via MCP (live) or headless CLI, context overrides, locale-safe node lookup, enum discovery, 5.x API changes, verification. Use first for any Blender, bpy, .blend or 3D-asset request; routes to the specialized blender-* skills.
 license: MIT
-compatibility: Blender 5.2 LTS or newer. Optional blender-mcp server for live sessions.
+compatibility: Blender 5.2 LTS or newer. Optional official Blender MCP server (Blender Lab add-on) for live sessions.
 metadata:
   author: blender-agent-skills
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Blender Core (5.2 LTS+)
@@ -42,12 +42,13 @@ metadata:
 | End-to-end playbooks (prop, character, Roblox, product shot) | `blender-workflow-recipes` |
 
 ## Execute
-**Live (blender-mcp `execute_blender_code`)**: work in small steps and print only what you need. To call a skill script, import it:
+**Live (official Blender MCP, `execute_blender_code`)**: work in small steps. The tool returns only what you assign to **`result`** (a JSON-serialisable dict); `print()` output is not a reliable return channel. To call a skill script, import it:
 ```python
 import sys, importlib; sys.path.insert(0, r"<skills_dir>/blender-asset-qa/scripts")
-import qa_check; importlib.reload(qa_check); print(qa_check.run(objects=["Chair"]))
+import qa_check; importlib.reload(qa_check); result = qa_check.run(objects=["Chair"])
 ```
-Each MCP call runs in a **fresh namespace**: re-`import` in every call. That's cheap because modules stay cached in `sys.modules`. `reload` only after editing a script.
+Re-`import` in every call (don't rely on names from an earlier call). That's cheap because modules stay cached in `sys.modules`. `reload` only after editing a script.
+Before writing code, prefer the read-only MCP tools: `get_objects_summary`, `get_object_detail_summary`, `get_blendfile_summary_*`; check API names with `search_api_docs` / `get_python_api_docs`. Tool map and the replacement for the `look` tool other servers have: [references/official-mcp.md](references/official-mcp.md).
 **Headless (any agent with a shell)**: this prints only the script's JSON (`@@JSON@@` lines):
 ```
 python <skills_dir>/blender-core/scripts/run_in_blender.py --blend in.blend <script.py> -- --objects Chair --save out.blend
@@ -78,7 +79,7 @@ Raw form: `blender -b in.blend --factory-startup --python-exit-code 1 -P x.py --
 ## Verify (required before saying "done")
 1. Numbers, not adjectives: report tris, objects, materials, dimensions (`ob.dimensions`) and the output files written.
 2. Geometry changed → run `blender-asset-qa` `qa_check.py` (z-fighting, detached parts, non-manifold, flipped normals, scale).
-3. Look at it: MCP `look` (`mode="angles"`, shading `material`/`wireframe`). Headless: `blender-asset-qa/scripts/review_shots.py` renders contact sheets.
+3. Look at it: `blender-asset-qa/scripts/review_shots.py` renders a multi-angle contact sheet (live: import it via `execute_blender_code`; headless: `run_in_blender.py`), modes `material`/`texture`/`wire`/`xray`, `frames=` for animation. Open the PNG with your image reader. For what the user sees (bones, overlays, edit mode): MCP `get_screenshot_of_area_as_image(area_ui_type="VIEW_3D")`.
 4. Re-read your own output: confirm that exported files exist and that their size is non-zero.
 
 ## References
