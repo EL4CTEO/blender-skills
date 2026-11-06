@@ -42,12 +42,12 @@ metadata:
 | End-to-end playbooks (prop, character, Roblox, product shot) | `blender-workflow-recipes` |
 
 ## Execute
-**Live (official Blender MCP, `execute_blender_code`)**: work in small steps. The tool returns only what you assign to **`result`** (a JSON-serialisable dict); `print()` output is not a reliable return channel. To call a skill script, import it:
+**Live (official Blender MCP, `execute_blender_code`)**: work in small steps. Return data by assigning a JSON-serialisable dict to **`result`**; the reply is `{"status", "result", "stdout"}`, so `print()` lands in `stdout` (use it for short logs, not data). To call a skill script, import it:
 ```python
 import sys, importlib; sys.path.insert(0, r"<skills_dir>/blender-asset-qa/scripts")
 import qa_check; importlib.reload(qa_check); result = qa_check.run(objects=["Chair"])
 ```
-Re-`import` in every call (don't rely on names from an earlier call). That's cheap because modules stay cached in `sys.modules`. `reload` only after editing a script.
+Each call runs in a **fresh namespace** (variables don't survive between calls): re-`import` in every call. That's cheap because modules stay cached in `sys.modules`. `reload` only after editing a script.
 Before writing code, prefer the read-only MCP tools: `get_objects_summary`, `get_object_detail_summary`, `get_blendfile_summary_*`; check API names with `search_api_docs` / `get_python_api_docs`. Tool map and the replacement for the `look` tool other servers have: [references/official-mcp.md](references/official-mcp.md).
 **Headless (any agent with a shell)**: this prints only the script's JSON (`@@JSON@@` lines):
 ```

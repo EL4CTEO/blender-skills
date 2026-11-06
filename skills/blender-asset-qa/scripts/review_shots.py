@@ -79,7 +79,7 @@ def run(objects=None, out="", views=None, mode="solid", res=512, frames=None, fr
                          "wire": "OBJECT"}.get(mode, "SINGLE")
         sh.show_xray = mode == "xray"
         if mode == "xray":
-            sh.xray_alpha = 0.4
+            sh.xray_alpha = 0.2
         if mode == "wire":
             wire_t = _bounds(obs)[1] * 0.006
             for o in obs:

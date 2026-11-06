@@ -5,7 +5,7 @@ The skills target the official Blender MCP server: Blender runs with the MCP add
 ## Tools
 | Need | Tool | Notes |
 |---|---|---|
-| Run bpy in the open Blender | `execute_blender_code(code)` | Return data by assigning a JSON-serialisable dict to `result`. Runs in the user's session: changes are live and there is no undo step for the agent, so save or back up first. |
+| Run bpy in the open Blender | `execute_blender_code(code)` | Return data by assigning a JSON-serialisable dict to `result`; the reply is `{"status", "result", "stdout"}` (`print` goes to `stdout`). Each call gets a fresh namespace. Runs in the user's session: changes are live and there is no undo step for the agent, so save or back up first. |
 | Run bpy on a file in a background Blender | `execute_blender_code_for_cli(blend_file, code)` | Needs `BLENDER_PATH` pointing at the Blender executable (macOS: `/Applications/Blender.app/Contents/MacOS/Blender`). Same `result` rule. Without it, use `blender-core/scripts/run_in_blender.py`. |
 | Scene overview | `get_objects_summary` | Collections, objects, parents, visibility. Read this before touching anything. |
 | One object in detail | `get_object_detail_summary` | Transforms, modifiers, materials, data. |
@@ -22,7 +22,7 @@ Some skills were first written for a server with a `look` tool. With the officia
 |---|---|
 | `look(mode="angles")`, shading solid/material | `review_shots.run(objects=[...], mode="solid"` or `"material"` or `"texture")` |
 | `look` wireframe | `review_shots.run(objects=[...], mode="wire")` |
-| `look` xray (mesh internals) | `review_shots.run(objects=[...], mode="xray")` |
+| `look` xray (mesh internals) | `review_shots.run(objects=[...], mode="xray")` (inner parts show through; a closed body alone looks only slightly faded) |
 | `look(mode="frames", frames=[...])` / `frame_count=N` | `review_shots.run(objects=[...], frames=[...])` or `frame_count=N` |
 | Bones, joint placement, overlays, edit mode | `jump_to_view3d_object_by_name` + `get_screenshot_of_area_as_image(area_ui_type="VIEW_3D")`. Workbench renders don't draw armatures. |
 
