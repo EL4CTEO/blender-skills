@@ -4,7 +4,7 @@ description: Write Blender 5.2 add-ons as extensions - blender_manifest.toml, op
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Add-on (Extension) Development

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Blender 5.2 LTS or newer. Optional official Blender MCP server (Blender Lab add-on) for live sessions.
 metadata:
   author: blender-agent-skills
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Blender Core (5.2 LTS+)

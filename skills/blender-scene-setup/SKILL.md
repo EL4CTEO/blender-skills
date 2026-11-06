@@ -4,7 +4,7 @@ description: Set up and audit Blender scenes the way studios do - units and real
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Scene Setup & Hygiene

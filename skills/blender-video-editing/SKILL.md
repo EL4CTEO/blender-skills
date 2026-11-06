@@ -4,7 +4,7 @@ description: Video in Blender 5.2 - Video Sequencer edits from Python (clips, im
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Video editing and tracking

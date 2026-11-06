@@ -4,7 +4,7 @@ description: Facial rigs and shape keys in Blender 5.2 - ARKit 52 blendshapes, v
 license: MIT
 metadata:
   author: blender-agent-skills
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Facial Rig & Shape Keys
