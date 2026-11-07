@@ -15,6 +15,7 @@ from collections import Counter, defaultdict
 
 import bmesh
 import bpy
+import numpy as np
 from mathutils import Vector
 from mathutils.bvhtree import BVHTree
 from mathutils.kdtree import KDTree
@@ -131,7 +132,11 @@ def _uv_stats(ob, bm_local):
         return {"uv_maps": 0}
     uv = bm_local.loops.layers.uv.active
     oob = total = zero = 0
-    grid, n = defaultdict(set), 128
+    n = 128
+    # coarse raster: a cell is used when its centre lies in a face, overlapped when in 2+ faces.
+    # Fixed-size arrays: memory does not grow with faces stacked on the same cells.
+    owner = np.full((n, n), -1, dtype=np.int64)
+    over = np.zeros((n, n), dtype=bool)
     step = max(1, len(bm_local.faces) // 30000)  # sample huge meshes
     for f in list(bm_local.faces)[::step]:
         pts = [l[uv].uv.copy() for l in f.loops]
@@ -144,19 +149,23 @@ def _uv_stats(ob, bm_local):
         if abs(a2) < 1e-12:
             zero += 1
             continue
-        # coarse raster of face bbox cells whose centre is inside the polygon (fan triangles)
         xs, ys = [p.x for p in pts], [p.y for p in pts]
-        for gx in range(max(0, int(min(xs) * n)), min(n, int(max(xs) * n) + 1)):
-            for gy in range(max(0, int(min(ys) * n)), min(n, int(max(ys) * n) + 1)):
-                c = Vector(((gx + .5) / n, (gy + .5) / n))
-                for i in range(1, len(pts) - 1):
-                    t = (pts[0], pts[i], pts[i + 1])
-                    d = [(t[(k + 1) % 3] - t[k]).to_3d().cross((c - t[k]).to_3d()).z for k in range(3)]
-                    if all(x >= 0 for x in d) or all(x <= 0 for x in d):
-                        grid[(gx, gy)].add(f.index)
-                        break
-    used = len(grid)
-    overlap = sum(1 for s in grid.values() if len(s) > 1)
+        x0, x1 = max(0, int(min(xs) * n)), min(n, int(max(xs) * n) + 1)
+        y0, y1 = max(0, int(min(ys) * n)), min(n, int(max(ys) * n) + 1)
+        if x0 >= x1 or y0 >= y1:
+            continue
+        cx, cy = np.meshgrid((np.arange(x0, x1) + .5) / n, (np.arange(y0, y1) + .5) / n, indexing="ij")
+        inside = np.zeros(cx.shape, dtype=bool)
+        for i in range(1, len(pts) - 1):   # fan triangles
+            t = (pts[0], pts[i], pts[i + 1])
+            d = [(t[(k + 1) % 3].x - t[k].x) * (cy - t[k].y) - (t[(k + 1) % 3].y - t[k].y) * (cx - t[k].x)
+                 for k in range(3)]
+            inside |= ((d[0] >= 0) & (d[1] >= 0) & (d[2] >= 0)) | ((d[0] <= 0) & (d[1] <= 0) & (d[2] <= 0))
+        win, ov = owner[x0:x1, y0:y1], over[x0:x1, y0:y1]   # views
+        ov |= inside & (win >= 0) & (win != f.index)
+        win[inside & (win < 0)] = f.index
+    used = int((owner >= 0).sum())
+    overlap = int(over.sum())
     return {"uv_maps": len(me.uv_layers), "uv_oob_pct": round(100 * oob / max(total, 1), 2),
             "uv_zero_area_faces": zero, "uv_overlap_pct": round(100 * overlap / max(used, 1), 2),
             "uv_coverage_pct": round(100 * used / n / n, 1)}
@@ -220,9 +229,15 @@ def run(objects=None, profile="game", eps=0.001, tol=0.002, no_modifiers=False, 
         bm_t = bm.copy()
         bmesh.ops.triangulate(bm_t, faces=bm_t.faces[:])
         bm_t.verts.ensure_lookup_table()
+        # signed volume about a point of the island itself: about the world origin, float32
+        # cancellation turns small parts far from it (3 mm parts 2 m out) "inside out"
+        ref = {}
+        for v in bm.verts:
+            ref.setdefault(isl[v.index], v.co.copy())
         for f in bm_t.faces:
-            a, b, c = (v.co for v in f.verts)
             g = isl[f.verts[0].index]
+            o = ref[g]
+            a, b, c = (v.co - o for v in f.verts)
             vol[g] += a.dot(b.cross(c)) / 6.0
             tris.append(tuple(base_v + v.index for v in f.verts))
             tri_meta.append((oi, gid_base + g, f.normal.copy()))
