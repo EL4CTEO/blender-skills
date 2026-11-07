@@ -83,6 +83,32 @@ def test_detects_inverted_and_inconsistent_normals_and_back_to_back():
     assert r["back_to_back"] and not r["zfighting"], r
 
 
+def test_small_part_far_from_origin_is_not_inside_out():
+    # 3 mm joint spheres ~2.4 m out: origin-based float32 volume used to come out negative
+    for k in range(12):
+        fx.uv_sphere(f"Joint{k}", radius=0.003, segs=5, rings=4, location=(2.37 + 0.011 * k, 0.81, 0.97))
+    r = _qa().run(objects=[f"Joint{k}" for k in range(12)], uv=False)
+    assert sum(o["inside_out_islands"] for o in r["objects"].values()) == 0, r["objects"]
+
+
+def test_stacked_uvs_are_overlap_and_stay_cheap():
+    import time
+    ob = fx.plane("Grid")
+    bm = bmesh.new()
+    bm.from_mesh(ob.data)
+    bmesh.ops.subdivide_edges(bm, edges=bm.edges[:], cuts=59, use_grid_fill=True)   # 3600 quads
+    bm.to_mesh(ob.data)
+    bm.free()
+    lay = ob.data.uv_layers.new(name="UVMap")   # per-face "reset" UVs: every quad covers 0-1
+    for p in ob.data.polygons:
+        for i, li in enumerate(p.loop_indices):
+            lay.data[li].uv = ((0, 0), (1, 0), (1, 1), (0, 1))[i]
+    t = time.time()
+    m = _qa().run(objects=["Grid"])["objects"]["Grid"]
+    assert m["uv_overlap_pct"] == 100.0 and m["uv_coverage_pct"] == 100.0, m
+    assert time.time() - t < 60, time.time() - t
+
+
 def test_roblox_profile_flags_open_mesh_and_ngons():
     p = fx.plane("Flat")
     r = _qa().run(objects=["Flat"], profile="roblox", uv=False)
