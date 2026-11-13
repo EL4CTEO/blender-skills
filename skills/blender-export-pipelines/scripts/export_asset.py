@@ -129,6 +129,19 @@ def run(preset="gltf", objects=None, collection=None, out="", batch=False, no_an
     warn += [f"{o.name}: n-gons present; tangents need tris/quads" for o in obs
              if o.type == "MESH" and fmt == "fbx" and kw.get("use_tspace") and not kw.get("use_triangles")
              and any(len(p.vertices) > 4 for p in o.data.polygons)]
+    # glTF single-armature mode adds EVERY armature action in the file, even ones driving other rigs
+    # (e.g. the Rigify control rig's clip baked onto GAME_*): it lands as a bogus extra clip.
+    if fmt == "gltf" and kw.get("export_animations") and "export_anim_single_armature" not in kw:
+        names = {o.name for o in obs}
+        foreign = []
+        for a in bpy.data.actions:
+            users = [u.name for s in a.slots if s.target_id_type == "OBJECT" for u in s.users()]
+            if users and not names.intersection(users):
+                foreign.append(a.name)
+        if foreign:
+            kw["export_anim_single_armature"] = False
+            warn.append(f"skipped actions that animate non-exported objects: {foreign[:10]}; only the "
+                        "exported objects' active action + NLA strips are exported (bake_action adds strips)")
     out = bpy.path.abspath(out) if out else os.path.join(
         os.path.dirname(bpy.data.filepath) or os.getcwd(), "export", f"{obs[0].name}{EXT[fmt]}")
     if fmt == "usd" and not out.endswith((".usd", ".usda", ".usdc", ".usdz")):

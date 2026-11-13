@@ -1,3 +1,5 @@
+import math
+
 import bpy
 import fixtures as fx
 from run_all import TMP, skill_module
@@ -163,3 +165,33 @@ def test_loop_check_pops_fix_and_root_motion():
     assert r["loops"] and r["fixed_curves"] >= 3, r
     sc.frame_set(24)
     assert abs(spine.location.x - 1.0) < 1e-6  # root travel kept
+
+
+def test_loop_check_hitches_kink_dip_and_smooth_reversal():
+    _body, arm = fx.simple_character()
+    chest = arm.pose.bones["chest"]
+    chest.rotation_mode = "XYZ"
+    lc = skill_module("blender-animation", "loop_check")
+
+    def keys(vals, interp=None, axis=0):
+        arm.animation_data_clear()
+        for f, v in vals:
+            e = [0.0, 0.0, 0.0]
+            e[axis] = v
+            chest.rotation_euler = e
+            chest.keyframe_insert("rotation_euler", frame=f)
+        if interp:
+            for fc in arm.animation_data.action.layers[0].strips[0].channelbags[0].fcurves:
+                for k in fc.keyframe_points:
+                    k.interpolation = interp
+        return [h for h in lc.run(object="CharRig", frames=[1, 25])["hitches"] if h["bone"] == "chest"]
+
+    # smooth cycle whose extreme sits right at the seam: a reversal, not a hitch
+    smooth = keys([(f, 0.6 * math.cos(2 * math.pi * (f - 1) / 24 + 0.3)) for f in range(1, 26)])
+    assert not smooth, smooth
+    # linear up-and-back: velocity flips sharply at the seam
+    kink = keys([(1, 0.0), (7, 0.6), (25, 0.0)], "LINEAR")
+    assert kink and kink[0]["kind"] == "kink", kink
+    # continuous spin that eases out and back in at the seam
+    dip = keys([(1, 0.0), (25, 2 * math.pi)], axis=2)
+    assert dip and dip[0]["kind"] == "dip", dip

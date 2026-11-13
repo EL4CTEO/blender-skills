@@ -15,7 +15,7 @@ import sys
 
 import bpy
 from bpy_extras import anim_utils
-from mathutils import Matrix
+from mathutils import Matrix, Vector
 
 sys.path.insert(0, os.path.dirname(__file__))
 import _bpyx as bx  # noqa: E402
@@ -40,18 +40,35 @@ def _diff(a, b):
     return min(rot, 360.0 - rot), (a.translation - b.translation).length
 
 
+def _w(a, b):
+    """Signed angular velocity a -> b (deg, as a vector) so direction reversals are visible."""
+    q = a.to_quaternion().rotation_difference(b.to_quaternion())
+    if q.w < 0:
+        q.negate()
+    return Vector(q.to_exponential_map()) * (180.0 / math.pi)
+
+
 def _check(ob, f0, f1, tol_deg, tol_m, root):
     p0, p1 = _poses(ob, f0, root), _poses(ob, f1, root)
     n0, n1 = _poses(ob, f0 + 1, root), _poses(ob, f1 - 1, root)
+    m0, m1 = _poses(ob, f0 + 2, root), _poses(ob, f1 - 2, root)
     pops, hitch = [], []
     for k in p0:
         r, t = _diff(p0[k], p1[k])
         if r > tol_deg or t > tol_m:
             pops.append({"bone": k, "rot_deg": round(r, 3), "loc_m": round(t, 5)})
-        v_in, v_out = _diff(p1[k], n1[k])[0], _diff(n0[k], p0[k])[0]  # deg/frame arriving vs leaving
-        dv = abs(v_in - v_out)
-        if dv > tol_deg and dv > 0.25 * max(v_in, v_out):
-            hitch.append({"bone": k, "deg_per_frame_in": round(v_in, 3), "deg_per_frame_out": round(v_out, 3)})
+        # velocities over the 4 frame steps around the seam (f1-2 .. f1 == f0 .. f0+2)
+        v1, v2, v3, v4 = _w(m1[k], n1[k]), _w(n1[k], p1[k]), _w(p0[k], n0[k]), _w(n0[k], m0[k])
+        a_before, a_seam, a_after = v2 - v1, v3 - v2, v4 - v3
+        jerk = (a_seam - (a_before + a_after) / 2).length  # seam accel unlike its neighbours
+        kink = jerk > tol_deg and jerk > max(a_before.length, a_after.length)
+        # ease-out/ease-in at the seam: speed dips without the motion reversing
+        same_dir = v1.dot(v2) > 0 and v2.dot(v3) > 0 and v3.dot(v4) > 0
+        lo, hi = min(v2.length, v3.length), min(v1.length, v4.length)
+        dip = same_dir and hi - lo > tol_deg and lo < 0.5 * hi
+        if kink or dip:
+            hitch.append({"bone": k, "deg_per_frame_in": round(v2.length, 3),
+                          "deg_per_frame_out": round(v3.length, 3), "kind": "kink" if kink else "dip"})
     pops.sort(key=lambda x: -x["rot_deg"] - 100 * x["loc_m"])
     hitch.sort(key=lambda x: -abs(x["deg_per_frame_in"] - x["deg_per_frame_out"]))
     return pops, hitch

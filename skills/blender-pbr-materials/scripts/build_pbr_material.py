@@ -117,6 +117,8 @@ def run(name="M_Material", textures=None, preset=None, color=None, objects=None,
         bsdf.inputs["Base Color"].default_value = (*base, 1)
         bsdf.inputs["Roughness"].default_value = rough
         bsdf.inputs["Metallic"].default_value = metal
+        # viewport display (Workbench "material" color, solid view) mirrors the preset
+        mat.diffuse_color, mat.roughness, mat.metallic = (*base, 1), rough, metal
         if preset in ("glass", "water"):
             bsdf.inputs["Transmission Weight"].default_value = 1.0
             bsdf.inputs["IOR"].default_value = 1.33 if preset == "water" else 1.5

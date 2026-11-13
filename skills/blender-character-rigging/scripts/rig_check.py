@@ -26,7 +26,7 @@ R15 = ["LowerTorso", "UpperTorso", "Head", "LeftUpperArm", "LeftLowerArm", "Left
 # Unity Humanoid required bones -> name patterns commonly seen (Rigify/Mixamo/UE/Blender)
 HUMANOID = {
     "Hips": r"hips|pelvis$|^spine$|root_?hips", "Spine": r"spine(\.001|_01|1)?$|^spine$",
-    "Head": r"head$", "LeftUpperLeg": r"(thigh|upleg|upperleg|upper_leg)[._]?l|left.?(up|upper).?leg",
+    "Head": r"head$|^spine\.006$", "LeftUpperLeg": r"(thigh|upleg|upperleg|upper_leg)[._]?l|left.?(up|upper).?leg",
     "LeftLowerLeg": r"(shin|calf|^leg|lowerleg|lower_leg)[._]?l|left.?(lower)?leg$",
     "LeftFoot": r"foot[._]?l|left.?foot", "RightUpperLeg": r"(thigh|upleg|upperleg|upper_leg)[._]?r|right.?(up|upper).?leg",
     "RightLowerLeg": r"(shin|calf|lowerleg|lower_leg)[._]?r|right.?(lower)?leg$",
@@ -82,7 +82,8 @@ def run(armature=None, meshes=None, profile="game", fix=False, limit=4, **_):
                 roll_bad.append(b.name)
     if roll_bad:
         warnings.append(f"asymmetric bone roll vs mirror: {roll_bad[:10]} (recalc roll / symmetrize)")
-    constrained = [pb.name for pb in arm.pose.bones if pb.constraints and arm.data.bones[pb.name].use_deform]
+    constrained = [pb.name for pb in arm.pose.bones if arm.data.bones[pb.name].use_deform
+                   and any(c.enabled for c in pb.constraints)]  # muted = already baked (bake_action)
     if constrained:
         warnings.append(f"{len(constrained)} deform bones have constraints - bake animation before export")
     names = [b.name for b in deform]
@@ -93,7 +94,9 @@ def run(armature=None, meshes=None, profile="game", fix=False, limit=4, **_):
         if missing:
             errors.append(f"R15 bones missing: {missing}")
     elif profile == "unity":
-        mapped = {k: next((n for n in names if re.search(p, n, re.I)), None) for k, p in HUMANOID.items()}
+        mapped = {}
+        for k, p in HUMANOID.items():  # one bone per slot (Rigify 'spine' is the hips, not Spine too)
+            mapped[k] = next((n for n in names if re.search(p, n, re.I) and n not in mapped.values()), None)
         prof["humanoid_map"] = mapped
         miss = [k for k, v in mapped.items() if v is None]
         if miss:
