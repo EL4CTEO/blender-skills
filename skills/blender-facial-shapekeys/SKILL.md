@@ -1,6 +1,6 @@
 ---
 name: blender-facial-shapekeys
-description: Facial rigs and shape keys in Blender 5.2 - ARKit 52 blendshapes, visemes for lip-sync, sculpting expressions, splitting symmetric shapes into Left/Right, mirroring, corrective and combination shapes, drivers and control rigs, bone+blendshape hybrids, export to engines (Unity, Unreal, Roblox dynamic heads, VRM/web). Use for faces, expressions, lip-sync, or any shape-key work.
+description: Facial rigs and shape keys in Blender 5.3 - ARKit 52 blendshapes, visemes for lip-sync, sculpting expressions, splitting symmetric shapes into Left/Right, mirroring, corrective and combination shapes, drivers and control rigs, bone+blendshape hybrids, export to engines (Unity, Unreal, Roblox dynamic heads, VRM/web). Use for faces, expressions, lip-sync, or any shape-key work.
 license: MIT
 metadata:
   author: blender-agent-skills

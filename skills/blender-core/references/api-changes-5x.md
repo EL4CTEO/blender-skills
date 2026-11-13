@@ -1,6 +1,6 @@
-# bpy migration: 4.x → 5.2 (what LLM memory / old tutorials get wrong)
+# bpy migration: 4.x → 5.3 (what LLM memory / old tutorials get wrong)
 
-Each row was verified against Blender 5.2.3. Format: **old → new** (version).
+Each row was verified against Blender 5.2.3; the 5.3 section against 5.3.0. Format: **old → new** (version).
 
 ## Core / properties
 | Old | New |
@@ -84,5 +84,27 @@ Each row was verified against Blender 5.2.3. Format: **old → new** (version).
 | USD export `export_textures`, `visible_objects_only` | removed (5.0) |
 | `PreferencesFilePaths.active_asset_library` index == `asset_libraries` index | offset: list starts with "All Libraries", "Essentials" (5.2) |
 | log output format | changed (5.0). Don't regex-parse the render progress |
+
+## 5.3 changes (verified on 5.3.0)
+| Old | New |
+|---|---|
+| one compositor tree per scene | effects stack `scene.compositor_effects` (`SceneCompositorEffect.node_group`, `enable_for_render`). `scene.compositing_node_group` still works: it gets/sets the **active** effect's group and creates one if none exists |
+| GN Import PLY output `Mesh` | `Geometry` (point cloud for Gaussian-splat PLYs, mesh otherwise). New `GeometryNodeImportSPZ`, `bpy.ops.wm.spz_import` |
+| — | `PointCloud.type` = `POINTS` / `GAUSSIAN_SPLAT` (attributes `scale`, `rotation`, `radiance:base`, `radiance:sh_N`) |
+| glTF export `export_image_add_webp`, `export_image_webp_fallback` | `export_image_add_compressed_images` + `export_compressed_images_type` (`WEBP`/`KTX2`) + `export_compressed_images_fallback` |
+| glTF export `at_collection_center` | `collection_center_mode` (`WORLD_ORIGIN`, `CENTER_MASS`, `OBJECT_POSITION`, `INSTANCE_OFFSET`) |
+| VSE `overlap_mode` `EXPAND` | `RIPPLE` (`OVERWRITE`, `SHUFFLE` unchanged). Strips are no longer clamped to content by default (`preferences.edit.clamp_strips_by_default`) |
+| VSE `sequencer.update_scene_frame_range` | deprecated: scene strips follow their scene's range |
+| Rigify `pose.convert_rotation` | `bpy.ops.anim.rotation_mode_convert(mode=, bake=)`, or `ob/pose_bone.convert_rotation_mode(rotation_mode, bake=False)` |
+| `con = constraints.new(type); con.name = n` | `constraints.new(type, name=n)` |
+| LoopTools add-on | built in: `mesh.relax_edge_loops`, `mesh.curve_edge_loops_between_selected`, `mesh.fit_edge_loops_to_annotation`, `mesh.space_edge_loops_evenly` |
+| — | `mesh.primitive_quad_sphere_add(segments=4, method="EVEN_AREA")` |
+| Weight Paint defaults off | `tool_settings.use_auto_normalize`, `use_multipaint` and `mesh.use_mirror_vertex_groups` default **on**. Brush "Paint" → "Set Weight"; new default "Add Weight" |
+| Grease Pencil frame duration | disabled; `insert_blank_frame(duration=)` is ignored |
+| `bpy.data.all_ids` order | undocumented implementation detail; don't rely on it |
+| — | `colorspace_settings.interop_id` (names still valid), `KDTree(n, dimensions=2)`, `UILayout.label_multiline()`, `window_manager.undo_stack`, `context.markers` / `selected_markers`, built-in `OpenEXR` and `opentimelineio` modules |
+| — | Collection importers: `collection.importer` + `bpy.ops.collection.importer_add/importer_import` (USD only) |
+| GPU backend OpenGL (Windows/Linux) | Vulkan by default. `gpu.capabilities.ray_query_support_get()` |
+| Sky `sun_disc` only visible | the sun disc now also lights the scene (breaking look change). Keep `sun_disc=False` when a Sun lamp is the sun |
 
 When something is missing: `dir(obj)`, `T.bl_rna.properties.keys()`, `T.bl_rna.functions.keys()`, or `op.get_rna_type().properties` show the truth faster than docs.

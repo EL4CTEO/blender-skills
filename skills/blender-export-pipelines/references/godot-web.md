@@ -16,6 +16,7 @@
 ## Web (three.js, Babylon.js, model-viewer, R3F)
 - Preset `web`: GLB + **meshopt** compression (`EXT_meshopt_compression`, or `KHR_meshopt_compression` via `--set export_meshopt_extension=KHR_meshopt_compression`) + **WebP** textures (q85). `--draco` switches to Draco (smaller for static, slower decode; needs the DRACOLoader).
 - Budgets: hero model ≤ 2–5 MB GLB, total scene ≤ 10–20 MB, textures 1–2k, ≤ 50–100 draw calls on mobile web.
-- Further compression outside Blender (recommended): `gltf-transform optimize in.glb out.glb --texture-compress ktx2` (KTX2/Basis textures: big GPU memory savings), `gltfpack -cc -tc` (the Blender exporter can call gltfpack: `export_use_gltfpack`).
+- KTX2/Basis textures (big GPU memory savings), 5.3+ in Blender: `--preset web --set export_image_add_compressed_images=true export_compressed_images_type=KTX2` (writes `KHR_texture_basisu`; add `export_compressed_images_fallback=true` for a PNG fallback).
+- Further compression outside Blender: `gltf-transform optimize in.glb out.glb --texture-compress ktx2`, `gltfpack -cc -tc` (the Blender exporter can call gltfpack: `export_use_gltfpack`).
 - three.js: `GLTFLoader` + `MeshoptDecoder`/`DRACOLoader`/`KTX2Loader`. Set `renderer.outputColorSpace = SRGBColorSpace` and tone mapping (`AgX`/`Neutral`) to match Blender's view transform (Khronos PBR Neutral ↔ `NeutralToneMapping`).
 - Validate with the Khronos glTF Validator and view in https://gltf-viewer.donmccurdy.com or model-viewer.

@@ -1,4 +1,4 @@
-"""My Tool - Blender extension template (4.2+ extension format, verified on 5.2)."""
+"""My Tool - Blender extension template (4.2+ extension format, verified on 5.3)."""
 import bpy
 
 from . import operators, ui

@@ -1,6 +1,6 @@
 ---
 name: blender-pbr-materials
-description: Physically based materials in Blender 5.2 - metal/roughness rules, Principled BSDF inputs, color spaces (sRGB vs Non-Color), measured albedo/F0 values, texture-set auto-wiring, ORM channel packing, DirectX vs OpenGL normals, alpha modes, displacement, view transforms (AgX, Khronos PBR Neutral), engine-ready material rules. Use when creating, fixing, or exporting materials and textures.
+description: Physically based materials in Blender 5.3 - metal/roughness rules, Principled BSDF inputs, color spaces (sRGB vs Non-Color), measured albedo/F0 values, texture-set auto-wiring, ORM channel packing, DirectX vs OpenGL normals, alpha modes, displacement, view transforms (AgX, Khronos PBR Neutral), engine-ready material rules. Use when creating, fixing, or exporting materials and textures.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -25,7 +25,7 @@ The execution model is in `blender-core`. Measured values are in [references/pbr
 7. **AO**: the Principled BSDF has no AO input. For engines, ship AO in the ORM red channel. For Cycles renders, don't multiply AO into base color, because the renderer computes occlusion.
 
 ## Principled BSDF (5.2) quick map
-`Base Color`, `Metallic`, `Roughness`, `IOR`, `Alpha`, `Normal`, `Thin Wall` (5.2: leaves/paper/fabric sheets without volume), `Subsurface Weight/Radius/Scale` (skin, wax; Scale in meters ≈ 0.005–0.02 for skin), `Specular IOR Level`, `Specular Tint`, `Anisotropic`, `Transmission Weight` (glass/liquids), `Coat Weight/Roughness/Normal` (car paint, varnish), `Sheen Weight` (cloth, velvet), `Emission Color/Strength` (strength in W/m²-ish units; 1–10 for screens, 50+ for bulbs), `Thin Film Thickness/IOR` (soap, oil, coated lenses), `Diffuse Roughness`.
+`Base Color`, `Metallic`, `Roughness`, `IOR`, `Alpha`, `Normal`, `Thin Wall` (5.2: leaves/paper/fabric sheets without volume), `Subsurface Weight/Radius/Scale` (skin, wax; Scale in meters ≈ 0.005–0.02 for skin), `Specular IOR Level`, `Specular Tint`, `Anisotropic`, `Transmission Weight` (glass/liquids), `Coat Weight/Roughness/Normal` (car paint, varnish), `Sheen Weight` (cloth, velvet), `Emission Color/Strength` (strength in W/m²-ish units; 1–10 for screens, 50+ for bulbs), `Thin Film Thickness/IOR` (soap, oil, coated lenses), `Diffuse Roughness`, `Transmission Dispersion Scale/Abbe Number` (5.3: gems, prisms; Abbe ≈ 64 crown glass, 55 diamond, 30–40 flint glass; lower = more color fringing). 5.3 transmission also follows `Anisotropic`.
 
 ## Engine export rules
 | Target | Maps | Packing | Normal |

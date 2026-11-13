@@ -1,6 +1,6 @@
 ---
 name: blender-texture-baking
-description: Bake texture maps in Blender 5.2 Cycles - high-to-low normal maps with cage/extrusion, AO, curvature, ID, thickness, base color/roughness/metallic from procedurals, ORM packing, OpenGL vs DirectX, margins, GPU baking, fixing skewing/waviness/seams. Use when transferring sculpt or high-poly detail to game meshes or converting procedural materials to textures.
+description: Bake texture maps in Blender 5.3 Cycles - high-to-low normal maps with cage/extrusion, AO, curvature, ID, thickness, base color/roughness/metallic from procedurals, ORM packing, OpenGL vs DirectX, margins, GPU baking, fixing skewing/waviness/seams. Use when transferring sculpt or high-poly detail to game meshes or converting procedural materials to textures.
 license: MIT
 metadata:
   author: blender-agent-skills

@@ -1,6 +1,6 @@
 ---
 name: blender-hair-grooming
-description: Hair and fur in Blender 5.2 - hair curves on a surface, guides + interpolated children with the bundled hair node assets (clump, curl, noise, droop), density masks, Principled Hair BSDF (melanin), Curves Sculpt combing, 5.2 node Hair Dynamics, game hair cards with a rendered strand atlas, Alembic/USD groom export. Use for hair, fur, beards, eyebrows, grass tufts.
+description: Hair and fur in Blender 5.3 - hair curves on a surface, guides + interpolated children with the bundled hair node assets (clump, curl, noise, droop), density masks, Principled Hair BSDF (melanin), Curves Sculpt combing, 5.2 node Hair Dynamics, game hair cards with a rendered strand atlas, Alembic/USD groom export. Use for hair, fur, beards, eyebrows, grass tufts.
 license: MIT
 metadata:
   author: blender-agent-skills

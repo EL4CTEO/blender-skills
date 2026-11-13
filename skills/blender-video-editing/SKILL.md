@@ -1,6 +1,6 @@
 ---
 name: blender-video-editing
-description: Video in Blender 5.2 - Video Sequencer edits from Python (clips, image sequences, crossfades, titles, music fades, proxies, color management, H.264/AAC output) and motion tracking (feature detection, camera solve, scene orientation, tripod and plane tracking, stabilization) for VFX shots. Use to cut renders/footage together or match-move a camera.
+description: Video in Blender 5.3 - Video Sequencer edits from Python (clips, image sequences, crossfades, titles, music fades, proxies, color management, H.264/AAC output) and motion tracking (feature detection, camera solve, scene orientation, tripod and plane tracking, stabilization) for VFX shots. Use to cut renders/footage together or match-move a camera.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -31,6 +31,7 @@ import track_camera; print(track_camera.run(clip="C:/shots/sh010.mp4", focal=35,
 - Heavy footage: build proxies (`strip.use_proxy = True`, 25/50%, `sequencer.rebuild_proxy`). 5.2 builds only proxies (no `.blen_tc` timecode files anymore).
 - Per-strip color: `strip.colorspace_settings.name` (sRGB for 8-bit video, Linear Rec.709 for EXR renders). A dedicated edit scene keeps 3D color settings out of the edit.
 - 5.2 API: `strips.new_movie(..., stream=N)` / `new_sound(stream=N)` pick a stream from multi-track files. `strip.connections` lists connected strips. New effect type `COMPOSITOR` (a node-tree effect). Text strips have Subtitles / Main Title / Corner Title presets in the UI. Timing uses `left_handle`/`right_handle`/`duration` (5.1 names). Strip keyframes live on the **scene's** action.
+- 5.3: overlap mode `EXPAND` → `RIPPLE` (`tool_settings.sequencer_tool_settings.overlap_mode`). Strips are no longer clamped to their content by default (`preferences.edit.clamp_strips_by_default`). Scene strips follow their scene's frame range. OpenTimelineIO: `wm.otio_import` / `wm.otio_export`.
 
 ## Motion tracking (track_camera.py, live session)
 - The Clip Editor operators need a window, so this borrows the largest area, runs, and restores it. In `-b` it raises. It detects features at the first and last frame, tracks both ways, deletes tracks shorter than `min_frames`, solves (auto keyframes, refines focal only if unknown), deletes tracks above `max_error` px and re-solves, then runs `setup_tracking_scene` (camera + Camera Solver constraint, background footage, frame range).

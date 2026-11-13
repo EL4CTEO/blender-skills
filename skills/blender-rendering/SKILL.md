@@ -1,6 +1,6 @@
 ---
 name: blender-rendering
-description: Render with Blender 5.2 Cycles/EEVEE/Workbench - quality presets, GPU setup, adaptive sampling, denoising, light paths, color management (AgX, Khronos PBR Neutral, ACES), PNG/EXR/MP4 output, passes, the 5.0 compositor API, CLI and multi-camera batch rendering. Use for any still, animation or turntable render.
+description: Render with Blender 5.3 Cycles/EEVEE/Workbench - quality presets, GPU setup, adaptive sampling, denoising, light paths, color management (AgX, Khronos PBR Neutral, ACES), PNG/EXR/MP4 output, passes, the 5.0 compositor API, CLI and multi-camera batch rendering. Use for any still, animation or turntable render.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -56,6 +56,7 @@ rl, glare, out = ng.nodes.new("CompositorNodeRLayers"), ng.nodes.new("Compositor
 ng.links.new(rl.outputs["Image"], glare.inputs["Image"]); ng.links.new(glare.outputs["Image"], out.inputs[0])
 ```
 There's no Composite node anymore: the group output is the final image. Many node options are now **input sockets** (Glare `Type`, `Threshold`, `Strength`), so `--describe` them with `blender-geometry-nodes/scripts/gn_builder.py`. File Output node: `directory`, `file_name`, `file_output_items`.
+5.3: the compositor is an **effects stack** (`scene.compositor_effects`, each with its own `node_group`, `enable_for_render`/`enable_for_preview`). `scene.compositing_node_group` still gets/sets the active effect's group. The Essentials **Bloom** node group restores the old EEVEE bloom.
 
 ## CLI rendering (render farms, CI)
 - `blender -b scene.blend -E CYCLES -o //out/frame_#### -F PNG -s 1 -e 120 -a` renders an animation. `-f 10` renders a single frame. Python args go after `--`.

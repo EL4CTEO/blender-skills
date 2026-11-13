@@ -1,6 +1,6 @@
 ---
 name: blender-character-rigging
-description: Character rigging in Blender 5.2 - Rigify metarig fit/generate, bone naming/roll/collections, DEF/MCH/control layers, IK/FK, robust skinning (heat + proxy fallback), weight-painting rules, correctives, engine game skeletons (Unity, Unreal, Roblox R15), rig validation and deformation stress tests. Use for armature, skinning or weights tasks.
+description: Character rigging in Blender 5.3 - Rigify metarig fit/generate, bone naming/roll/collections, DEF/MCH/control layers, IK/FK, robust skinning (heat + proxy fallback), weight-painting rules, correctives, engine game skeletons (Unity, Unreal, Roblox R15), rig validation and deformation stress tests. Use for armature, skinning or weights tasks.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -37,7 +37,7 @@ The execution model is in `blender-core`. Faces and shape keys are in `blender-f
 - **Hips**: the thigh-pelvis blend in front stays tight (crease) and soft at the back (glutes).
 - **Head/neck**: rigid head (100% head bone above the jawline), smooth neck blend. Props (helmets, armor plates) get 100% weight to a single bone, so they stay rigid with no stretching.
 - **Mirror**: paint one side, then `object.vertex_group_mirror(all_groups=True, flip_group_names=True, use_topology=False)`, or work with X-mirror on.
-- **Tools** (live): Weight Paint mode with auto-normalize on, the gradient tool, Smooth (`vertex_group_smooth`), Levels, and `object.data_transfer` from a good mesh (clothing gets its weights from the body).
+- **Tools** (live): Weight Paint mode with auto-normalize on (5.3 default, with Multi-Paint and Mirror Vertex Groups; brushes `Add Weight`/`Set Weight`, plus automasking), the gradient tool, Smooth (`vertex_group_smooth`), Levels, and `object.data_transfer` from a good mesh (clothing gets its weights from the body).
 
 ## Correctives (beyond weights)
 Corrective shape keys driven by bone rotation fix elbows, knees and shoulders in hero rigs. Sculpt the fix in the posed state (`modifier_apply_as_shapekey` or the Corrective Shape Keys add-on approach), then drive the key value from the bone's local rotation (driver `TRANSFORMS` var `ROT_X` in `LOCAL_SPACE`, mapped from 0 at rest to 1 at full bend). Games: correctives export as blendshapes. Drive them in the engine (UE Pose Driver / Unity script) or bake them into the animation.

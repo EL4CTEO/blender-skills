@@ -1,6 +1,6 @@
 ---
 name: blender-hardsurface-modeling
-description: Hard-surface and prop modeling in Blender 5.2 - blockout-to-detail flow, non-destructive modifier stacks (Mirror, Boolean Exact/Manifold, Bevel, Weighted Normal, Smooth by Angle), mid-poly vs subdivision vs high-to-low workflows, shading/custom normals, cylinder segment budgets, edge attributes from Python. Use for weapons, vehicles, props, architecture, mechanical parts.
+description: Hard-surface and prop modeling in Blender 5.3 - blockout-to-detail flow, non-destructive modifier stacks (Mirror, Boolean Exact/Manifold, Bevel, Weighted Normal, Smooth by Angle), mid-poly vs subdivision vs high-to-low workflows, shading/custom normals, cylinder segment budgets, edge attributes from Python. Use for weapons, vehicles, props, architecture, mechanical parts.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -60,4 +60,5 @@ Select sharp edges by angle in bmesh: `e.calc_face_angle(0) > math.radians(30)`.
 - A Boolean that returns nothing or garbage: the cutter isn't closed/manifold (Exact copes, Manifold fails), or its normals are inverted.
 - Weighted Normal has no effect: faces are flat-shaded, or an earlier modifier destroyed the custom normals.
 - 5.2: the GN `Mesh Bevel` node exists for procedural bevels inside node trees (`blender-geometry-nodes`).
+- 5.3: LoopTools is built in (`mesh.relax_edge_loops`, `curve_edge_loops_between_selected`, `fit_edge_loops_to_annotation`, `space_edge_loops_evenly`). `mesh.primitive_quad_sphere_add(segments=4)` gives an all-quad cube-sphere: no pinched poles, so it subdivides and bevels cleanly.
 - Trim-sheet/mid-poly assets: UVs go to the trim strips (`blender-retopology-uv`) and materials tile (`blender-pbr-materials`).

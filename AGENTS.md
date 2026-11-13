@@ -1,6 +1,6 @@
 # Blender Agent Skills: agent instructions
 
-This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format) for **Blender 5.2 LTS+**. Codex, OpenCode, Gemini CLI, Copilot and Cursor read them from `.agents/skills`; Claude Code reads them from `.claude/skills` (see `install/`).
+This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format) for **Blender 5.2 LTS+**, verified on 5.3. Codex, OpenCode, Gemini CLI, Copilot and Cursor read them from `.agents/skills`; Claude Code reads them from `.claude/skills` (see `install/`).
 
 ## Using the skills
 - Start any Blender task with `skills/blender-core/SKILL.md`. It routes to the specialized skill and defines how to run code: live through the blender-mcp `execute_blender_code`, or headless with `python skills/blender-core/scripts/run_in_blender.py <script.py> -- <args>`.
@@ -42,5 +42,5 @@ This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format
 ## Working on this repo
 - Shared helper: edit `shared/_bpyx.py` only, then run `python tools/sync_shared.py`.
 - Validate: `python tools/validate_skills.py` (spec, token budgets, links, script contract).
-- Test: `python tools/run_tests.py [filter]` (needs Blender 5.2; set `BLENDER_EXE` if it isn't found). Set `BAS_SKIP_GPU=1` on machines without a GPU.
-- Keep each SKILL.md ≤ ~2.5k tokens and each description ≤ 400 chars. Verify every API claim against a running Blender 5.2 before writing it.
+- Test: `python tools/run_tests.py [filter]` (needs Blender 5.3 or 5.2 LTS; set `BLENDER_EXE` if it isn't found). Set `BAS_SKIP_GPU=1` on machines without a GPU.
+- Keep each SKILL.md ≤ ~2.5k tokens and each description ≤ 400 chars. Verify every API claim against a running Blender 5.3 before writing it, and keep scripts working on 5.2 LTS.

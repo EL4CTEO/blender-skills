@@ -1,6 +1,6 @@
 ---
 name: blender-weather-fx
-description: Weather effects in Blender 5.2 - looping Geometry Nodes rain, snow, dust, ash and embers with ground hits and splashes, wet surfaces, puddles with animated ripples, wall streaks, snow cover (shader + real snow geometry), storm lightning with multi-stroke flashes and bolts, engine-ready weather masks. Use for rain, storm, snow, wet street, puddle, dust or ember scenes.
+description: Weather effects in Blender 5.3 - looping Geometry Nodes rain, snow, dust, ash and embers with ground hits and splashes, wet surfaces, puddles with animated ripples, wall streaks, snow cover (shader + real snow geometry), storm lightning with multi-stroke flashes and bolts, engine-ready weather masks. Use for rain, storm, snow, wet street, puddle, dust or ember scenes.
 license: MIT
 metadata:
   author: blender-agent-skills
