@@ -12,10 +12,19 @@ def test_uv_pack_and_texel_density_set():
     td = skill_module("blender-retopology-uv", "texel_density")
     m = td.run(objects=["SM_Crate"], res=1024)["objects"]["SM_Crate"]
     assert m["px_per_m"] > 0 and m["spread"] < 1.3, m
+    assert not r["warnings"], r
     s = td.run(objects=["SM_Crate"], res=1024, set=200)["objects"]["SM_Crate"]
     assert abs(s["after"]["px_per_m"] - 200) < 5 and s["after"]["fits_0_1"], s
     s = td.run(objects=["SM_Crate"], res=1024, set=5000)["objects"]["SM_Crate"]
     assert not s["after"]["fits_0_1"]
+
+
+def test_uv_pack_warns_without_seams():
+    fx.cube("SM_Bare", size=1)
+    up = skill_module("blender-retopology-uv", "uv_pack")
+    r = up.run(objects=["SM_Bare"], method="min_stretch")
+    assert any("no seams" in w and "SM_Bare" in w for w in r["warnings"]), r
+    assert not up.run(objects=["SM_Bare"], method="smart")["warnings"]
 
 
 def test_auto_retopo_methods():
@@ -29,3 +38,33 @@ def test_auto_retopo_methods():
     r = rt.run(objects=["Dense"], method="quadriflow", tris=1200)
     o = r["objects"]["Dense"]
     assert 300 < o["faces_after"] < 1200, o
+
+
+def test_auto_retopo_quadriflow_voxel_first():
+    # voxel remesh runs before quadriflow (fast on dense meshes); no orphan mesh copies leak
+    fx.uv_sphere("Dense2", segs=96, rings=48)
+    rt = skill_module("blender-retopology-uv", "auto_retopo")
+    calls, ops = [], bpy.ops.object
+
+    class _Obj:
+        def __getattr__(self, n):
+            return lambda *a, **k: (calls.append(n), getattr(ops, n)(*a, **k))[1]
+
+    class _Ops:
+        object = _Obj()
+
+    class _Bpy:
+        ops = _Ops()
+
+        def __getattr__(self, n):
+            return getattr(bpy, n)
+
+    meshes = len(bpy.data.meshes)
+    rt.bpy = _Bpy()
+    try:
+        rt.run(objects=["Dense2"], method="quadriflow", tris=800)
+    finally:
+        rt.bpy = bpy
+    remesh = [c for c in calls if c.endswith("remesh")]
+    assert remesh[:2] == ["voxel_remesh", "quadriflow_remesh"], calls
+    assert len(bpy.data.meshes) == meshes + 1

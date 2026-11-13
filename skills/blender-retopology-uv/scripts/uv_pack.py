@@ -57,6 +57,12 @@ def run(objects=None, method="smart", angle=66.0, seams_from_sharp=None, res=204
             rep.setdefault(ob.name, {})["seams_marked"] = _seams_from_sharp(ob, seams_from_sharp)
         if not ob.data.uv_layers:
             ob.data.uv_layers.new(name="UVMap")
+    warnings = []
+    if method in ("seams", "min_stretch"):
+        unseamed = [ob.name for ob in obs if not any(e.use_seam for e in ob.data.edges)]
+        if unseamed:
+            warnings.append(f"no seams marked on {unseamed[:10]}: {method} unwraps each mesh piece as one "
+                            "island (stretched or collapsed); mark seams, pass --seams-from-sharp, or use smart")
     bx.select_only(obs)
     bpy.ops.object.mode_set(mode="EDIT")
     bpy.ops.mesh.select_all(action="SELECT")
@@ -93,7 +99,8 @@ def run(objects=None, method="smart", angle=66.0, seams_from_sharp=None, res=204
             ob.data.uv_layers.active = ob.data.uv_layers[0]  # keep UV0 active for texturing
     for ob in obs:
         rep.setdefault(ob.name, {})["uv_maps"] = [u.name for u in ob.data.uv_layers]
-    return {"ok": True, "method": method, "margin_fraction": round(margin, 5), "objects": rep}
+    return {"ok": True, "method": method, "margin_fraction": round(margin, 5), "objects": rep,
+            "warnings": warnings}
 
 
 if __name__ == "__main__":

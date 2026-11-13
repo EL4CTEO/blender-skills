@@ -123,6 +123,15 @@ def test_review_shots_renders_sheet():
     r = skill_module("blender-asset-qa", "review_shots").run(out=str(TMP / "qa.png"), res=128, mode="wire")
     assert os.path.getsize(r["sheet"]) > 1000 and len(r["views"]) == 4
     assert "QA_Cam" not in bpy.data.objects and len(bpy.data.objects) == 1
+    rs = skill_module("blender-asset-qa", "review_shots")
+    assert rs.run(out=str(TMP / "qa3.png"), res=64, views=["front", "right", "top"])["layout"] == "3x1"
+    r = rs.run(out=str(TMP / "qa5.png"), res=64, views=["front", "right", "back", "left", "top"])
+    assert r["layout"] == "3x2", r
+    im = bpy.data.images.load(r["sheet"])
+    px = im.pixels[:]
+    bpy.data.images.remove(im)
+    corner = px[(64 * 3 - 1) * 4:(64 * 3 - 1) * 4 + 3]  # bottom-right cell is the unused one
+    assert max(corner) < 0.99, corner  # background, not white
 
 
 def test_material_and_texture_delivery_checks():

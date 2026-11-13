@@ -15,7 +15,7 @@ The execution model is in `blender-core`.
 **Automatic** (`scripts/auto_retopo.py -- --objects Sculpt --tris 8000 --method ...`) makes `<name>_low` and leaves the source hidden:
 | Method | Use for | Notes |
 |---|---|---|
-| `quadriflow` | organic props, static characters, scans | clean quads. Voxel-remeshes first so the input is manifold; UVs are lost (re-unwrap) |
+| `quadriflow` | organic props, static characters, scans | clean quads. Voxel-remeshes first so the input is manifold (retries on the source if that fails); UVs are lost (re-unwrap) |
 | `decimate` | background props, LODs, AI-generated meshes | keeps UVs/shape, gives triangles. Fast |
 | `planar` | hard-surface CAD/boolean results | dissolves flat areas; keeps seams/sharp/material/UV borders |
 

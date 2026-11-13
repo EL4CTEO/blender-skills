@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.1] - 2026-11-14
+- Fixes from end-to-end prop and rigged-character runs (#8, thanks @Sebiria): `loop_check` no longer flags smooth reversals as hitches (now reports `kink`/`dip`), glTF export drops other rigs' actions, `rig_check` ignores muted constraints and maps Rigify bones to Unity Humanoid correctly, PBR presets set the viewport color, Git Bash path note.
+- Retopo: Quadriflow voxel-remeshes first again (≈4x faster on dense meshes) and retries on the source mesh only if that fails.
+- `review_shots`: 1–3 views fit on one row; unused grid cells use the background instead of white.
+- `uv_pack`: warns when `seams`/`min_stretch` runs on a mesh with no seams.
+
 ## [1.3.0] - 2026-11-13
 - Blender 5.3 support (5.2 LTS still works). All 69 tests pass on 5.3.0; CI tests both 5.2.3 and 5.3.0.
 - Core: 5.3 migration table (compositor effects stack, glTF compressed-image options, VSE `RIPPLE`, LoopTools ops, Gaussian-splat point clouds, rotation-mode conversion).
