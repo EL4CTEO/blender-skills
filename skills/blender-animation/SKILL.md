@@ -1,6 +1,6 @@
 ---
 name: blender-animation
-description: Animation in Blender 5.2 - slotted/layered actions and the channelbag API, Python keyframing, F-curves, game loops with pop/hitch checks, NLA clips, pose library, mocap/BVH/Mixamo retargeting with auto bone maps, baking control rigs to export skeletons, root motion, per-clip export. Use for any keyframe, action, NLA, mocap, or animation-export task.
+description: Animation in Blender 5.3 - slotted/layered actions and the channelbag API, Python keyframing, F-curves, game loops with pop/hitch checks, NLA clips, pose library, mocap/BVH/Mixamo retargeting with auto bone maps, baking control rigs to export skeletons, root motion, per-clip export. Use for any keyframe, action, NLA, mocap, or animation-export task.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -58,5 +58,5 @@ Any property can be keyed: `kb.keyframe_insert("value", frame=f)` (shape key), `
 - `pb.matrix = ...` followed by `keyframe_insert` needs the right `scene.frame_set(f)` **first**, or an evaluation overwrites the pose.
 - Connected bones (`use_connect`) can't translate. Hips/pelvis must be unconnected from the root.
 - `bake_action` with visual keying reads **evaluated** poses, so constraints, IK and drivers are all captured. Mute the target's own constraints afterward (the script does), or they keep overriding the keys.
-- Quaternion vs Euler: game bones should use `QUATERNION` (no gimbal lock, smooth slerp). Euler is fine for single-axis controls. Don't mix modes between keys.
+- Quaternion vs Euler: game bones should use `QUATERNION` (no gimbal lock, smooth slerp). Euler is fine for single-axis controls. Don't mix modes between keys. 5.3 converts existing animation: `pose_bone.convert_rotation_mode("QUATERNION", bake=False)` (also on objects) or `anim.rotation_mode_convert(mode=...)` for the selection.
 - glTF sampling: `export_force_sampling` bakes every frame (the safe default). Non-linear F-curve modifiers and drivers only export when sampled.

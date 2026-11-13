@@ -1,6 +1,6 @@
 ---
 name: blender-time-of-day
-description: Time of day and atmosphere in Blender 5.2 - measured sky + sun for dawn, morning, noon, golden hour, sunset, blue hour, overcast, night/moonlight with stars and city glow, exposure balance, height fog from visibility, god rays, Cycles vs EEVEE volumes, compositor grade, stylized moods (cyberpunk neon, horror, underwater, desert). Use for any day/night, sunset, foggy or mood lighting scene.
+description: Time of day and atmosphere in Blender 5.3 - measured sky + sun for dawn, morning, noon, golden hour, sunset, blue hour, overcast, night/moonlight with stars and city glow, exposure balance, height fog from visibility, god rays, Cycles vs EEVEE volumes, compositor grade, stylized moods (cyberpunk neon, horror, underwater, desert). Use for any day/night, sunset, foggy or mood lighting scene.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -24,7 +24,7 @@ Times: `noon morning afternoon golden sunrise sunset blue_hour night moonless`. 
 The script builds `ENV_World`, the `ENV_Mood` collection (sun or moon, fog box, accent lights) and, for moods, `ENV_Grade` (a compositor tree). Your objects are untouched, and re-running replaces everything it made. It returns the key light's strength, color and elevation, the exposure, and any warnings.
 
 ## How it stays physically right
-- **Sky**: `ShaderNodeTexSky` `MULTIPLE_SCATTERING` (5.0+; `SINGLE_SCATTERING` is the legacy "Nishita") with `sun_disc=False`. A **Sun lamp** is the sun, because it gives sharp shadows in both engines. The lamp's color and its strength relative to the sky come from a table **measured from Blender 5.2's own sky model** at each elevation (sunset sun ≈ `[1.0, 0.22, 0]`, noon ≈ `[1.0, 0.86, 0.68]`). That keeps the sky and the sun consistent.
+- **Sky**: `ShaderNodeTexSky` `MULTIPLE_SCATTERING` (5.0+; `SINGLE_SCATTERING` is the legacy "Nishita") with `sun_disc=False` (5.3: an enabled sun disc also **lights** the scene, adding a second sun on top of the lamp). A **Sun lamp** is the sun, because it gives sharp shadows in both engines. The lamp's color and its strength relative to the sky come from a table **measured from Blender 5.2's own sky model** (re-checked on 5.3: within 0.1%) at each elevation (sunset sun ≈ `[1.0, 0.22, 0]`, noon ≈ `[1.0, 0.86, 0.68]`). That keeps the sky and the sun consistent.
 - **Scale**: noon gives a sun of ≈ 4 W/m² with a grey card at 0.18 under AgX at exposure 0.
 - **Exposure balance**: each preset meters a grey card between the ground and a wall facing the sun, then scales the *environment* lights so the card lands at the preset's brightness (noon 1.0, golden 0.85, sunset 0.7, blue hour 0.35, night 0.2, moonless 0.1). Your practical lights keep their usual wattage and read correctly against it.
 - **Physical alternative**: `--use-exposure` puts the difference in `view_settings.exposure` instead. The result returns `practical_scale`: multiply your lamp wattages by it to keep the same look.

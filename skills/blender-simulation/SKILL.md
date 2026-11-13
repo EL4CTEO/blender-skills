@@ -1,6 +1,6 @@
 ---
 name: blender-simulation
-description: Physics in Blender 5.2 - rigid bodies (density mass, shapes, bake to keys), classic cloth presets and pinning, new node-based Cloth/Hair Dynamics (XPBD, Collider, effectors), Mantaflow fluids, hair curves, GN simulation zones, headless baking. Use for destruction, drapes, flags, falling objects, liquids, smoke, hair motion.
+description: Physics in Blender 5.3 - rigid bodies (density mass, shapes, bake to keys), classic cloth presets and pinning, new node-based Cloth/Hair Dynamics (XPBD, Collider, effectors), Mantaflow fluids, hair curves, GN simulation zones, headless baking. Use for destruction, drapes, flags, falling objects, liquids, smoke, hair motion.
 license: MIT
 metadata:
   author: blender-agent-skills

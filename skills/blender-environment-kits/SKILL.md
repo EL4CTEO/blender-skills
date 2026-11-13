@@ -1,6 +1,6 @@
 ---
 name: blender-environment-kits
-description: Game environments in Blender 5.2 - terrain from noise or heightmaps (erosion, terraces, play areas, slope/height materials, 16-bit heightmaps + splat maps for UE/Unity), biome scatter by slope/height/mask with Poisson spacing, modular kit metrics and validation (grid, pivots, seams, texel density). Use for levels, landscapes, forests, modular buildings, dungeons.
+description: Game environments in Blender 5.3 - terrain from noise or heightmaps (erosion, terraces, play areas, slope/height materials, 16-bit heightmaps + splat maps for UE/Unity), biome scatter by slope/height/mask with Poisson spacing, modular kit metrics and validation (grid, pivots, seams, texel density). Use for levels, landscapes, forests, modular buildings, dungeons.
 license: MIT
 metadata:
   author: blender-agent-skills

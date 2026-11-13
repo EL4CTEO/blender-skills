@@ -1,6 +1,6 @@
 ---
 name: blender-sculpting
-description: Sculpting in Blender 5.2 - base-to-detail workflow, voxel remesh, dyntopo, multires, 5.x brush types, masks/face sets, symmetry, plus headless-safe procedural ops for agents (remesh, symmetrize, multires, inflate, noise detail, smooth) and the sculpt-to-game handoff. Use for organic models, characters, creatures, rocks and bake sources.
+description: Sculpting in Blender 5.3 - base-to-detail workflow, voxel remesh, dyntopo, multires, 5.x brush types, masks/face sets, symmetry, plus headless-safe procedural ops for agents (remesh, symmetrize, multires, inflate, noise detail, smooth) and the sculpt-to-game handoff. Use for organic models, characters, creatures, rocks and bake sources.
 license: MIT
 metadata:
   author: blender-agent-skills

@@ -1,6 +1,6 @@
 ---
 name: blender-geometry-nodes
-description: Geometry Nodes in Blender 5.2 - fields, domains, attributes, instancing, zones (simulation/repeat/for-each), closures/bundles, lists, SDF grids, node tools, baking, plus a JSON-to-node-tree builder and socket inspector. Use for scattering, procedural assets/environments, parametric tools and modifier inputs.
+description: Geometry Nodes in Blender 5.3 - fields, domains, attributes, instancing, zones (simulation/repeat/for-each), closures/bundles, lists, SDF grids, node tools, baking, plus a JSON-to-node-tree builder and socket inspector. Use for scattering, procedural assets/environments, parametric tools and modifier inputs.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -32,6 +32,7 @@ scripts/gn_builder.py -- --spec scatter.json --apply Ground --set Density=20 See
 | Closures / Bundles (5.0+) | `NodeClosureInput/Output`, `NodeCombineBundle`/`NodeSeparateBundle`, Evaluate Closure | pass functions/structured data around; reusable "strategy" node groups |
 | Lists (5.2) | `GeometryNodeFieldToList`, `ListGetItem`, `ListLength`, `SortList`, `FilterList` | real arrays, not fields |
 | Grids/SDF (4.x–5.x) | `MeshToSDFGrid`, `SDFGridBoolean`, `SDFGridFillet`, `SDFGridOffset`, `GridToMesh` | smooth booleans, remeshing, fillets, voxel effects |
+| Grids/lists/curves (5.3) | `GridSolvePoisson`, `RasterizePoints`, `GridTopologyBoolean`, `GridDeactivateVoxels`, `GetGridNames`, `CombineList`, `ConstructCurves`, `GeometryMaterials`, `FunctionNodeGetVectorComponent` | fluid-like/voxel effects, fixed small lists, curves from position lists |
 | Physics (5.2, experimental) | `GeometryNodeXPBDSolver` + bundles | node-based cloth/hair, see `blender-simulation` |
 | Gizmos | `GizmoLinear/Dial/Transform` | viewport handles for inputs |
 Zones need `input.pair_with_output(output)` (spec key `pairs`), plus items on the output node (`repeat_items`, `state_items`, ...; spec 4th node field).
@@ -54,6 +55,7 @@ Zones need `input.pair_with_output(output)` (spec key `pairs`), plus items on th
 
 ## Gotchas
 - 5.2: `mod["Socket_2"]` no longer works. Use `getattr(mod.properties.inputs, ident).value`, and `.type = "ATTRIBUTE"` + `.attribute_name` for attribute inputs. Compare and Random Value **sockets changed**: Random Value now has single dynamic `Min`/`Max`/`Value` sockets typed by `data_type`. Link by name, and `--describe` when unsure.
+- 5.3: Import PLY's output is `Geometry` (was `Mesh`) and is a point cloud for Gaussian-splat files. Curve to Mesh adds `Miter Scale`; Realize Instances adds `Preserve Normals` (negative-scale instances).
 - Sockets that are disabled for the current mode/data type are still in `node.inputs` with the same name. The builder picks the **enabled** one. Set `data_type`/`mode` props first (the builder sets props before links).
 - `nt.interface.new_socket(...)` is the 4.0+ API (`ng.inputs.new` is gone).
 - Exporters see the **evaluated** mesh. Instances become glTF instancing (`export_gpu_instances`) or are realized on export.

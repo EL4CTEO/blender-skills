@@ -1,6 +1,6 @@
 ---
 name: blender-retopology-uv
-description: Retopology and UVs in Blender 5.2 - auto retopo (Quadriflow, Decimate, planar), deformation edge flow, seams, unwrap (Angle Based, Minimum Stretch, Smart), pixel-margin packing, texel density measure/set, lightmap UV2, UDIMs, mirrored UVs. Use to turn sculpts/scans/AI meshes into game meshes or prep UVs for texturing/baking.
+description: Retopology and UVs in Blender 5.3 - auto retopo (Quadriflow, Decimate, planar), deformation edge flow, seams, unwrap (Angle Based, Minimum Stretch, Smart), pixel-margin packing, texel density measure/set, lightmap UV2, UDIMs, mirrored UVs. Use to turn sculpts/scans/AI meshes into game meshes or prep UVs for texturing/baking.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -19,7 +19,7 @@ The execution model is in `blender-core`.
 | `decimate` | background props, LODs, AI-generated meshes | keeps UVs/shape, gives triangles. Fast |
 | `planar` | hard-surface CAD/boolean results | dissolves flat areas; keeps seams/sharp/material/UV borders |
 
-**Manual** (hero characters, anything that deforms). Set up a new mesh object with a Shrinkwrap modifier (`PROJECT`, target = sculpt), snapping to `FACE_PROJECT` + `use_snap_project`, and the source in a different viewport color/x-ray. Auto retopo isn't good enough for deforming hero meshes, because the edge flow below matters.
+**Manual** (hero characters, anything that deforms). Set up a new mesh object with a Shrinkwrap modifier (`PROJECT`, target = sculpt), snapping to `FACE_PROJECT` + `use_snap_project`, and the source in a different viewport color/x-ray. Clean loops with `mesh.relax_edge_loops` / `space_edge_loops_evenly` (LoopTools, built in since 5.3). Auto retopo isn't good enough for deforming hero meshes, because the edge flow below matters.
 
 ### Edge flow rules for deforming meshes
 - Concentric loops around the eyes and mouth (≥3 rings). The nasolabial loop flows from the nose wing to the mouth corner.

@@ -1,6 +1,6 @@
 ---
 name: blender-lighting-lookdev
-description: Lighting, cameras and look-dev in Blender 5.2 - studio 3-point and product lighting, HDRI environments, sun/sky exteriors, interiors, light linking, physically based light units, camera focal lengths/composition/DOF, cyclorama backdrops, looping turntables for asset presentation. Use when presenting assets, setting up scenes for rendering, or judging materials under consistent light.
+description: Lighting, cameras and look-dev in Blender 5.3 - studio 3-point and product lighting, HDRI environments, sun/sky exteriors, interiors, light linking, physically based light units, camera focal lengths/composition/DOF, cyclorama backdrops, looping turntables for asset presentation. Use when presenting assets, setting up scenes for rendering, or judging materials under consistent light.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -23,7 +23,7 @@ This builds a camera framed to the bounding sphere (on the narrower frame axis),
 |---|---|
 | Asset / product review | 3-point: key 45° side, 30–40° up; fill opposite at ⅓ power and lower; rim behind for silhouette. Large soft area lights (size ≈ object), neutral grey backdrop, Khronos PBR Neutral view |
 | Reflective product (metal, glass, car paint) | large softboxes/strip lights *reflected* in the surface, plus a black/white gradient environment. Shape the reflections, not the illumination |
-| Exterior day | Sun light (angle 0.5° for sharp, 2–5° for softer) + sky (`ShaderNodeTexSky`, `sky_type` `MULTIPLE_SCATTERING`/`SINGLE_SCATTERING`; 5.x replaced "Nishita"; `PREETHAM`/`HOSEK_WILKIE` legacy) with `sun_elevation`/`sun_rotation` matching the Sun light, or an HDRI of the matching time of day |
+| Exterior day | Sun light (angle 0.5° for sharp, 2–5° for softer) + sky (`ShaderNodeTexSky`, `sky_type` `MULTIPLE_SCATTERING`/`SINGLE_SCATTERING`; 5.x replaced "Nishita"; `PREETHAM`/`HOSEK_WILKIE` legacy) with `sun_elevation`/`sun_rotation` matching the Sun light (5.3: `sun_disc` now emits light, so turn it off when a Sun lamp is the sun), or an HDRI of the matching time of day |
 | Interior | HDRI/sky through the windows + portal area lights in the openings, bounces ≥ 4, then practical lights (lamps) at real wattage |
 | Character / portrait | soft key from above-front, a reflector-like fill, rim or hair light, an eye catchlight. 85–135 mm lens |
 | Stylized / game screenshot | match the engine: one directional + ambient/HDRI, no fancy GI, so it looks like it will in-game |

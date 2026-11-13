@@ -2,13 +2,13 @@
 name: blender-core
 description: Foundation for any Blender 5.2+ task an agent drives - running bpy via MCP (live) or headless CLI, context overrides, locale-safe node lookup, enum discovery, 5.x API changes, verification. Use first for any Blender, bpy, .blend or 3D-asset request; routes to the specialized blender-* skills.
 license: MIT
-compatibility: Blender 5.2 LTS or newer. Optional blender-mcp server for live sessions.
+compatibility: Blender 5.2 LTS or newer, verified on 5.3. Optional blender-mcp server for live sessions.
 metadata:
   author: blender-agent-skills
   version: "1.2.0"
 ---
 
-# Blender Core (5.2 LTS+)
+# Blender Core (5.2 LTS+, 5.3)
 
 ## Route to the specialized skill
 | Task | Skill |
@@ -73,7 +73,7 @@ Raw form: `blender -b in.blend --factory-startup --python-exit-code 1 -P x.py --
 - **Big meshes**: no per-vertex `bpy.ops`. Use numpy `foreach_get` (see references/bpy-patterns.md).
 
 ## 5.x API changes that break old tutorials/LLM memory
-`action.fcurves` → channelbags · `scene.node_tree` → `scene.compositing_node_group` · `material.use_nodes` is deprecated (new materials already have nodes) · `mod["Socket_2"]` → `mod.properties.inputs.Socket_2.value` (5.2) · `BLENDER_EEVEE_NEXT` → `BLENDER_EEVEE` · Boolean `FAST` → `FLOAT` · bone layers → bone collections · `bl_info` add-ons → extensions (`blender_manifest.toml`) · `bpy.props` values are no longer dict-accessible (`scene["cycles"]`). Full table: [references/api-changes-5x.md](references/api-changes-5x.md).
+`action.fcurves` → channelbags · `scene.node_tree` → `scene.compositing_node_group` · `material.use_nodes` is deprecated (new materials already have nodes) · `mod["Socket_2"]` → `mod.properties.inputs.Socket_2.value` (5.2) · `BLENDER_EEVEE_NEXT` → `BLENDER_EEVEE` · Boolean `FAST` → `FLOAT` · bone layers → bone collections · `bl_info` add-ons → extensions (`blender_manifest.toml`) · `bpy.props` values are no longer dict-accessible (`scene["cycles"]`) · 5.3: compositor effects stack, glTF WebP options → compressed-image options, VSE `EXPAND` → `RIPPLE`. Full table: [references/api-changes-5x.md](references/api-changes-5x.md).
 
 ## Verify (required before saying "done")
 1. Numbers, not adjectives: report tris, objects, materials, dimensions (`ob.dimensions`) and the output files written.
@@ -82,5 +82,5 @@ Raw form: `blender -b in.blend --factory-startup --python-exit-code 1 -P x.py --
 4. Re-read your own output: confirm that exported files exist and that their size is non-zero.
 
 ## References
-- [references/api-changes-5x.md](references/api-changes-5x.md): 4.x→5.2 migration table. Load it when code fails with AttributeError/KeyError.
+- [references/api-changes-5x.md](references/api-changes-5x.md): 4.x→5.3 migration table. Load it when code fails with AttributeError/KeyError.
 - [references/bpy-patterns.md](references/bpy-patterns.md): verified snippets for bmesh, attributes, numpy, temp_override, depsgraph, drivers, append/link, handlers and timers.

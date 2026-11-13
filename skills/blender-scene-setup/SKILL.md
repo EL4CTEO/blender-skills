@@ -37,7 +37,7 @@ ex = col.exporters[-1]; ex.export_properties.filepath = "//export/SM_Crate.glb"
 with bpy.context.temp_override(collection=col):
     bpy.ops.collection.exporter_export(index=len(col.exporters) - 1)
 ```
-`bpy.ops.wm.collection_export_all()` re-runs every collection exporter.
+`bpy.ops.wm.collection_export_all()` re-runs every collection exporter. 5.3: glTF exporters set the origin with `collection_center_mode` (`WORLD_ORIGIN`, `CENTER_MASS`, `OBJECT_POSITION`, `INSTANCE_OFFSET`). Collections also get one **importer** (USD only, `collection.importer_add` / `importer_import`) whose settings are saved in the .blend.
 
 ## Naming conventions (Unreal-style, accepted by all engines)
 | Type | Pattern | Example |

@@ -1,6 +1,6 @@
 ---
 name: blender-stylized-npr
-description: Stylized / NPR looks in Blender 5.2 - toon and cel shading (bands, shadow tint, rim, hard specular), anime faces with custom normals, inverted-hull outlines with smoothed outline normals for game engines, Line Art and Freestyle lines, Grease Pencil drawing, unlit export. Use for anime, cartoon, comic, cel-shaded or outlined styles.
+description: Stylized / NPR looks in Blender 5.3 - toon and cel shading (bands, shadow tint, rim, hard specular), anime faces with custom normals, inverted-hull outlines with smoothed outline normals for game engines, Line Art and Freestyle lines, Grease Pencil drawing, unlit export. Use for anime, cartoon, comic, cel-shaded or outlined styles.
 license: MIT
 metadata:
   author: blender-agent-skills

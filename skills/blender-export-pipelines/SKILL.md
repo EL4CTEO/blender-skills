@@ -1,6 +1,6 @@
 ---
 name: blender-export-pipelines
-description: Export from Blender 5.2 with verified presets - Roblox (FBX/glTF, cages, R15, SurfaceAppearance), Unity (FBX, Humanoid), Unreal (FBX skeletal, Nanite, UCX), Godot/web (GLB, meshopt/Draco, WebP), USD. Scale/axes, smoothing, tangents, leaf bones, clips, batch export, post-export verification. Use whenever an asset leaves Blender.
+description: Export from Blender 5.3 with verified presets - Roblox (FBX/glTF, cages, R15, SurfaceAppearance), Unity (FBX, Humanoid), Unreal (FBX skeletal, Nanite, UCX), Godot/web (GLB, meshopt/Draco, WebP), USD. Scale/axes, smoothing, tangents, leaf bones, clips, batch export, post-export verification. Use whenever an asset leaves Blender.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -58,5 +58,6 @@ See `blender-scene-setup`: `collection.exporters` stores the format + settings p
 - `bake_space_transform` (Apply Transform) is experimental. Use it for Unity static meshes only, never with armatures.
 - glTF exports **actions** linked through slots/NLA. An action with no user on the armature is skipped (`export_animation_mode` options: `ACTIONS`, `ACTIVE_ACTIONS`, `NLA_TRACKS`, `SCENE`, `BROADCAST`).
 - glTF needs image textures in PNG/JPEG/WebP. EXR/TIFF get converted (`export_image_format`).
+- 5.3 glTF: `export_image_add_webp`/`export_image_webp_fallback` became `export_image_add_compressed_images` + `export_compressed_images_type` (`WEBP`/`KTX2`) + `export_compressed_images_fallback`. `at_collection_center` became `collection_center_mode`. Point clouds export (`export_pointclouds`).
 - Linked library data exports fine, but make it local or override it if you need to modify it first.
 - Shape keys: FBX exports them as blendshapes, glTF as morph targets (`export_morph`). Modifiers before the Armature modifier can block shape-key export in FBX (apply them first).

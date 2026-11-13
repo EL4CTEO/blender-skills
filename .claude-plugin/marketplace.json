@@ -1,6 +1,6 @@
 {
   "name": "blender-agent-skills",
-  "description": "Blender 5.2 workflow skills for AI agents",
+  "description": "Blender 5.3 workflow skills for AI agents",
   "owner": { "name": "EL4CTEO" },
   "plugins": [
     {

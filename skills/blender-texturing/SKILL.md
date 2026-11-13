@@ -1,6 +1,6 @@
 ---
 name: blender-texturing
-description: Texture authoring in Blender 5.2 - smart-material layers (edge wear, cavity grime, dust, rust, roughness breakup) from curvature/AO masks, z-fight-safe decal and sticker placement, trim sheets, tiling + vertex-color blends, texture painting, baking the look to game texture sets. Use when a material needs wear, dirt, a decal, trims or hand painting, not just wiring.
+description: Texture authoring in Blender 5.3 - smart-material layers (edge wear, cavity grime, dust, rust, roughness breakup) from curvature/AO masks, z-fight-safe decal and sticker placement, trim sheets, tiling + vertex-color blends, texture painting, baking the look to game texture sets. Use when a material needs wear, dirt, a decal, trims or hand painting, not just wiring.
 license: MIT
 metadata:
   author: blender-agent-skills

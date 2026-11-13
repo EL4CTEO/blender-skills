@@ -4,7 +4,7 @@
 
 Professional Blender workflows packaged as **Agent Skills** for AI coding agents: Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot and Cursor.
 
-There are 28 skills covering the full 3D pipeline (modeling, UVs, texturing, baking, rigging, animation, clothing, hair, environments, stylized looks, optimization, export, rendering, video, weather, simulation and QA), built for **Blender 5.2 LTS+**. Every script is tested in a real Blender.
+There are 28 skills covering the full 3D pipeline (modeling, UVs, texturing, baking, rigging, animation, clothing, hair, environments, stylized looks, optimization, export, rendering, video, weather, simulation and QA), built for **Blender 5.2 LTS+ (verified on 5.3)**. Every script is tested in a real Blender.
 
 ## Install
 
@@ -22,7 +22,7 @@ git clone https://github.com/EL4CTEO/blender-skills
 ```
 The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/skills` is read by Codex, OpenCode, Gemini CLI, Copilot and Cursor. Options: `--agent claude|codex|opencode|gemini|copilot|cursor|all`, `--project DIR` for a single project, `--uninstall`.
 
-**Requirements:** Blender 5.2+. Optional: a Blender MCP server lets agents work in your open Blender. Without one, agents run Blender in the background.
+**Requirements:** Blender 5.2 LTS or 5.3. Optional: a Blender MCP server lets agents work in your open Blender. Without one, agents run Blender in the background.
 
 ## Skills
 

@@ -1,6 +1,6 @@
 ---
 name: blender-addon-development
-description: Write Blender 5.2 add-ons as extensions - blender_manifest.toml, operators/panels/menus/property groups/preferences, bpy.props rules after 5.0, undo/redo, modal and timer patterns, gpu drawing (no bgl), bundling Python wheels, CLI validate/build/install, testing headless, extensions platform publishing. Use when creating or fixing a Blender add-on, tool, or UI.
+description: Write Blender 5.3 add-ons as extensions - blender_manifest.toml, operators/panels/menus/property groups/preferences, bpy.props rules after 5.0, undo/redo, modal and timer patterns, gpu drawing (no bgl), bundling Python wheels, CLI validate/build/install, testing headless, extensions platform publishing. Use when creating or fixing a Blender add-on, tool, or UI.
 license: MIT
 metadata:
   author: blender-agent-skills
@@ -47,3 +47,4 @@ The Blender ID account uploads the built zip. Requirements: a valid manifest, a 
 - 5.0 made several bundled modules private (`rna_info`, `bl_ui_utils`...). Don't import them.
 - 5.1 no longer loads the user site-packages by default. Bundle wheels instead of relying on user installs.
 - 5.2: `PreferencesFilePaths.active_asset_library` indices are offset (the "All"/"Essentials" entries come first). `UILayout.template_palette(color=)` is removed. New: `UILayout.link`, `UILayout.textbox`, `bpy.data.all_ids`, `Window.screenshot`.
+- 5.3: `bpy.data.all_ids` order is an implementation detail. New: `UILayout.label_multiline()`, `auto_keymap=` on `invoke_popup`/`popover`, `window_manager.undo_stack` (read-only), `constraints.new(type, name=)`, `KDTree(n, dimensions=2)`, `gpu.types.GPUStorageBuf`, and bundled `OpenEXR`/`opentimelineio` modules. Vulkan is the default GPU backend on Windows/Linux, so test `gpu` drawing there.

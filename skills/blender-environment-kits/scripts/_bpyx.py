@@ -1,4 +1,4 @@
-"""_bpyx - tiny shared helpers for blender-agent-skills scripts (Blender 5.2+).
+"""_bpyx - tiny shared helpers for blender-agent-skills scripts (Blender 5.2 LTS+, verified on 5.3).
 
 Source of truth: shared/_bpyx.py. Copies in skills/*/scripts/ are synced by
 tools/sync_shared.py - never edit a copy.
