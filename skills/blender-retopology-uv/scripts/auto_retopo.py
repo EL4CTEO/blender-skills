@@ -44,22 +44,27 @@ def run(objects=None, method="quadriflow", tris=10000, voxel=0.0, symmetry=False
         tris_before = bx.mesh_tris(low, evaluated=False)
         faces = max(tris // 2, 4)
         if method == "quadriflow":
-            # Quadriflow needs a closed manifold. Try the mesh as-is first (5.3 can reject voxel
-            # output even when it is manifold), then voxel remesh (size from target density) and retry.
+            # Quadriflow needs a closed manifold: voxel remesh first (size from target density; also
+            # keeps dense sculpts fast). Some meshes make 5.3 reject the voxel output, so retry on the
+            # untouched source mesh before giving up.
             qf = dict(mode="FACES", target_faces=faces, use_mesh_symmetry=symmetry,
                       use_preserve_sharp=True, seed=0)
-            res = {"CANCELLED"}
-            if not voxel:
+            orig = low.data.copy()
+            area = sum(p.area for p in low.data.polygons) * max(low.scale) ** 2
+            low.data.remesh_voxel_size = voxel or max(math.sqrt(area / max(faces * 4, 1)), 1e-4)
+            with _ctx(low):
+                bpy.ops.object.voxel_remesh()
+                res = bpy.ops.object.quadriflow_remesh(**qf)
+            if res != {"FINISHED"}:
+                remeshed, low.data = low.data, orig
+                orig.name = remeshed.name
+                bpy.data.meshes.remove(remeshed)
                 with _ctx(low):
                     res = bpy.ops.object.quadriflow_remesh(**qf)
+            else:
+                bpy.data.meshes.remove(orig)
             if res != {"FINISHED"}:
-                area = sum(p.area for p in low.data.polygons) * max(low.scale) ** 2
-                low.data.remesh_voxel_size = voxel or max(math.sqrt(area / max(faces * 4, 1)), 1e-4)
-                with _ctx(low):
-                    bpy.ops.object.voxel_remesh()
-                    res = bpy.ops.object.quadriflow_remesh(**qf)
-            if res != {"FINISHED"}:
-                raise RuntimeError("quadriflow failed (non-manifold after voxel remesh?)")
+                raise RuntimeError("quadriflow failed on voxel remesh and source (non-manifold?)")
         elif method == "decimate":
             d = low.modifiers.new("Decimate", "DECIMATE")
             d.decimate_type = "COLLAPSE"
