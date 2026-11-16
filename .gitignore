@@ -8,3 +8,5 @@ export/
 textures/
 .DS_Store
 .claude/settings.local.json
+/.blender-router-install/
+/work/

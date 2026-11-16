@@ -3,13 +3,15 @@
 This repo contains Agent Skills (`skills/<name>/SKILL.md`, agentskills.io format) for **Blender 5.2 LTS+**, verified on 5.3. Codex, OpenCode, Gemini CLI, Copilot and Cursor read them from `.agents/skills`; Claude Code reads them from `.claude/skills` (see `install/`).
 
 ## Using the skills
-- Start any Blender task with `skills/blender-core/SKILL.md`. It routes to the specialized skill and defines how to run code: live through the blender-mcp `execute_blender_code`, or headless with `python skills/blender-core/scripts/run_in_blender.py <script.py> -- <args>`.
+- Start any Blender task with `skills/blender-router/SKILL.md`, then load `blender-core` and only the selected specialists. Manual entry: `$blender-router <command> <brief>` (Claude Code: `/blender-router`). The router suggests stages; it never executes Blender by itself.
+- `blender-core` defines execution: live through the available Blender MCP code tool, or headless with `python skills/blender-core/scripts/run_in_blender.py <script.py> -- <args>`. Discover actual tool names; a `look` tool is not required when screenshots or review renders are available.
 - Run scripts; don't read them. Every `skills/*/scripts/*.py` documents its flags in its docstring and prints one compact JSON result.
 - Load a skill's `references/*.md` only when the SKILL.md points you there.
 - Always finish geometry work with `skills/blender-asset-qa` (numbers + a visual check).
 
 | Skill | Use for |
 |---|---|
+| blender-router | automatic workflow selection, manual commands, runtime/agent adapters |
 | blender-core | execution, 5.x API rules, routing (start here) |
 | blender-scene-setup | units, naming, collections, linking, asset libraries |
 | blender-hardsurface-modeling | bevels, booleans, weighted normals, props |

@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "upstream": "https://github.com/Garir-Mansour/blender-skills",
+  "upstream_revision": "b1b21dfb73bc40b874ebf2aa12645931bfed3523",
+  "domain": "\\b(?:blender|bpy|3d|mesh|meshes|rigify|pbr|glb|gltf|fbx|eevee|cycles|sculpt\\w*|retopo\\w*|uvs?|texel|geometry nodes|geonodes|mocap|rig|rigging|blendshapes?|arkit|shape ?keys?|visemes?|hair cards|game.ready|z.fighting|normals|modular.*kit|terrain|voxel|unreal|godot|roblox)\\b|\\.blend\\b|\\b(?:product|studio) (?:shot|render|turntable)\\b",
+  "exclude": "\\b(?:do not|don\\x27t|dont|without|avoid|no)\\s+(?:use|using|any)?\\s*blender\\b|\\b(?:kitchen blender|smoothie|food blender)\\b",
+  "commands": {
+    "inspect": [
+      "blender-core"
+    ],
+    "scene": [
+      "blender-scene-setup"
+    ],
+    "model": [
+      "blender-hardsurface-modeling"
+    ],
+    "sculpt": [
+      "blender-sculpting"
+    ],
+    "uv": [
+      "blender-retopology-uv"
+    ],
+    "material": [
+      "blender-pbr-materials"
+    ],
+    "texture": [
+      "blender-texturing"
+    ],
+    "bake": [
+      "blender-texture-baking"
+    ],
+    "nodes": [
+      "blender-geometry-nodes"
+    ],
+    "rig": [
+      "blender-character-rigging"
+    ],
+    "face": [
+      "blender-facial-shapekeys"
+    ],
+    "animate": [
+      "blender-animation"
+    ],
+    "clothes": [
+      "blender-clothing"
+    ],
+    "hair": [
+      "blender-hair-grooming"
+    ],
+    "optimize": [
+      "blender-game-optimization"
+    ],
+    "export": [
+      "blender-export-pipelines"
+    ],
+    "render": [
+      "blender-rendering"
+    ],
+    "lookdev": [
+      "blender-lighting-lookdev"
+    ],
+    "toon": [
+      "blender-stylized-npr"
+    ],
+    "environment": [
+      "blender-environment-kits"
+    ],
+    "video": [
+      "blender-video-editing"
+    ],
+    "simulate": [
+      "blender-simulation"
+    ],
+    "mood": [
+      "blender-time-of-day"
+    ],
+    "weather": [
+      "blender-weather-fx"
+    ],
+    "addon": [
+      "blender-addon-development"
+    ],
+    "batch": [
+      "blender-pipeline-automation"
+    ],
+    "qa": [
+      "blender-asset-qa"
+    ],
+    "recipe": [
+      "blender-workflow-recipes"
+    ],
+    "product": [
+      "blender-workflow-recipes",
+      "blender-scene-setup",
+      "blender-pbr-materials",
+      "blender-lighting-lookdev",
+      "blender-rendering"
+    ],
+    "game": [
+      "blender-workflow-recipes",
+      "blender-hardsurface-modeling",
+      "blender-retopology-uv",
+      "blender-pbr-materials",
+      "blender-game-optimization",
+      "blender-export-pipelines"
+    ],
+    "web": [
+      "blender-workflow-recipes",
+      "blender-game-optimization",
+      "blender-export-pipelines"
+    ],
+    "character": [
+      "blender-workflow-recipes",
+      "blender-sculpting",
+      "blender-retopology-uv",
+      "blender-character-rigging",
+      "blender-animation",
+      "blender-export-pipelines"
+    ]
+  },
+  "order": [
+    "blender-core",
+    "blender-workflow-recipes",
+    "blender-scene-setup",
+    "blender-pipeline-automation",
+    "blender-addon-development",
+    "blender-environment-kits",
+    "blender-hardsurface-modeling",
+    "blender-sculpting",
+    "blender-geometry-nodes",
+    "blender-retopology-uv",
+    "blender-texture-baking",
+    "blender-pbr-materials",
+    "blender-texturing",
+    "blender-character-rigging",
+    "blender-facial-shapekeys",
+    "blender-clothing",
+    "blender-hair-grooming",
+    "blender-animation",
+    "blender-simulation",
+    "blender-time-of-day",
+    "blender-weather-fx",
+    "blender-stylized-npr",
+    "blender-game-optimization",
+    "blender-lighting-lookdev",
+    "blender-asset-qa",
+    "blender-export-pipelines",
+    "blender-rendering",
+    "blender-video-editing"
+  ],
+  "qa_required": [
+    "blender-hardsurface-modeling",
+    "blender-sculpting",
+    "blender-retopology-uv",
+    "blender-geometry-nodes",
+    "blender-character-rigging",
+    "blender-facial-shapekeys",
+    "blender-clothing",
+    "blender-hair-grooming",
+    "blender-animation",
+    "blender-environment-kits",
+    "blender-simulation",
+    "blender-game-optimization",
+    "blender-export-pipelines",
+    "blender-workflow-recipes"
+  ],
+  "workflows": [
+    {
+      "name": "blender-core",
+      "command": "inspect",
+      "pattern": "\\b(?:bpy|\\.blend|headless|blender|environment report|inspect)\\b",
+      "description": "Runtime and code execution"
+    },
+    {
+      "name": "blender-scene-setup",
+      "command": "scene",
+      "pattern": "\\b(?:units|collections|naming|scene setup|asset librar\\w*|organize)\\b",
+      "description": "Units, naming and collections"
+    },
+    {
+      "name": "blender-hardsurface-modeling",
+      "command": "model",
+      "pattern": "\\b(?:model(?:ing|ling)?|bevel\\w*|boolean\\w*|hard.surface|weighted normals|crate|prop)\\b",
+      "description": "Hard-surface geometry"
+    },
+    {
+      "name": "blender-sculpting",
+      "command": "sculpt",
+      "pattern": "\\b(?:sculpt\\w*|multires|voxel|remesh|organic|creature)\\b",
+      "description": "Organic forms and sculpting"
+    },
+    {
+      "name": "blender-retopology-uv",
+      "command": "uv",
+      "pattern": "\\b(?:retopo\\w*|uvs?|unwrap\\w*|texel|topology)\\b",
+      "description": "Retopology, UV and texel density"
+    },
+    {
+      "name": "blender-pbr-materials",
+      "command": "material",
+      "pattern": "\\b(?:pbr|material\\w*|roughness|metallic|texture maps|principled)\\b",
+      "description": "PBR materials and color spaces"
+    },
+    {
+      "name": "blender-texturing",
+      "command": "texture",
+      "pattern": "\\b(?:textur(?:e|es|ing)|wear|grime|dust|decal\\w*|trim sheet\\w*)\\b",
+      "description": "Texture layers and surface details"
+    },
+    {
+      "name": "blender-texture-baking",
+      "command": "bake",
+      "pattern": "\\b(?:normal map\\w*|ao map\\w*|curvature|orm|high.to.low|bake(?:d|s|ing)? (?:normals|maps|textures))\\b",
+      "description": "High-to-low map baking"
+    },
+    {
+      "name": "blender-geometry-nodes",
+      "command": "nodes",
+      "pattern": "\\b(?:geometry nodes|geonodes|procedural model\\w*|node tree|repeat zone)\\b",
+      "description": "Procedural node geometry"
+    },
+    {
+      "name": "blender-character-rigging",
+      "command": "rig",
+      "pattern": "\\b(?:rig(?:ging)?|rigify|skinning|weight paint\\w*|skeleton)\\b",
+      "description": "Rigify, skeletons and weights"
+    },
+    {
+      "name": "blender-facial-shapekeys",
+      "command": "face",
+      "pattern": "\\b(?:facial|face rig|shape ?keys?|blendshapes?|arkit|viseme\\w*|lip.sync)\\b",
+      "description": "Facial expressions and shape keys"
+    },
+    {
+      "name": "blender-animation",
+      "command": "animate",
+      "pattern": "\\b(?:animat\\w*|keyfram\\w*|mocap|retarget\\w*|nla|walk cycle|root motion|mixamo|loop)\\b",
+      "description": "Animation, mocap and loops"
+    },
+    {
+      "name": "blender-clothing",
+      "command": "clothes",
+      "pattern": "\\b(?:garment\\w*|clothing|clothes|shirt|body masking|poke.through)\\b",
+      "description": "Garments and deformation"
+    },
+    {
+      "name": "blender-hair-grooming",
+      "command": "hair",
+      "pattern": "\\b(?:hair|fur|groom\\w*)\\b",
+      "description": "Hair, fur and game cards"
+    },
+    {
+      "name": "blender-game-optimization",
+      "command": "optimize",
+      "pattern": "\\b(?:optimi\\w*|lods?|draw calls|poly budget|triangle budget|game.ready|lightweight|mobile)\\b",
+      "description": "Budgets and LODs"
+    },
+    {
+      "name": "blender-export-pipelines",
+      "command": "export",
+      "pattern": "\\b(?:export\\w*|glb|gltf|fbx|usd[zc]?|unity|unreal|godot|roblox|web asset|r3f|three\\.?js|webgl)\\b",
+      "description": "Game, web and AR delivery"
+    },
+    {
+      "name": "blender-rendering",
+      "command": "render",
+      "pattern": "\\b(?:render\\w*|cycles|eevee|denois\\w*|compositor)\\b",
+      "description": "Rendering and compositing"
+    },
+    {
+      "name": "blender-lighting-lookdev",
+      "command": "lookdev",
+      "pattern": "\\b(?:light(?:s|ing)?|hdri|camera|turntable|lookdev|product shot|studio)\\b",
+      "description": "Lights, camera and turntables"
+    },
+    {
+      "name": "blender-stylized-npr",
+      "command": "toon",
+      "pattern": "\\b(?:toon|cel.shad\\w*|anime|npr|outline\\w*|grease pencil|line art)\\b",
+      "description": "Stylized and toon looks"
+    },
+    {
+      "name": "blender-environment-kits",
+      "command": "environment",
+      "pattern": "\\b(?:terrain|scatter\\w*|forest|environment|modular|biome|heightmap|architecture|campus|gate|pavilion)\\b",
+      "description": "Environments and modular sets"
+    },
+    {
+      "name": "blender-video-editing",
+      "command": "video",
+      "pattern": "\\b(?:vse|video edit\\w*|crossfade\\w*|edit.*shots|camera track\\w*|track.*camera|camera solve)\\b",
+      "description": "Video editing and camera tracking"
+    },
+    {
+      "name": "blender-simulation",
+      "command": "simulate",
+      "pattern": "\\b(?:simulat\\w*|rigid bod\\w*|cloth|fluid\\w*|physics|drap\\w*)\\b",
+      "description": "Cloth, bodies and fluids"
+    },
+    {
+      "name": "blender-time-of-day",
+      "command": "mood",
+      "pattern": "\\b(?:golden hour|sunset|night|moonlit|fog|dawn|sunrise|sky|mood)\\b",
+      "description": "Time of day and atmosphere"
+    },
+    {
+      "name": "blender-weather-fx",
+      "command": "weather",
+      "pattern": "\\b(?:rain\\w*|snow\\w*|wet\\w*|puddles?|lightning|embers?)\\b",
+      "description": "Rain, snow and weather"
+    },
+    {
+      "name": "blender-addon-development",
+      "command": "addon",
+      "pattern": "\\b(?:add.on|addon|extension|blender operator|blender panel)\\b",
+      "description": "Blender add-ons and extensions"
+    },
+    {
+      "name": "blender-pipeline-automation",
+      "command": "batch",
+      "pattern": "\\b(?:batch|convert.*folder|file conversion|pipeline automation|headless.*folder)\\b",
+      "description": "Batch processing and conversion"
+    },
+    {
+      "name": "blender-asset-qa",
+      "command": "qa",
+      "pattern": "\\b(?:\\bqa\\b|z.fighting|floating parts|non.manifold|flipped normals|check.*(?:mesh|model|asset)|review.*(?:mesh|model|asset))\\b",
+      "description": "Asset checks and visual review"
+    },
+    {
+      "name": "blender-workflow-recipes",
+      "command": "recipe",
+      "pattern": "\\b(?:complete|end.to.end|game.ready|product|turntable|game character|web asset|full pipeline)\\b",
+      "description": "Complete production recipes"
+    }
+  ],
+  "prerequisites": {
+    "blender-texture-baking": [
+      "blender-retopology-uv",
+      "blender-pbr-materials"
+    ],
+    "blender-workflow-recipes": []
+  },
+  "combinations": [
+    {
+      "pattern": "\\b(?:turntable|product shot)\\b",
+      "skills": [
+        "blender-workflow-recipes",
+        "blender-pbr-materials",
+        "blender-lighting-lookdev",
+        "blender-rendering",
+        "blender-asset-qa"
+      ]
+    }
+  ]
+}

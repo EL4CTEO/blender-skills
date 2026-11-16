@@ -59,10 +59,11 @@ def main():
         print(exe)
         return 0
     cmd = [exe, "-b"]
-    if "--blend" in a:
-        cmd.append(a[a.index("--blend") + 1])
     if "--user-prefs" not in a:
         cmd.append("--factory-startup")
+    # Blender evaluates flags in order: reset first, then load the user's scene.
+    if "--blend" in a:
+        cmd.append(a[a.index("--blend") + 1])
     cmd += ["--python-exit-code", "1"]
     if "--expr" in a:
         cmd += ["--python-expr", a[a.index("--expr") + 1]]

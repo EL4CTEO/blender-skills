@@ -1,0 +1,7 @@
+interface:
+  display_name: "Blender Router"
+  short_description: "Route Blender work across the full 3D pipeline"
+  default_prompt: "Use $blender-router to choose and run the right Blender workflow for my task."
+
+policy:
+  allow_implicit_invocation: true

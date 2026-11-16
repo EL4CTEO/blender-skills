@@ -54,7 +54,7 @@ python <skills_dir>/blender-core/scripts/run_in_blender.py --blend in.blend <scr
 python <skills_dir>/blender-core/scripts/run_in_blender.py --expr "import bpy; print(len(bpy.data.objects))"
 ```
 **Windows + Git Bash**: MSYS rewrites `//out.png` to `/out.png` (→ `C:\out.png`). Prefix with `MSYS_NO_PATHCONV=1` and pass skill paths as `$(cygpath -m ~/.claude/skills)/...` (or use PowerShell).
-Raw form: `blender -b in.blend --factory-startup --python-exit-code 1 -P x.py -- args`. Every script here exposes `run(**kw) -> dict` and the same flags after `--`.
+Raw form: `blender -b --factory-startup in.blend --python-exit-code 1 -P x.py -- args`. Put factory startup before the input file so it does not discard the loaded scene. Every script here exposes `run(**kw) -> dict` and the same flags after `--`.
 **First call in a session**: `scripts/env_report.py`, which returns the version, engines, GPU, add-ons, units, color management and scene counts.
 
 ## Rules

@@ -16,6 +16,7 @@ jobs:
       - run: python tools/sync_shared.py --check
       - run: python tools/validate_skills.py
       - run: python tools/trigger_check.py
+      - run: python -m unittest discover -s tests -p test_router_host.py -v
       - run: bash install/install.sh --project "$RUNNER_TEMP/p" --agent all --copy
 
   blender-tests:

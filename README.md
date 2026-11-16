@@ -8,6 +8,59 @@ There are 28 skills covering the full 3D pipeline (modeling, UVs, texturing, bak
 
 ## Install
 
+### Blender Router
+
+This fork adds **Blender Router** above all 28 original workflows. Use natural
+language for automatic selection, or choose one of 35 manual commands.
+
+| Intent | Codex | Claude Code |
+| --- | --- | --- |
+| Show commands | `$blender-router help` | `/blender-router help` |
+| Plan without editing | `$blender-router plan <brief>` | `/blender-router plan <brief>` |
+| Inspect Blender | `$blender-router inspect` | `/blender-router inspect` |
+| Product render | `$blender-router product <brief>` | `/blender-router product <brief>` |
+| Animation | `$blender-router animate <brief>` | `/blender-router animate <brief>` |
+| Export and QA | `$blender-router export <brief>` | `/blender-router export <brief>` |
+
+Automatic invocation uses the agent host's skill discovery. It is not an always-on
+hook. The router leaves ordinary CSS/UI animation and 2D edits with their existing
+workflows. [Full routing catalog](skills/blender-router/references/catalog.md).
+
+The additive installer previews changes by default. It preserves existing agents,
+backs up edited files, detects local conflicts, and verifies every copied file:
+
+```text
+python tools/install_bundle.py --project /path/to/project --agent all
+python tools/install_bundle.py --project /path/to/project --agent all --apply
+```
+
+To embed conditional routing into specific existing agents, repeat `--bind` with
+exact Markdown paths relative to that project, for example
+`--bind .claude/agents/artist.md --bind .claude/agents/motion.md`.
+Alternatively, add `--bind-related` to discover related 3D, creative, motion,
+game and orchestration roles from their descriptions. Preview the plan first;
+it lists every proposed binding. It never reads conversation histories.
+`--user --agent claude --agent codex --apply` installs into user-level agent
+directories instead. The Claude target also installs `/blender <command> <brief>`.
+All targets receive the original MIT license. Local installation does not install
+personal ChatGPT skills or modify remotely hosted agents.
+
+```text
+python tools/install_bundle.py --project /path/to/project --agent all --bind-related
+python tools/install_bundle.py --project /path/to/project --agent all --bind-related --apply
+```
+
+Validate the router and installer without Blender:
+
+```text
+python -m unittest discover -s tests -p test_router_host.py -v
+python tools/validate_skills.py --strict
+python tools/trigger_check.py
+```
+
+The original installer below is retained for compatibility; use the additive
+installer above when existing skill files or agent definitions must be preserved.
+
 **Claude Code** (plugin):
 ```
 /plugin marketplace add EL4CTEO/blender-skills
