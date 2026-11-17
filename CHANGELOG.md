@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.2] - 2026-11-17
+- `rig_check`: no longer crashes with `slice steps not supported` on skinned meshes with 4000+ vertices (#11, thanks @JairAgu).
+
 ## [1.3.1] - 2026-11-14
 - Fixes from end-to-end prop and rigged-character runs (#8, thanks @Sebiria): `loop_check` no longer flags smooth reversals as hitches (now reports `kink`/`dip`), glTF export drops other rigs' actions, `rig_check` ignores muted constraints and maps Rigify bones to Unity Humanoid correctly, PBR presets set the viewport color, Git Bash path note.
 - Retopo: Quadriflow voxel-remeshes first again (≈4x faster on dense meshes) and retries on the source mesh only if that fails.
