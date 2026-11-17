@@ -139,7 +139,9 @@ def run(armature=None, meshes=None, profile="game", fix=False, limit=4, **_):
             kd.insert(v.co, v.index)
         kd.balance()
         verts = ob.data.vertices
-        for v in verts[:: max(1, len(verts) // 2000)]:
+        # bpy_prop_collection rejects stepped slices; step over indices instead
+        for i in range(0, len(verts), max(1, len(verts) // 2000)):
+            v = verts[i]
             co = v.co.copy()
             co.x = -co.x
             _, j, d = kd.find(co)
