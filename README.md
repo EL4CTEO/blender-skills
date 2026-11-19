@@ -1,3 +1,7 @@
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/EL4CTEO/blender-skills/version.svg)](https://yarkr.com/arks/el4cteo/blender-skills)
+<!-- yarkr:badges:end -->
+
 <p align="center"><img src="assets/banner.png" width="420" alt="Blender Agent Skills"></p>
 
 <h1 align="center">Blender Agent Skills</h1>
@@ -23,6 +27,38 @@ git clone https://github.com/EL4CTEO/blender-skills
 The default installs into `~/.claude/skills` and `~/.agents/skills`. `.agents/skills` is read by Codex, OpenCode, Gemini CLI, Copilot and Cursor. Options: `--agent claude|codex|opencode|gemini|copilot|cursor|all`, `--project DIR` for a single project, `--uninstall`.
 
 **Requirements:** Blender 5.2 LTS or newer. **Update to Blender 5.3.0 for the best experience:** every skill is verified on it, and it adds KTX2 web export, the compositor effects stack and Gaussian splats. Optional: a Blender MCP server lets agents work in your open Blender. Without one, agents run Blender in the background.
+
+<!-- yarkr:install:start -->
+## Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/el4cteo/blender-skills) as the ark [el4cteo/blender-skills](https://yarkr.com/arks/el4cteo/blender-skills), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync el4cteo/blender-skills
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:el4cteo/blender-skills/blender-addon-development
+npx yarkr-cli add skill:el4cteo/blender-skills/blender-animation
+npx yarkr-cli add skill:el4cteo/blender-skills/blender-asset-qa
+```
+
+### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add el4cteo/blender-skills
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/el4cteo/blender-skills`.
+<!-- yarkr:install:end -->
 
 ## Skills
 
