@@ -78,12 +78,14 @@ def run(objects=None, preset="midpoly", width=None, segments=None, angle=30.0, c
         before = bx.mesh_tris(ob, evaluated=False)
         after = bx.mesh_tris(ob)
         applied = []
-        if apply:
+        if apply and ob.data.shape_keys:  # bevel/boolean change topology: shape keys can't survive
+            applied.append("SKIPPED: mesh has shape keys (stack left live; apply after baking/removing keys)")
+        elif apply:
             # names first: a modifier struct is freed once applied (reading it after = garbage/crash)
             for name in [m.name for m in ob.modifiers if m.name.startswith(PREFIX)]:
                 with bpy.context.temp_override(object=ob, active_object=ob, selected_objects=[ob],
                                                selected_editable_objects=[ob]):
-                    res = bpy.ops.object.modifier_apply(modifier=name)
+                    res = bpy.ops.object.modifier_apply(modifier=name, single_user=True)
                 applied.append(name if res == {"FINISHED"} else f"FAILED:{name}")
         report[ob.name] = {"bevel_width": round(w, 5), "tris_base": before, "tris_final": after,
                            "stack": [m.name for m in ob.modifiers], "applied": applied}

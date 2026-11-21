@@ -13,6 +13,7 @@ import os
 import sys
 
 import bpy
+from mathutils import Matrix, Vector
 
 sys.path.insert(0, os.path.dirname(__file__))
 import _bpyx as bx  # noqa: E402
@@ -62,6 +63,19 @@ def _proxy_weights(ob, arm):
     bpy.data.objects.remove(proxy)
 
 
+def _height(obs):
+    zs = [(ob.matrix_world @ Vector(c)).z for ob in obs for c in ob.bound_box]
+    return (max(zs) - min(zs)) if zs else 0.0
+
+
+def _heat_scale(obs, arm):
+    """Factor that brings the rig to ~1.8 m for bone heat; 1.0 when already 0.5-20 m tall."""
+    h = _height(obs)
+    if h <= 1e-9 or 0.5 <= h <= 20:
+        return 1.0
+    return 1.8 / h
+
+
 def cleanup(ob, limit=4, clean=0.01):
     if not ob.vertex_groups:
         return
@@ -79,6 +93,18 @@ def run(armature=None, meshes=None, method="auto", limit=4, clean=0.01, **_):
         for m in [m for m in ob.modifiers if m.type == "ARMATURE"]:
             ob.modifiers.remove(m)
     report = {}
+    # Bone heat silently fails at small world sizes (FBX/Mixamo rigs at 0.01 scale: every vertex lands
+    # 100% on the root). Bind at human size, then put the armature back (meshes follow as children).
+    k = _heat_scale(obs, arm) if method in ("auto", "proxy") else 1.0
+    arm_mw = arm.matrix_world.copy()
+    if k != 1.0:
+        S = Matrix.Scale(k, 4)
+        mws = [o.matrix_world.copy() for o in obs]
+        arm.matrix_world = S @ arm_mw  # parent first, then absolute world matrices (meshes may be children)
+        bpy.context.view_layer.update()
+        for o, mw in zip(obs, mws):
+            o.matrix_world = S @ mw
+        bpy.context.view_layer.update()
     if method in ("auto", "envelope", "empty"):
         kind = {"auto": "ARMATURE_AUTO", "envelope": "ARMATURE_ENVELOPE", "empty": "ARMATURE_NAME"}[method]
         _parent(obs, arm, kind)
@@ -94,8 +120,14 @@ def run(armature=None, meshes=None, method="auto", limit=4, clean=0.01, **_):
         mx = max((sum(1 for g in v.groups if g.weight > 1e-4) for v in ob.data.vertices), default=0)
         report[ob.name] = {"method": used, "groups": len(ob.vertex_groups),
                            "unweighted_verts": unweighted(ob, arm), "max_influences": mx}
+    if k != 1.0:
+        arm.matrix_world = arm_mw
+        bpy.context.view_layer.update()
     bx.select_only([arm])
-    return {"ok": True, "armature": arm.name, "meshes": report}
+    out = {"ok": True, "armature": arm.name, "meshes": report}
+    if k != 1.0:
+        out["note"] = f"bound at {k:g}x world scale (rig is {_height(obs):.3g} m tall; heat weights need ~human size)"
+    return out
 
 
 if __name__ == "__main__":

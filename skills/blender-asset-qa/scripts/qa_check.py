@@ -54,6 +54,8 @@ def _feeds(sock, depth=4):
 def _material_issues(ob):
     """[(severity_is_error, message)] for slots, faces and image textures."""
     me, slots, out = ob.data, ob.material_slots, []
+    if not me.polygons:
+        return out
     idx = [0] * len(me.polygons)
     me.polygons.foreach_get("material_index", idx)
     used = set(idx)
@@ -97,6 +99,8 @@ def _mesh_world(ob, use_mods):
     else:
         bm.from_mesh(ob.data)
     bm.transform(ob.matrix_world)
+    if ob.matrix_world.determinant() < 0:  # mirrored: Blender (and exporters) flip winding back
+        bmesh.ops.reverse_faces(bm, faces=bm.faces[:])
     bm.verts.ensure_lookup_table()
     bm.faces.ensure_lookup_table()
     return bm
@@ -301,6 +305,8 @@ def run(objects=None, profile="game", eps=0.001, tol=0.002, no_modifiers=False, 
                                     "(ok only if mirrored/stacked on purpose; bakes break)")
         bm.free()
         # flags
+        if not m["faces"]:
+            errors.append(f"{ob.name}: mesh has no faces")
         if m["inside_out_islands"]:
             flag("inv", f"{ob.name}: {m['inside_out_islands']} closed parts with normals pointing inward")
         if m["inconsistent_normals_edges"]:

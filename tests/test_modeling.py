@@ -33,3 +33,17 @@ def test_hardsurface_snippet_attributes():
     mod = ob.modifiers.new("B", "BEVEL")
     mod.limit_method = "WEIGHT"
     assert bpy.context.evaluated_depsgraph_get() and len(me.edges) == 12
+
+
+def test_apply_keeps_shape_keys_and_handles_multi_user():
+    m = skill_module("blender-hardsurface-modeling", "apply_stack")
+    a = fx.cube("Keyed")
+    a.shape_key_add(name="Basis")
+    a.shape_key_add(name="Open")
+    r = m.run(objects=["Keyed"], apply=True)
+    assert r["objects"]["Keyed"]["applied"][0].startswith("SKIPPED") and len(a.data.shape_keys.key_blocks) == 2
+    b = fx.cube("Shared", location=(4, 0, 0))
+    twin = bpy.data.objects.new("Twin", b.data)
+    bpy.context.scene.collection.objects.link(twin)
+    r = m.run(objects=["Shared"], apply=True)
+    assert not b.modifiers and len(b.data.polygons) > 6 and len(twin.data.polygons) == 6, r

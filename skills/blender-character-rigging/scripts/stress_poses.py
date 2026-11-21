@@ -115,6 +115,10 @@ def run(armature=None, clear=False, **_):
     sc = bpy.context.scene
     sc.frame_start, sc.frame_end = 1, 50
     missing = [k for k, v in found.items() if v is None]
+    if len(missing) == len(found):
+        bpy.data.actions.remove(act)
+        raise ValueError("no limb/spine bones recognised (Rigify, Mixamo, UE, Roblox R15 or .L/.R names); "
+                         "rename bones or pose manually")
     return {"ok": True, "action": act.name, "frames": list(POSES), "bones_used": found,
             "missing_roles": missing}
 

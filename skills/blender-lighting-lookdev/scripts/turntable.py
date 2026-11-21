@@ -84,6 +84,8 @@ def run(objects=None, rig="studio", hdri=None, hdri_strength=1.0, frames=120, le
         backdrop=False, elevation=15.0, **_):
     bx.object_mode()
     obs = bx.objects(objects, types=("MESH", "CURVE", "FONT", "CURVES", "ARMATURE"))
+    if not obs:
+        raise ValueError("nothing to frame: pass --objects or add a visible mesh")
     _clear()
     sc = bpy.context.scene
     col = bpy.data.collections.get(PREFIX + "Lookdev") or bpy.data.collections.new(PREFIX + "Lookdev")
