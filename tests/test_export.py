@@ -46,3 +46,13 @@ def test_batch_export_at_origin():
     names = sorted(os.path.basename(f["file"]) for f in r["files"])
     assert names == ["SM_A.glb", "SM_B.glb"]
     assert tuple(bpy.data.objects["SM_A"].location) == (5, 0, 0)  # restored
+
+
+def test_static_fbx_has_no_animation_take():
+    c = fx.unwrap(fx.cube("SM_Static"))
+    path = str(TMP / "SM_Static.fbx")
+    assert skill_module("blender-export-pipelines", "export_asset").run(
+        preset="unreal", objects=[c.name], out=path)["files"][0]["ok"]
+    fresh()
+    bpy.ops.import_scene.fbx(filepath=path)
+    assert not bpy.data.actions, [a.name for a in bpy.data.actions]

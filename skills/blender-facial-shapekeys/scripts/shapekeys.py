@@ -48,6 +48,13 @@ def _co(kb):
     return a.reshape(-1, 3)
 
 
+def _get(kbs, name):
+    kb = kbs.get(name) if kbs else None
+    if kb is None:
+        raise KeyError(f"shape key {name!r} not found; have {[k.name for k in kbs] if kbs else []}")
+    return kb
+
+
 def run(mesh=None, create=None, split=None, mirror=None, report=False, drivers=None, falloff=0.02,
         style="arkit", **_):
     bx.object_mode()
@@ -61,7 +68,7 @@ def run(mesh=None, create=None, split=None, mirror=None, report=False, drivers=N
             ob.shape_key_add(name=n, from_mix=False)
         out["created"] = len(made)
     if split:
-        src = kbs[split]
+        src = _get(kbs, split)
         basis = _co(kbs[0])
         delta = _co(src) - basis
         x = basis[:, 0]
@@ -72,7 +79,7 @@ def run(mesh=None, create=None, split=None, mirror=None, report=False, drivers=N
             kb.data.foreach_set("co", (basis + delta * w[:, None]).ravel())
         out["split"] = list(names)
     if mirror:
-        src = kbs[mirror]
+        src = _get(kbs, mirror)
         target = mirror.replace("Left", "Right") if "Left" in mirror else mirror.replace("Right", "Left") \
             if "Right" in mirror else mirror.replace(".L", ".R") if ".L" in mirror else mirror.replace(".R", ".L")
         if target == mirror:

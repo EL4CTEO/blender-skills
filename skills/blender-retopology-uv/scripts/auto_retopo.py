@@ -39,6 +39,9 @@ def run(objects=None, method="quadriflow", tris=10000, voxel=0.0, symmetry=False
         low.name = low.data.name = f"{src.name}_low"
         for c in src.users_collection:
             c.objects.link(low)
+        had_keys = bool(low.data.shape_keys)
+        if had_keys:  # new topology: keys can't transfer (and block modifier apply)
+            low.shape_key_clear()
         _apply_all(low)
         before = len(low.data.polygons)
         tris_before = bx.mesh_tris(low, evaluated=False)
@@ -88,6 +91,8 @@ def run(objects=None, method="quadriflow", tris=10000, voxel=0.0, symmetry=False
         out[src.name] = {"low": low.name, "faces_before": before, "faces_after": len(low.data.polygons),
                          "tris_after": bx.mesh_tris(low, evaluated=False),
                          "uvs_kept": bool(low.data.uv_layers) and method != "quadriflow"}
+        if had_keys:
+            out[src.name]["shape_keys_dropped"] = True
     return {"ok": True, "method": method, "objects": out,
             "next": "check edge flow (look wireframe), unwrap (uv_pack.py), bake (blender-texture-baking)"}
 

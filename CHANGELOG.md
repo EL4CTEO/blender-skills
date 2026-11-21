@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.3] - 2026-11-21
+- `bind_mesh`: rigs a few mm or km tall (unit-mismatched imports) got rigid single-bone weights; now bound at human size and restored.
+- `export_asset`: static props no longer get an empty animation take in FBX.
+- `qa_check`: mirrored (negative-scale) objects no longer reported inside out; meshes with no faces are flagged.
+- `apply_stack --apply`: works on multi-user meshes; skips (instead of crashing) meshes with shape keys.
+- `auto_retopo`: decimate/planar no longer crash on meshes with shape keys (dropped on the low copy).
+- `toon_setup --remove`: no leftover empty material slot.
+- Clearer errors: `turntable` with nothing to frame, `shapekeys` missing key, `stress_poses` with no recognised bones.
+
 ## [1.3.2] - 2026-11-17
 - `rig_check`: no longer crashes with `slice steps not supported` on skinned meshes with 4000+ vertices (#11, thanks @JairAgu).
 

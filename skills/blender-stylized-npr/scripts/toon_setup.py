@@ -295,8 +295,10 @@ def run(objects=None, bands=2, shadow_tint=(0.6, 0.55, 0.75), threshold=0.0, sof
             if md:
                 o.modifiers.remove(md)
             idx = o.data.materials.find(OUTLINE_MAT)
-            if idx >= 0:
-                o.data.materials.pop(index=idx)
+            if idx >= 0:  # the operator removes the object's slot too (materials.pop leaves it empty)
+                o.active_material_index = idx
+                with bpy.context.temp_override(object=o, active_object=o):
+                    bpy.ops.object.material_slot_remove()
             ca = o.data.color_attributes.get(NORMAL_ATTR)
             if ca:
                 o.data.color_attributes.remove(ca)

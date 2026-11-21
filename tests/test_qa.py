@@ -167,3 +167,14 @@ def test_material_and_texture_delivery_checks():
     ob.data.materials[1] = None
     r = qa.run(objects=["Crate"])
     assert any("empty/missing material slot" in e for e in r["errors"]), r["errors"]
+
+
+def test_mirrored_object_is_not_inside_out_and_empty_mesh_is_flagged():
+    c = fx.cube("Mirror", location=(0, 0, 1))
+    c.scale = (-1, 1, 1)
+    r = _qa().run(objects=["Mirror"], uv=False)
+    assert r["objects"]["Mirror"]["inside_out_islands"] == 0, r
+    assert any("negative scale" in e for e in r["errors"]), r
+    fx.mesh_object("Hollow", lambda bm: None)
+    r = _qa().run(objects=["Hollow"], uv=False)
+    assert r["errors"] == ["Hollow: mesh has no faces"], r

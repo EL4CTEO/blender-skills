@@ -68,3 +68,12 @@ def test_auto_retopo_quadriflow_voxel_first():
     remesh = [c for c in calls if c.endswith("remesh")]
     assert remesh[:2] == ["voxel_remesh", "quadriflow_remesh"], calls
     assert len(bpy.data.meshes) == meshes + 1
+
+
+def test_decimate_drops_shape_keys_instead_of_failing():
+    s = fx.uv_sphere("Keyed", segs=64, rings=32)
+    s.shape_key_add(name="Basis")
+    s.shape_key_add(name="Smile")
+    r = skill_module("blender-retopology-uv", "auto_retopo").run(objects=["Keyed"], method="decimate", tris=500)
+    o = r["objects"]["Keyed"]
+    assert o["shape_keys_dropped"] and o["tris_after"] <= 550 and s.data.shape_keys, r

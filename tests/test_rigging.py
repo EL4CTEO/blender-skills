@@ -68,3 +68,20 @@ def test_rig_check_dense_mesh():
     chk = skill_module("blender-character-rigging", "rig_check").run(armature="DenseRig", profile="game")
     assert chk["skin"]["Dense"]["verts"] == len(body.data.vertices), chk
     assert chk["skin"]["Dense"]["unweighted"] == 0, chk
+
+
+def test_bind_tiny_and_huge_rigs_get_real_weights():
+    """Bone heat fails at mm/km world sizes (all weight on one bone); bind_mesh binds at human size."""
+    for s in (0.001, 1000):
+        body, arm = fx.simple_character()
+        arm.scale = (s,) * 3
+        bpy.context.view_layer.update()
+        before = arm.matrix_world.copy()
+        r = skill_module("blender-character-rigging", "bind_mesh").run(armature="CharRig", meshes=["Char"])
+        assert "note" in r and r["meshes"]["Char"]["max_influences"] >= 2, r
+        assert (arm.matrix_world - before).to_3x3().to_scale().length < 1e-6 * max(s, 1)
+        vg = {g.index: g.name for g in body.vertex_groups}
+        v = next(v for v in body.data.vertices if abs(v.co.z - 1.32) < 0.1)
+        assert {vg[g.group] for g in v.groups if g.weight > 0.05} == {"spine", "chest"}, [(vg[g.group], g.weight) for g in v.groups]
+        bpy.data.objects.remove(body)
+        bpy.data.objects.remove(arm)

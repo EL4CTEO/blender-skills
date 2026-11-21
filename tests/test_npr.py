@@ -89,3 +89,12 @@ def test_toon_scene_lighting_eevee():
     ts = skill_module("blender-stylized-npr", "toon_setup")
     ts.run(objects=["Ball"], bands=3, lighting="scene", outline=0)
     assert _bands("BLENDER_EEVEE", "scene") == 3
+
+
+def test_remove_restores_slots_on_unmaterialed_object():
+    fx.cube("Bare")
+    t = skill_module("blender-stylized-npr", "toon_setup")
+    t.run(objects=["Bare"])
+    assert bpy.data.objects["Bare"].material_slots[0].material.name == "NPR_M_Outline"
+    t.run(objects=["Bare"], remove=True)
+    assert len(bpy.data.objects["Bare"].material_slots) == 0 and not bpy.data.objects["Bare"].modifiers

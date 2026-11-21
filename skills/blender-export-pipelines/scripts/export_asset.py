@@ -107,6 +107,14 @@ def _coerce(v):
     return {"true": True, "false": False}.get(v.lower(), v)
 
 
+def _animated(o):
+    """True if exporting o could carry animation (keys, NLA, drivers, constraints, shape-key anim, rigs)."""
+    ad = o.animation_data
+    sk = getattr(o.data, "shape_keys", None)
+    return (o.type == "ARMATURE" or bool(o.constraints) or bool(ad and (ad.action or ad.nla_tracks or ad.drivers))
+            or bool(sk and sk.animation_data))
+
+
 def run(preset="gltf", objects=None, collection=None, out="", batch=False, no_anim=False,
         draco=False, set=None, **_):  # noqa: A002
     bx.object_mode()
@@ -162,8 +170,11 @@ def run(preset="gltf", objects=None, collection=None, out="", batch=False, no_an
         if root is not None:
             loc = root.location.copy()
             root.location = Vector()
+        jkw = kw
+        if fmt == "fbx" and kw.get("bake_anim") and not any(_animated(m) for m in members):
+            jkw = dict(kw, bake_anim=False)  # static props: no baked transform "take" in the FBX
         try:
-            res = _export(fmt, path, kw)
+            res = _export(fmt, path, jkw)
         finally:
             if loc is not None:
                 root.location = loc
