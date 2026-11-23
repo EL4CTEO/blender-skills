@@ -57,7 +57,8 @@ def run(objects=None, out="", views=None, mode="solid", res=512, **_):
         r.resolution_x = r.resolution_y = res
         r.resolution_percentage = 100
         r.film_transparent = False
-        r.image_settings.media_type = "IMAGE"
+        if hasattr(r.image_settings, "media_type"):  # 5.x only; 4.2 needs file_format alone
+            r.image_settings.media_type = "IMAGE"
         r.image_settings.file_format = "PNG"
         sh.light = "STUDIO"
         sh.show_cavity = mode in ("solid", "wire")
