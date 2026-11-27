@@ -2,7 +2,7 @@
 
 <p align="center">28 tested Blender skills for AI coding agents: Claude Code, Codex, OpenCode, Gemini CLI, Copilot, Cursor.</p>
 
-<p align="center"><a href="https://trendshift.io/repositories/309530" target="_blank"><img src="https://trendshift.io/api/badge/repositories/309530" alt="EL4CTEO%2Fblender-skills | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a></p>
+<p align="center"><a href="https://trendshift.io/repositories/309530" target="_blank"><img src="https://trendshift.io/api/badge/trendshift/repositories/309530/daily?language=Python" alt="EL4CTEO/blender-skills on Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a></p>
 
 <p align="center">
   <a href="https://github.com/EL4CTEO/blender-skills/releases"><img src="https://img.shields.io/github/v/release/EL4CTEO/blender-skills" alt="release"></a>
