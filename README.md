@@ -71,6 +71,16 @@ Same model, same prompts, outputs with the skills vs without them: **[see the co
 > "Make this street a rainy night with puddles and lightning."
 > "Give my character a shirt and hair cards, then retarget this Mixamo run onto it."
 
+## Sponsors
+
+blender-skills is free and open source. If it saves you time, sponsoring keeps it maintained.
+
+<p>
+  <a href="https://github.com/sponsors/EL4CTEO"><img src="https://img.shields.io/badge/Become_a_sponsor-%E2%9D%A4-db61a2?logo=githubsponsors&logoColor=white" alt="Become a sponsor"></a>
+</p>
+
+Company sponsors get a logo and a link here, nothing more: no paid recommendations.
+
 ## Development
 
 ```bash
