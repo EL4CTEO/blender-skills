@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.3.4] - 2026-11-27
+- `review_shots`: no longer crashes on Blender 4.2 with `'ImageFormatSettings' object has no attribute 'media_type'` (#16, thanks @1915rising).
+
 ## [1.3.3] - 2026-11-21
 - `bind_mesh`: rigs a few mm or km tall (unit-mismatched imports) got rigid single-bone weights; now bound at human size and restored.
 - `export_asset`: static props no longer get an empty animation take in FBX.
